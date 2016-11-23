@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv32.xsd http://www.sat.gob.mx/nomina http://www.sat.gob.mx/sitio_internet/cfd/nomina/nomina11.xsd" version="3.2" serie="C" folio="2000" fecha="2013-12-14T13:01:15" sello="TnJwtAbu+/pW+iSh1RTAiYvhPg2Gb8Krxwz/Tp+wmGH3tDbnkdbmUAjSszUnTilxpTuBJbw+9ltWjmc71bgbP7KEtPRgn1tEU8V1jhB0d7QCrH87e+1naveurLFBqwk8UfExAjqmEJWjXQlo930kVfqmzRa80+2OiCv2jLzouCU=" formaDePago="Pago en una sola exhibicion" noCertificado="20001000000100005868" certificado="MIIEdDCCA1ygAwIBAgIUMjAwMDEwMDAwMDAxMDAwMDU4NjgwDQYJKoZIhvcNAQEFBQAwggFvMRgwFgYDVQQDDA9BLkMuIGRlIHBydWViYXMxLzAtBgNVBAoMJlNlcnZpY2lvIGRlIEFkbWluaXN0cmFjacOzbiBUcmlidXRhcmlhMTgwNgYDVQQLDC9BZG1pbmlzdHJhY2nDs24gZGUgU2VndXJpZGFkIGRlIGxhIEluZm9ybWFjacOzbjEpMCcGCSqGSIb3DQEJARYaYXNpc25ldEBwcnVlYmFzLnNhdC5nb2IubXgxJjAkBgNVBAkMHUF2LiBIaWRhbGdvIDc3LCBDb2wuIEd1ZXJyZXJvMQ4wDAYDVQQRDAUwNjMwMDELMAkGA1UEBhMCTVgxGTAXBgNVBAgMEERpc3RyaXRvIEZlZGVyYWwxEjAQBgNVBAcMCUNveW9hY8OhbjEVMBMGA1UELRMMU0FUOTcwNzAxTk4zMTIwMAYJKoZIhvcNAQkCDCNSZXNwb25zYWJsZTogSMOpY3RvciBPcm5lbGFzIEFyY2lnYTAeFw0xMjA3MjcxNzAyMDRaFw0xNjA3MjcxNzAyMDRaMIHbMSkwJwYDVQQDEyBBQ0NFTSBTRVJWSUNJT1MgRU1QUkVTQVJJQUxFUyBTQzEpMCcGA1UEKRMgQUNDRU0gU0VSVklDSU9TIEVNUFJFU0FSSUFMRVMgU0MxKTAnBgNVBAoTIEFDQ0VNIFNFUlZJQ0lPUyBFTVBSRVNBUklBTEVTIFNDMSUwIwYDVQQtExxBQUEwMTAxMDFBQUEgLyBIRUdUNzYxMDAzNFMyMR4wHAYDVQQFExUgLyBIRUdUNzYxMDAzTURGUk5OMDkxETAPBgNVBAsTCFVuaWRhZCAyMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCsc0Es792Ktf6bLG9Skk0reAVarvSp2zQ02pFLUYca3sVLSRL8gGT9aDBpAjxgEiBlU5UgUxUQW5rlhvpKqPIND82UpAks0AV6GTcbznoJVqImE/XCHXJ2eBbU2QI9Au58RDtR+Xw0OT7VF53+SRy/dSCD4JL928UMhWFvRimeDQIDAQABox0wGzAMBgNVHRMBAf8EAjAAMAsGA1UdDwQEAwIGwDANBgkqhkiG9w0BAQUFAAOCAQEAlQqabwXyBT07mu+XnU4MKdT1vbvwN9ahxDvsQbqc0KU2cml50lW0Y9V3Fqoi9BBDA2DAnAiEnet7JVIfx4/mnzRT0gECi8aHDuhugIrXoW4G3zORmyfWrvTvb8TZ0QpilqVJGIIZttokzMw8tcm8DL1WYPeRveJ2AAshavIU8J6/xy1jLtN/N64S1U/oEorC69i5BFYesK9WtJfKHaCI0m3ulTxPEn1yvIDBCvSn8TiK/cvCkyLIVGm/K4dUMDzzPxwv8qMIy3NLjm+a+Otf/ETy09KEgm+YMO9rq+jhZS8gR8kgA3RJxu0Mo4Ajnb0R9kMumz2pCB/ZGyO7tYGY+A==" condicionesDePago="CondicionesDePago" subTotal="1875.00" TipoCambio="1.0" Moneda="Pesos Mexicanos" total="1875.00" metodoDePago="Efectivo" tipoDeComprobante="egreso" LugarExpedicion="Mexico, Distrito Federal" NumCtaPago="1234" xmlns:nomina="http://www.sat.gob.mx/nomina">
+  <cfdi:Emisor nombre="Su compañia" rfc="AAA010101AAA">
+    <cfdi:DomicilioFiscal calle="Tamaulipas" noExterior="125" noInterior="1" colonia="Roma" localidad="México" referencia="Entre León y Manzanillo" municipio="Cuauhtémoc" estado="Distrito Federal" pais="México" codigoPostal="35143"/>
+    <cfdi:ExpedidoEn calle="Acapulco" noExterior="651" noInterior="1" colonia="Roma" localidad="México" municipio="Cuauhtémoc" estado="Distrito Federal" pais="México" codigoPostal="35135"/>
+    <cfdi:RegimenFiscal Regimen="Régimen General de Ley Personas Morales"/>
+  </cfdi:Emisor>
+  <cfdi:Receptor nombre="Nombre del Empleado" rfc="XXXX010101XX1">
+    <cfdi:Domicilio calle="Heriberto Frias" noExterior="513" colonia="Narvarte" localidad="MEXICO" referencia="Entre Morena y Esperanza" municipio="Benito Juárez" estado="DISTRITO FEDERAL" pais="MEXICO" codigoPostal="12345"/>
+  </cfdi:Receptor>
+  <cfdi:Conceptos>
+    <cfdi:Concepto cantidad="1.00" unidad="No aplica" descripcion="PAGO DE NÓMINA" valorUnitario="1560.03" importe="1560.03"/>
+  </cfdi:Conceptos>
+  <cfdi:Impuestos/>
+  <cfdi:Complemento>
+    <nomina:Nomina Version="1.1" RegistroPatronal="123456789ABCDEFGDTU" NumEmpleado="43437" CURP="XXXX850505HDFLNS09" TipoRegimen="1" NumSeguridadSocial="28918500542" FechaPago="2013-12-14" FechaInicialPago="1900-01-16" FechaFinalPago="1900-01-14" NumDiasPagados="7.00" Departamento="Sistemas" CLABE="123456789123456789" Banco="001" FechaInicioRelLaboral="2013-12-14" Antiguedad="10" Puesto="Lider de proyecto" TipoContrato="Base" TipoJornada="mixta" PeriodicidadPago="Semanal" SalarioBaseCotApor="100.00" RiesgoPuesto="1" SalarioDiarioIntegrado="261.30">
+      <nomina:Percepciones TotalGravado="1750.00" TotalExento="0.000">
+        <nomina:Percepcion TipoPercepcion="001" Clave="100" Concepto="Sueldo" ImporteExento="0.00" ImporteGravado="1300.00"/>
+        <nomina:Percepcion TipoPercepcion="001" Clave="101" Concepto="Subsidio p/el empleo" ImporteExento="0.00000" ImporteGravado="0.00"/>
+      </nomina:Percepciones>
+      <nomina:Deducciones TotalGravado="189.97" TotalExento="0.00">
+        <nomina:Deduccion TipoDeduccion="002" Clave="200" Concepto="Retención ISR" ImporteExento="0.00" ImporteGravado="144.24"/>
+        <nomina:Deduccion TipoDeduccion="001" Clave="201" Concepto="Cuota IMSS" ImporteExento="0.00" ImporteGravado="45.73"/>
+      </nomina:Deducciones>
+      <nomina:Incapacidades>
+        <nomina:Incapacidad DiasIncapacidad="2.000000" TipoIncapacidad="2" Descuento="100.00"/>
+        <nomina:Incapacidad DiasIncapacidad="1.00" TipoIncapacidad="1" Descuento="100.00"/>
+      </nomina:Incapacidades>
+      <nomina:HorasExtras>
+        <nomina:HorasExtra Dias="3" TipoHoras="Dobles" HorasExtra="9" ImportePagado="225.00"/>
+        <nomina:HorasExtra Dias="2" TipoHoras="Triples" HorasExtra="4" ImportePagado="150.00"/>
+      </nomina:HorasExtras>
+    </nomina:Nomina>
+    <tfd:TimbreFiscalDigital xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" xsi:schemaLocation="http://www.sat.gob.mx/TimbreFiscalDigital http://www.sat.gob.mx/TimbreFiscalDigital/TimbreFiscalDigital.xsd" version="1.0" UUID="B8501832-9A25-4978-9DBB-6A9C0A82F726" FechaTimbrado="2013-12-14T15:00:07" selloCFD="TnJwtAbu+/pW+iSh1RTAiYvhPg2Gb8Krxwz/Tp+wmGH3tDbnkdbmUAjSszUnTilxpTuBJbw+9ltWjmc71bgbP7KEtPRgn1tEU8V1jhB0d7QCrH87e+1naveurLFBqwk8UfExAjqmEJWjXQlo930kVfqmzRa80+2OiCv2jLzouCU=" noCertificadoSAT="20001000000100005868" selloSAT="ff76BR0wGVsnPM/8T5f0Lkx6RjE6Abul4d6w2RNx4mbZaHtIqOlO28n/8MZyQKCLBSXVRt10LupeumK+PtpfeEW5UA/az+zl8W9D2hzERKQVSFOWietsR68XsN+Ivg+Mh1f5zlaNigSFSnj0DksYXjXKMoFego3+OylHnWRd24I="/>
+  </cfdi:Complemento>
+</cfdi:Comprobante>

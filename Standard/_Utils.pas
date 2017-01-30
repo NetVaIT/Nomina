@@ -9,6 +9,7 @@ unit _Utils;
 interface
 
 uses Windows, SysUtils, Classes, Controls, Forms, StdCtrls, Registry,
+  System.Types, System.Math,
   IdWinSock2, ShellAPI, DB, ADODB,
   IdHashMessageDigest, idHash;
 
@@ -80,6 +81,8 @@ procedure ExecuteUntilFinish(ExecuteFile : string);
 function EjecutarYEsperar( sPrograma: String; Visibilidad: Integer ): Integer;
 function xIntToLletras(Numero:LongInt):String;
 function MD5File(const FileName: string): string;
+procedure ByteArrayToFile(const ByteArray: TByteDynArray; const FileName: string);
+function FileToByteArray(const FileName: string): TByteDynArray;
 
 implementation
 
@@ -424,6 +427,50 @@ begin
   finally
     FS.Free;
     IdMD5.Free;
+  end;
+end;
+
+procedure ByteArrayToFile(const ByteArray: TByteDynArray; const FileName: string);
+var
+  Count: integer;
+  F: FIle of Byte;
+  pTemp: Pointer;
+begin
+  AssignFile(F, FileName);
+  Rewrite(F);
+  try
+    Count := Length(ByteArray);
+    pTemp := @ByteArray[0];
+    BlockWrite(F, pTemp^, Count);
+  finally
+    CloseFile(F);
+  end;
+end;
+
+function FileToByteArray(const FileName: string): TByteDynArray;
+const
+  BLOCK_SIZE=1024;
+var
+  BytesRead, BytesToWrite, Count: integer;
+  F: FIle of Byte;
+  pTemp: Pointer;
+begin
+  AssignFile(F, FileName);
+  Reset(F);
+  try
+    Count := FileSize(F);
+    SetLength(Result, Count);
+    pTemp := @Result[0];
+    BytesRead := BLOCK_SIZE;
+    while (BytesRead = BLOCK_SIZE) do
+    begin
+      BytesToWrite := Min(Count, BLOCK_SIZE);
+      BlockRead(F, pTemp^, BytesToWrite, BytesRead);
+      pTemp := Pointer(LongInt(pTemp) + BLOCK_SIZE);
+      Count := Count-BytesRead;
+    end;
+  finally
+    CloseFile(F);
   end;
 end;
 

@@ -4,12 +4,14 @@ interface
 
 uses
   System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB, Vcl.Forms,
-  Vcl.Dialogs, Windows, Vcl.ComCtrls, CFDLibHeader, DataTypeCast,
+  Vcl.Dialogs, Windows, Vcl.ComCtrls, System.Types, System.IniFiles,
+  CFDLibHeader, DataTypeCast,
   System.Actions, Vcl.ActnList, Soap.EncdDecd,
   FacturaTipos,
   cxMemo;
 
 type
+  TPAC = (pacFoliosDigitales, pacFinkok);
   TdmCFDI = class(TDataModule)
     adopSetCFDILog: TADOStoredProc;
     procedure DataModuleCreate(Sender: TObject);
@@ -19,6 +21,7 @@ type
     FDirEXE: String;
     FFDPass: string;
     FFDUser: string;
+    FPAC: TPAC;
     procedure AgregarMensaje(pLinea: String);
     procedure SetBitacora(const Value: TcxMemo);
     /// <summary> Calculamos el sello digital para la cadena original de la factura
@@ -30,6 +33,13 @@ type
       pFileNameXML: string): TStringCadenaOriginal;
     procedure SetFDPass(const Value: string);
     procedure SetFDUser(const Value: string);
+    procedure SetPAC(const Value: TPAC);
+    function Timbrar(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
+    function TimbrarFD(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
+    function TimbrarFinkok(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
+    procedure CrearPDFMasivo(pMes: Integer; pDirXML, pDirPDF: String;
+      pFilesXML: TListItems);
+    procedure FDConsultarTimbrePorReferencia(pFileNameXML, pReferencia: string);
   public
     { Public declarations }
     FCertificado: TFECertificado;
@@ -37,18 +47,17 @@ type
     property Bitacora: TcxMemo read FBitacora write SetBitacora;
     property FDUser: string read FFDUser write SetFDUser;
     property FDPass: string read FFDPass write SetFDPass;
-    procedure CrearXML(pMes: Integer; pDirINI, pDirINIPr, pDirError, pDirXML,
-      pDirXMLFD: String; pFilesINI: TListItems);
+    property PAC: TPAC read FPAC write SetPAC;
     procedure CrearXMLMasivo(pDirINI, pDirXML: String; pFilesINI: TListItems);
-    procedure Timbrar(pDirINI: String; pFilesINI: TListItems);
-    function FDTimbrar(pMes: Integer; pDirXML, pDirXMLFD, pFileName: String): Boolean;
-    procedure FDTimbrarMasivo(pMes: Integer; pDirXML, pDirXMLFD: String;
-      pFilesXML: TListItems);
-    function FDObtenerPDF(pUID, pFileNamePDF: string): Boolean;
-    procedure FDConsultarTimbrePorReferencia(pFileNameXML, pReferencia: string);
+    procedure CrearXMLTimbrar(pAnio, pMes: Word; pFiltrar: Boolean; pDirINI,
+      pDirINIPr, pDirError, pDirXML, pDirXMLFD: String; pFilesINI: TListItems);
+    procedure TimbrarEcodex(pDirINI: String; pFilesINI: TListItems);
+//    function FDTimbrar(pMes: Integer; pDirXML, pDirXMLFD, pFileName: String): Boolean;
+//    procedure FDTimbrarMasivo(pMes: Integer; pDirXML, pDirXMLFD: String;
+//      pFilesXML: TListItems);
     function CrearPDF(pFileNameXML, pFileNamePDF: string): Boolean;
-    procedure CrearPDFMasivo(pMes: Integer; pDirXML, pDirPDF: String;
-      pFilesXML: TListItems);
+    function FDObtenerPDF(pUID, pFileNamePDF: string): Boolean;
+    procedure FDConsultarCreditos();
   end;
 
 implementation
@@ -57,7 +66,7 @@ implementation
 
 uses _Utils, MainFrm, WSTFD, xmlDoc, XMLIntf,
   SelloDigital, ClaseOpenSSL, ClaseCertificadoSellos, CadenaOriginalTimbre,
-  XMLtoPDFDmod;
+  XMLtoPDFDmod, WSFinkokStampDemo;
 
 {$R *.dfm}
 
@@ -110,7 +119,8 @@ begin
   ShowMessage('Proceso terminado');
 end;
 
-procedure TdmCFDI.CrearXML(pMes: Integer; pDirINI, pDirINIPr, pDirError, pDirXML, pDirXMLFD: String; pFilesINI: TListItems);
+procedure TdmCFDI.CrearXMLTimbrar(pAnio, pMes: Word; pFiltrar: Boolean;
+  pDirINI, pDirINIPr, pDirError, pDirXML, pDirXMLFD: String; pFilesINI: TListItems);
 var
   vCountTotal, vContador: Integer;
   vFileName: String;
@@ -118,17 +128,59 @@ var
   vFileNameXML: String;
   vFileINI: String;
   vFileXML: String;
+  vFileXMLT: String;
   vSD: string;
   xml: IXmlDocument;
+  FechaPago: TDateTime;
+  Year, Month, Day: Word;
 
   procedure ErrorLog;
   begin
     adopSetCFDILog.Parameters.ParamByName('@Periodo').Value:= pMes;
+    adopSetCFDILog.Parameters.ParamByName('@PeriodoAnio').Value:= pAnio;
     adopSetCFDILog.Parameters.ParamByName('@XMLNombre').Value:= vFileNameXML;
     adopSetCFDILog.Parameters.ParamByName('@XMLCreado').Value:= False;
     adopSetCFDILog.Parameters.ParamByName('@XMLFecha').Value:= Now;
     adopSetCFDILog.Parameters.ParamByName('@XMLError').Value:= 'Error:' + GetError + ' / ' + GetErrorExt;
     adopSetCFDILog.ExecProc;
+  end;
+
+  function GetFechaPago: TDateTime;
+  var
+    CFDI: IXmlDocument;
+    nodeP, nodeD: IXMLNode;
+    I,J: Integer;
+    sFecha: string;
+    FS: TFormatSettings;
+  begin
+    FS := TFormatSettings.Create;
+    CFDI := LoadXMLDocument(vFileXML);
+    CFDI.Active := True;
+    for I := 0 to CFDI.DocumentElement.ChildNodes.Count - 1 do
+    begin
+      nodeP := CFDI.DocumentElement.ChildNodes[I];
+      if nodeP.NodeType = ntElement then
+      begin
+        if nodeP.NodeName = 'cfdi:Complemento' then
+        begin
+          for J := 0 to nodeP.ChildNodes.Count - 1 do
+          begin
+            nodeD := nodeP.ChildNodes[J];
+            if nodeD.NodeName = 'nomina:Nomina' then
+            begin
+              if nodeD.HasAttribute('FechaPago') then
+              begin
+                sFecha := nodeD.Attributes['FechaPago'];
+                FS := TFormatSettings.Create;
+                FS.DateSeparator := '-';
+                FS.ShortDateFormat := 'y/m/d';
+                Result := StrToDateTime(sFecha, FS);
+              end;
+            end;
+          end;
+        end;
+      end;
+    end;
   end;
 
 begin
@@ -141,6 +193,8 @@ begin
     vFileNameINI := vFileName + '.INI';
     vFileINI := pDirINI + PathDelim + vFileNameINI;
     vFileXML := pDirXML + PathDelim + vFileNameXML;
+    vFileXMLT := pDirXMLFD + PathDelim + vFileNameXML;
+    // Genera XML con la libreria
 		if GeneraCFD(ToChar(vFileINI),ToChar(FCertificado.LlavePrivada.Clave)) = OK then
     begin
       // Se genera nuevamente el sello ya que la libreria LibDLL deliberadamente lo genera incorrecto.
@@ -152,7 +206,10 @@ begin
         XML.DocumentElement.Attributes['sello'] := vSD
       end;
       xml.SaveToFile(vFileXML);
-      if FDTimbrar(pMes, pDirXML, pDirXMLFD, vFileName) then
+      // Timbrar
+      FechaPago :=  GetFechaPago;
+      DecodeDate(FechaPago, Year, Month, Day);
+      if Timbrar(Year, Month, vFileXML, vFileXMLT) then
       begin
         CopyFile(PChar(vFileINI), PChar(pDirINIPr + PathDelim + vFileNameINI), False);
         DeleteFile(PChar(vFileINI));
@@ -245,7 +302,21 @@ begin
   FFDUser := Value;
 end;
 
-procedure TdmCFDI.Timbrar(pDirINI: String; pFilesINI: TListItems);
+procedure TdmCFDI.SetPAC(const Value: TPAC);
+begin
+  FPAC := Value;
+end;
+
+function TdmCFDI.Timbrar(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
+begin
+  case PAC of
+    pacFoliosDigitales: Result := TimbrarFD(pAnio, pMes, pFileNameXML, pFileNameXMLT);
+    pacFinkok: Result := TimbrarFinkok(pAnio, pMes, pFileNameXML, pFileNameXMLT);
+    else Result := False;
+  end;
+end;
+
+procedure TdmCFDI.TimbrarEcodex(pDirINI: String; pFilesINI: TListItems);
 var
   vContador: Integer;
   vFileNameINI: String;
@@ -267,6 +338,133 @@ begin
 			AgregarMensaje('Hubo un Error:' + GetError + ' / ' + GetErrorExt);
     end;
     ShowProgress(vContador, pFilesINI.Count - 1);
+  end;
+end;
+
+function TdmCFDI.TimbrarFD(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
+var
+  WSTFD: IWSTFD;
+  RtFD: RespuestaTFD2;
+  xmlO, xmlR: IXmlDocument;
+  vFileName: string;
+  Referencia: string;
+
+  procedure AgregarLog;
+  begin
+    adopSetCFDILog.Parameters.ParamByName('@Periodo').Value:= pMes;
+    adopSetCFDILog.Parameters.ParamByName('@PeriodoAnio').Value:= pAnio;
+    adopSetCFDILog.Parameters.ParamByName('@XMLNombre').Value:= vFileName;
+    adopSetCFDILog.Parameters.ParamByName('@TFD2Referencia').Value:= Referencia;
+    adopSetCFDILog.Parameters.ParamByName('@TFD2CodigoRespuesta').Value:= RtFD.CodigoRespuesta;
+    adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeError').Value:= RtFD.MensajeError;
+    adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeErrorDetallado').Value:= RtFD.MensajeErrorDetallado;
+    adopSetCFDILog.Parameters.ParamByName('@TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
+    if Assigned(RtFD.Timbre) then
+    begin
+      adopSetCFDILog.Parameters.ParamByName('@TFD2Estado').Value:= RtFD.Timbre.Estado;
+      adopSetCFDILog.Parameters.ParamByName('@TFD2FechaTimbrado').Value:= RtFD.Timbre.FechaTimbrado.AsDateTime;
+      adopSetCFDILog.Parameters.ParamByName('@TFD2NumeroCertificadoSAT').Value:= RtFD.Timbre.NumeroCertificadoSAT;
+      adopSetCFDILog.Parameters.ParamByName('@TFD2SelloCFD').Value:= RtFD.Timbre.SelloCFD;
+      adopSetCFDILog.Parameters.ParamByName('@TFD2SelloSAT').Value:= RtFD.Timbre.SelloSAT;
+      adopSetCFDILog.Parameters.ParamByName('@TFD2UUID').Value:= RtFD.Timbre.UUID;
+    end;
+    adopSetCFDILog.ExecProc;
+  end;
+
+begin
+  vFileName := ExtractFileName(pFileNameXML);
+  Referencia := ChangeFileExt(vFileName, EmptyStr);
+  xmlO:= LoadXMLDocument(pFileNameXML);
+  xmlO.Active:= True;
+  WSTFD := GetIWSTFD(true, '', nil);
+  RtFD := WSTFD.TimbrarCFDI(FDUser, FDPass, xmlO.XML.Text, vFileName);
+  if RtFD.OperacionExitosa then
+  begin
+    xmlR := NewXMLDocument();
+    xmlR.XML.Text:= RtFD.XMLResultado;
+    xmlR.Active := True;
+    xmlR.SaveToFile(pFileNameXMLT);
+    Result:= True;
+  end
+  else
+  begin
+    Result:= False;
+  end;
+  AgregarLog;
+end;
+
+function TdmCFDI.TimbrarFinkok(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
+var
+  WSTFinkok: Application_;
+  RTFinkok: AcuseRecepcionCFDI2;
+  sXML: TByteDynArray;
+  xmlR: IXmlDocument;
+  vFileName: string;
+  Referencia: string;
+  OperacionExitosa: Boolean;
+  Incidencias: Integer;
+
+  procedure AgregarLog;
+  begin
+    adopSetCFDILog.Parameters.ParamByName('@Periodo').Value:= pMes;
+    adopSetCFDILog.Parameters.ParamByName('@PeriodoAnio').Value:= pAnio;
+    adopSetCFDILog.Parameters.ParamByName('@XMLNombre').Value:= vFileName;
+    adopSetCFDILog.Parameters.ParamByName('@TFD2Referencia').Value:= Referencia;
+    adopSetCFDILog.Parameters.ParamByName('@TFD2OperacionExitosa').Value:= OperacionExitosa;
+//      adopSetCFDILog.Parameters.ParamByName('@TFD2Estado').Value:= 'Vigente';
+      adopSetCFDILog.Parameters.ParamByName('@TFD2FechaTimbrado').Value:= StrToDateTimeDef(RTFinkok.Fecha, Now);
+      adopSetCFDILog.Parameters.ParamByName('@TFD2NumeroCertificadoSAT').Value:= RTFinkok.NoCertificadoSAT;
+      adopSetCFDILog.Parameters.ParamByName('@TFD2SelloCFD').Value:= RTFinkok.Fecha;
+      adopSetCFDILog.Parameters.ParamByName('@TFD2SelloSAT').Value:= RTFinkok.SatSeal;
+      adopSetCFDILog.Parameters.ParamByName('@TFD2UUID').Value:= RTFinkok.UUID;
+    if Incidencias > 0 then
+    begin
+      adopSetCFDILog.Parameters.ParamByName('@TFD2CodigoRespuesta').Value:= RTFinkok.Incidencias[0].CodigoError;
+      adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeError').Value:= RTFinkok.Incidencias[0].MensajeIncidencia;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeErrorDetallado').Value:= MensajeErrorDetallado;
+    end;
+    adopSetCFDILog.ExecProc;
+  end;
+
+begin
+  vFileName := ExtractFileName(pFileNameXML);
+  Referencia := ChangeFileExt(vFileName, EmptyStr);
+  sXML:= FIleToByteArray(pFileNameXML);
+  WSTFinkok := GetApplication_(true, '', nil);
+  RTFinkok := WSTFinkok.stamp(sXML, FDUser, FDPass, EmptyStr);
+  OperacionExitosa := (RTFinkok.CodEstatus = 'Comprobante timbrado satisfactoriamente');
+  Incidencias := Length(RTFinkok.Incidencias);
+  if OperacionExitosa then
+  begin
+    xmlR := NewXMLDocument();
+    xmlR.XML.Text:= RTFinkok.xml;
+    xmlR.Active := True;
+    xmlR.SaveToFile(pFileNameXMLT);
+    Result:= True;
+  end
+  else
+  begin
+    Result:= False;
+  end;
+  AgregarLog;
+end;
+
+procedure TdmCFDI.FDConsultarCreditos;
+var
+  WSTFD: IWSTFD;
+  RtFD: RespuestaCreditos2;
+  I: Integer;
+begin
+  WSTFD := GetIWSTFD(true, '', nil);
+  RtFD := WSTFD.ConsultarCreditos(FDUser, FDPass);
+  for I := Low(RtFD.Paquetes) to High(RtFD.Paquetes) do
+  begin
+    ShowMessage( RtFD.Paquetes[I].Paquete + ': ' +
+    InttoStr(RtFD.Paquetes[I].Timbres) + ': ' +
+    InttoStr(RtFD.Paquetes[I].TimbresUsados) + ': ' +
+    InttoStr(RtFD.Paquetes[I].TimbresRestantes)
+    );
+
   end;
 end;
 
@@ -320,117 +518,117 @@ begin
   end;
 end;
 
-procedure TdmCFDI.FDTimbrarMasivo(pMes: Integer; pDirXML, pDirXMLFD: String;
-pFilesXML: TListItems);
-var
-  vContador: Integer;
-  vFileName, vFileNameXML : String;
-  vFile: String;
-  vFileXML: String;
-  WSTFD: IWSTFD;
-  RtFD: RespuestaTFD2;
-  xmlO, xmlR: IXmlDocument;
+//procedure TdmCFDI.FDTimbrarMasivo(pMes: Integer; pDirXML, pDirXMLFD: String;
+//pFilesXML: TListItems);
+//var
+//  vContador: Integer;
+//  vFileName, vFileNameXML : String;
+//  vFile: String;
+//  vFileXML: String;
+//  WSTFD: IWSTFD;
+//  RtFD: RespuestaTFD2;
+//  xmlO, xmlR: IXmlDocument;
+//
+//  procedure AgregarLog;
+//  begin
+//    adopSetCFDILog.Parameters.ParamByName('@Periodo').Value:= pMes;
+//    adopSetCFDILog.Parameters.ParamByName('@XMLNombre').Value:= vFileNameXML;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2Referencia').Value:= vFileName;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2CodigoRespuesta').Value:= RtFD.CodigoRespuesta;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeError').Value:= RtFD.MensajeError;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeErrorDetallado').Value:= RtFD.MensajeErrorDetallado;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2Estado').Value:= RtFD.Timbre.Estado;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2FechaTimbrado').Value:= RtFD.Timbre.FechaTimbrado.AsDateTime;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2NumeroCertificadoSAT').Value:= RtFD.Timbre.NumeroCertificadoSAT;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2SelloCFD').Value:= RtFD.Timbre.SelloCFD;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2SelloSAT').Value:= RtFD.Timbre.SelloSAT;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2UUID').Value:= RtFD.Timbre.UUID;
+//    adopSetCFDILog.ExecProc;
+//  end;
+//begin
+//  if pFilesXML.Count = 0 then exit;
+//  WSTFD := GetIWSTFD(true, '', nil);
+//  for vContador := 0 to pFilesXML.Count - 1 do
+//  begin
+//    vFileName := pFilesXML.Item[vContador].Caption;
+//    vFileNameXML := vFileName + '.XML';
+//    vFile := pDirXML + PathDelim + vFileNameXML;
+//    vFileXML := pDirXMLFD + PathDelim + vFileNameXML;
+//    xmlO:= LoadXMLDocument(vFile);
+//    xmlO.Active:= True;
+//    RtFD := WSTFD.TimbrarCFDI(FDUser, FDPass, xmlO.XML.Text, vFileName);
+//    if RtFD.OperacionExitosa then
+//    begin
+//      xmlR := NewXMLDocument();
+//      xmlR.XML.Text:= RtFD.XMLResultado;
+//      xmlR.Active := True;
+//      xmlR.SaveToFile(vFileXML);
+//      AgregarLog;
+////      AgregarMensaje('Timbrado FD: ' + vFileName);
+//    end
+//    else
+//    begin
+//      AgregarLog;
+////      AgregarMensaje('Hubo un Error:' + RtFD.MensajeError + ' / ' + RtFD.MensajeErrorDetallado);
+//    end;
+//    ShowProgress(vContador, pFilesXML.Count - 1);
+//  end;
+//end;
 
-  procedure AgregarLog;
-  begin
-    adopSetCFDILog.Parameters.ParamByName('@Periodo').Value:= pMes;
-    adopSetCFDILog.Parameters.ParamByName('@XMLNombre').Value:= vFileNameXML;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2Referencia').Value:= vFileName;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2CodigoRespuesta').Value:= RtFD.CodigoRespuesta;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeError').Value:= RtFD.MensajeError;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeErrorDetallado').Value:= RtFD.MensajeErrorDetallado;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2Estado').Value:= RtFD.Timbre.Estado;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2FechaTimbrado').Value:= RtFD.Timbre.FechaTimbrado.AsDateTime;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2NumeroCertificadoSAT').Value:= RtFD.Timbre.NumeroCertificadoSAT;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2SelloCFD').Value:= RtFD.Timbre.SelloCFD;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2SelloSAT').Value:= RtFD.Timbre.SelloSAT;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2UUID').Value:= RtFD.Timbre.UUID;
-    adopSetCFDILog.ExecProc;
-  end;
-begin
-  if pFilesXML.Count = 0 then exit;
-  WSTFD := GetIWSTFD(true, '', nil);
-  for vContador := 0 to pFilesXML.Count - 1 do
-  begin
-    vFileName := pFilesXML.Item[vContador].Caption;
-    vFileNameXML := vFileName + '.XML';
-    vFile := pDirXML + PathDelim + vFileNameXML;
-    vFileXML := pDirXMLFD + PathDelim + vFileNameXML;
-    xmlO:= LoadXMLDocument(vFile);
-    xmlO.Active:= True;
-    RtFD := WSTFD.TimbrarCFDI(FDUser, FDPass, xmlO.XML.Text, vFileName);
-    if RtFD.OperacionExitosa then
-    begin
-      xmlR := NewXMLDocument();
-      xmlR.XML.Text:= RtFD.XMLResultado;
-      xmlR.Active := True;
-      xmlR.SaveToFile(vFileXML);
-      AgregarLog;
-//      AgregarMensaje('Timbrado FD: ' + vFileName);
-    end
-    else
-    begin
-      AgregarLog;
-//      AgregarMensaje('Hubo un Error:' + RtFD.MensajeError + ' / ' + RtFD.MensajeErrorDetallado);
-    end;
-    ShowProgress(vContador, pFilesXML.Count - 1);
-  end;
-end;
-
-function TdmCFDI.FDTimbrar(pMes: Integer; pDirXML, pDirXMLFD: String;
-pFileName: String): Boolean;
-var
-  vFileNameXML : String;
-  vFile: String;
-  vFileXML: String;
-  WSTFD: IWSTFD;
-  RtFD: RespuestaTFD2;
-  xmlO, xmlR: IXmlDocument;
-
-  procedure AgregarLog;
-  begin
-    adopSetCFDILog.Parameters.ParamByName('@Periodo').Value:= pMes;
-    adopSetCFDILog.Parameters.ParamByName('@XMLNombre').Value:= vFileNameXML;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2Referencia').Value:= pFileName;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2CodigoRespuesta').Value:= RtFD.CodigoRespuesta;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeError').Value:= RtFD.MensajeError;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeErrorDetallado').Value:= RtFD.MensajeErrorDetallado;
-    adopSetCFDILog.Parameters.ParamByName('@TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
-    if Assigned(RtFD.Timbre) then
-    begin
-      adopSetCFDILog.Parameters.ParamByName('@TFD2Estado').Value:= RtFD.Timbre.Estado;
-      adopSetCFDILog.Parameters.ParamByName('@TFD2FechaTimbrado').Value:= RtFD.Timbre.FechaTimbrado.AsDateTime;
-      adopSetCFDILog.Parameters.ParamByName('@TFD2NumeroCertificadoSAT').Value:= RtFD.Timbre.NumeroCertificadoSAT;
-      adopSetCFDILog.Parameters.ParamByName('@TFD2SelloCFD').Value:= RtFD.Timbre.SelloCFD;
-      adopSetCFDILog.Parameters.ParamByName('@TFD2SelloSAT').Value:= RtFD.Timbre.SelloSAT;
-      adopSetCFDILog.Parameters.ParamByName('@TFD2UUID').Value:= RtFD.Timbre.UUID;
-    end;
-    adopSetCFDILog.ExecProc;
-  end;
-begin
-  WSTFD := GetIWSTFD(true, '', nil);
-  vFileNameXML := pFileName + '.XML';
-  vFile := pDirXML + PathDelim + vFileNameXML;
-  vFileXML := pDirXMLFD + PathDelim + vFileNameXML;
-  xmlO:= LoadXMLDocument(vFile);
-  xmlO.Active:= True;
-  RtFD := WSTFD.TimbrarCFDI(FDUser, FDPass, xmlO.XML.Text, pFileName);
-  if RtFD.OperacionExitosa then
-  begin
-    xmlR := NewXMLDocument();
-    xmlR.XML.Text:= RtFD.XMLResultado;
-    xmlR.Active := True;
-    xmlR.SaveToFile(vFileXML);
-    AgregarLog;
-    Result:= True;
-  end
-  else
-  begin
-    AgregarLog;
-    Result:= False;
-  end;
-end;
+//function TdmCFDI.FDTimbrar(pMes: Integer; pDirXML, pDirXMLFD: String;
+//pFileName: String): Boolean;
+//var
+//  vFileNameXML : String;
+//  vFile: String;
+//  vFileXML: String;
+//  WSTFD: IWSTFD;
+//  RtFD: RespuestaTFD2;
+//  xmlO, xmlR: IXmlDocument;
+//
+//  procedure AgregarLog;
+//  begin
+//    adopSetCFDILog.Parameters.ParamByName('@Periodo').Value:= pMes;
+//    adopSetCFDILog.Parameters.ParamByName('@XMLNombre').Value:= vFileNameXML;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2Referencia').Value:= pFileName;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2CodigoRespuesta').Value:= RtFD.CodigoRespuesta;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeError').Value:= RtFD.MensajeError;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2MensajeErrorDetallado').Value:= RtFD.MensajeErrorDetallado;
+//    adopSetCFDILog.Parameters.ParamByName('@TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
+//    if Assigned(RtFD.Timbre) then
+//    begin
+//      adopSetCFDILog.Parameters.ParamByName('@TFD2Estado').Value:= RtFD.Timbre.Estado;
+//      adopSetCFDILog.Parameters.ParamByName('@TFD2FechaTimbrado').Value:= RtFD.Timbre.FechaTimbrado.AsDateTime;
+//      adopSetCFDILog.Parameters.ParamByName('@TFD2NumeroCertificadoSAT').Value:= RtFD.Timbre.NumeroCertificadoSAT;
+//      adopSetCFDILog.Parameters.ParamByName('@TFD2SelloCFD').Value:= RtFD.Timbre.SelloCFD;
+//      adopSetCFDILog.Parameters.ParamByName('@TFD2SelloSAT').Value:= RtFD.Timbre.SelloSAT;
+//      adopSetCFDILog.Parameters.ParamByName('@TFD2UUID').Value:= RtFD.Timbre.UUID;
+//    end;
+//    adopSetCFDILog.ExecProc;
+//  end;
+//begin
+//  WSTFD := GetIWSTFD(true, '', nil);
+//  vFileNameXML := pFileName + '.XML';
+//  vFile := pDirXML + PathDelim + vFileNameXML;
+//  vFileXML := pDirXMLFD + PathDelim + vFileNameXML;
+//  xmlO:= LoadXMLDocument(vFile);
+//  xmlO.Active:= True;
+//  RtFD := WSTFD.TimbrarCFDI(FDUser, FDPass, xmlO.XML.Text, pFileName);
+//  if RtFD.OperacionExitosa then
+//  begin
+//    xmlR := NewXMLDocument();
+//    xmlR.XML.Text:= RtFD.XMLResultado;
+//    xmlR.Active := True;
+//    xmlR.SaveToFile(vFileXML);
+//    AgregarLog;
+//    Result:= True;
+//  end
+//  else
+//  begin
+//    AgregarLog;
+//    Result:= False;
+//  end;
+//end;
 
 function TdmCFDI.GetCadenOriginalTimbreFromCFDI(
   pFileNameXML: string): TStringCadenaOriginal;
@@ -476,7 +674,7 @@ begin
     Result := generadorCadenaOriginalTimbre.Generar;
   end
   else
-    Result:= EmptyStr;
+    Result:= EmptyAnsiStr;
 end;
 
 function TdmCFDI.GetSelloDigital(CadenaOriginal: TStringCadenaOriginal): String;

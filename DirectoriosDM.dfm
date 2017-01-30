@@ -19,25 +19,24 @@ object dmDirectorios: TdmDirectorios
       Caption = 'Crear PDF'
       OnExecute = actCrearPDFExecute
     end
-    object actFDOBtenerPDF: TAction
-      Caption = 'Obtener PDF'
-      Visible = False
-      OnExecute = actFDOBtenerPDFExecute
-    end
     object actTimbrar: TAction
-      Caption = 'Timbrar ECEODEX'
+      Caption = 'Timbrar'
       Visible = False
       OnExecute = actTimbrarExecute
     end
-    object actFDTimbrar: TAction
-      Caption = 'FD Timbrar'
+    object actFDObtenerPDF: TAction
+      Caption = 'Obtener PDF'
       Visible = False
-      OnExecute = actFDTimbrarExecute
+      OnExecute = actFDObtenerPDFExecute
     end
     object actFDObtener: TAction
       Caption = 'FD Obtener'
       Visible = False
       OnExecute = actFDObtenerExecute
+    end
+    object actFDConsultarCreditos: TAction
+      Caption = 'FD Creditos'
+      OnExecute = actFDConsultarCreditosExecute
     end
   end
   object adoqryPDF: TADOQuery
@@ -45,26 +44,55 @@ object dmDirectorios: TdmDirectorios
     CursorType = ctStatic
     Parameters = <
       item
-        Name = 'Mes'
+        Name = 'Anio1'
         Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Anio2'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Mes1'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Mes2'
+        Attributes = [paSigned]
         DataType = ftInteger
         Precision = 10
         Size = 4
         Value = Null
       end>
     SQL.Strings = (
-      'SELECT IdCFDILog, TFD2Referencia, TFD2UUID'
+      'SELECT IdCFDILog, XMLNombre, TFD2Referencia, TFD2UUID'
       'FROM CFDILog'
       
         'WHERE TFD2OperacionExitosa = 1 AND XMLError IS NULL AND PDFObten' +
         'ido = 0'
-      'AND Periodo = :Mes'
+      'AND (PeriodoAnio = :Anio1 OR :Anio2 = 0)'
+      'AND (Periodo = :Mes1 OR :Mes2 = 0)'
       'ORDER BY IdCFDILog')
     Left = 40
     Top = 152
     object adoqryPDFIdCFDILog: TAutoIncField
       FieldName = 'IdCFDILog'
       ReadOnly = True
+    end
+    object adoqryPDFXMLNombre: TStringField
+      FieldName = 'XMLNombre'
+      Size = 255
     end
     object adoqryPDFTFD2Referencia: TStringField
       FieldName = 'TFD2Referencia'
@@ -80,8 +108,32 @@ object dmDirectorios: TdmDirectorios
     CursorType = ctStatic
     Parameters = <
       item
-        Name = 'Mes'
+        Name = 'Anio1'
         Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Anio2'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Mes1'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Mes2'
+        Attributes = [paSigned]
         DataType = ftInteger
         Precision = 10
         Size = 4
@@ -93,9 +145,8 @@ object dmDirectorios: TdmDirectorios
       
         'WHERE TFD2OperacionExitosa = 1 AND XMLError IS NULL AND PDFObten' +
         'ido = 0'
-      'AND Periodo = :Mes'
-      ''
-      '')
+      'AND (PeriodoAnio = :Anio1 OR :Anio2 = 0)'
+      'AND (Periodo = :Mes1 OR :Mes2 = 0)')
     Left = 136
     Top = 152
     object adoqryPDFCountCUENTA: TIntegerField

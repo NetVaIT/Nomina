@@ -7,18 +7,43 @@ object dmCOBAEM: TdmCOBAEM
     CursorType = ctStatic
     Parameters = <
       item
-        Name = 'Mes'
+        Name = 'Anio1'
         Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Anio2'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Mes1'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Mes2'
+        Attributes = [paSigned]
         DataType = ftInteger
         Precision = 10
         Size = 4
         Value = Null
       end>
     SQL.Strings = (
-      'SELECT    *'
-      'FROM            v_COBAEM2016J'
+      'SELECT  TOP(2)  *'
+      'FROM            v_COBAEM2016'
       'WHERE ComplementoNominaFechaPago is not null'
-      'AND PeriodoMes = :Mes'
+      'AND (PeriodoAnio = :Anio1 OR :Anio2 = 0)'
+      'AND (PeriodoMes = :Mes1 OR :Mes2 = 0)'
       'ORDER BY ID')
     Left = 40
     Top = 32
@@ -467,11 +492,11 @@ object dmCOBAEM: TdmCOBAEM
       FieldName = 'ComplementoNominaTipoContrato'
       Size = 255
     end
-    object adoqryNominaP69G: TFloatField
-      FieldName = 'P69G'
+    object adoqryNominaComplementoNominaFechaInicioRelLaboral: TDateTimeField
+      FieldName = 'ComplementoNominaFechaInicioRelLaboral'
     end
-    object adoqryNominaP69E: TFloatField
-      FieldName = 'P69E'
+    object adoqryNominaP69: TFloatField
+      FieldName = 'P69'
     end
   end
   object adoqryNominaCount: TADOQuery
@@ -479,16 +504,41 @@ object dmCOBAEM: TdmCOBAEM
     CursorType = ctStatic
     Parameters = <
       item
-        Name = 'Mes'
+        Name = 'Anio1'
         Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Anio2'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Mes1'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'Mes2'
+        Attributes = [paSigned]
         DataType = ftInteger
         Precision = 10
         Size = 4
         Value = Null
       end>
     SQL.Strings = (
-      'select count(*) AS CUENTA from v_COBAEM2016J'
-      'WHERE PeriodoMes = :Mes')
+      'select count(*) AS CUENTA from v_COBAEM2016'
+      'WHERE (PeriodoAnio = :Anio1 OR :Anio2 = 0)'
+      'AND (PeriodoMes = :Mes1 OR :Mes2 = 0)')
     Left = 136
     Top = 32
     object adoqryNominaCountCUENTA: TIntegerField

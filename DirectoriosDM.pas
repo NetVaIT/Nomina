@@ -21,9 +21,8 @@ type
     actCrearINI: TAction;
     actCrearXML: TAction;
     actTimbrar: TAction;
-    actFDTimbrar: TAction;
     actFDObtener: TAction;
-    actFDOBtenerPDF: TAction;
+    actFDObtenerPDF: TAction;
     adoqryPDF: TADOQuery;
     adoqryPDFCount: TADOQuery;
     adoqryPDFIdCFDILog: TAutoIncField;
@@ -32,15 +31,17 @@ type
     adoqryPDFCountCUENTA: TIntegerField;
     adocUptLog: TADOCommand;
     actCrearPDF: TAction;
+    actFDConsultarCreditos: TAction;
+    adoqryPDFXMLNombre: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure actCrearINIExecute(Sender: TObject);
     procedure actCrearXMLExecute(Sender: TObject);
     procedure actTimbrarExecute(Sender: TObject);
-    procedure actFDTimbrarExecute(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
     procedure actFDObtenerExecute(Sender: TObject);
-    procedure actFDOBtenerPDFExecute(Sender: TObject);
+    procedure actFDObtenerPDFExecute(Sender: TObject);
     procedure actCrearPDFExecute(Sender: TObject);
+    procedure actFDConsultarCreditosExecute(Sender: TObject);
   private
     { Private declarations }
     FModulo: Integer;
@@ -54,7 +55,7 @@ type
     FDirINIPr: String;
     FDirPDF: String;
     procedure FDObtenerPDF(pMes: Integer);
-    procedure CrearPDF(pMes: Integer);
+    procedure CrearPDF(pAnio, pMes: Integer; pFiltrar: Boolean);
     procedure ValidarDirectorios;
     procedure DirectoriosActualizar;
   public
@@ -87,25 +88,34 @@ var
 begin
   ValidarDirectorios;
   case FModulo of
-    1:
-    begin
+    1: begin
+      dmCOBAEM := TdmCOBAEM.Create(Self);
+      try
+//        dmCOBAEM.FCertificado.Ruta := '.\Certificados\CSD01_AAA010101AAA.cer';
+//        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD01_AAA010101AAA.key';
+//        dmCOBAEM.FCertificado.LlavePrivada.Clave := '12345678a';
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\CSD010_AAA010101AAA.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD010_AAA010101AAA.key';
+        dmCOBAEM.FCertificado.LlavePrivada.Clave := '12345678a';
+        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmCOBAEM.Free;
+      end;
+    end;
+    2: begin
       dmCOBAEM := TdmCOBAEM.Create(Self);
       try
         dmCOBAEM.FCertificado.Ruta := '.\Certificados\cbe830914qz0.cer';
         dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_CBE830914QZ0_20140226_145218.key';
         dmCOBAEM.FCertificado.LlavePrivada.Clave := 'DELEGA12';
-        dmCOBAEM.CrearINI(frmDirectorios.Mes, cDirINI, cDirXML);
+        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
       finally
         dmCOBAEM.Free;
       end;
     end;
-    2:
-    begin
+    3: begin
       dmInterva := TdmInterva.Create(Self);
       try
-//        dmInterva.FCertificado.Ruta := '.\Certificados\CSD01_AAA010101AAA.cer';
-//        dmInterva.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD01_AAA010101AAA.key';
-//        dmInterva.FCertificado.LlavePrivada.Clave := '12345678a';
         dmInterva.FCertificado.Ruta := '.\Certificados\CSD_MORELIA_ICT920525GC6_20140311_115055s.cer';
         dmInterva.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_ICT920525GC6_20140311_115055.key';
         dmInterva.FCertificado.LlavePrivada.Clave := 'Icatmi1992';
@@ -121,8 +131,7 @@ end;
 procedure TdmDirectorios.actCrearPDFExecute(Sender: TObject);
 begin
   ValidarDirectorios;
-  CrearPDF(frmDirectorios.Mes);
-//  dmCFDI.CrearPDFMasivo(frmDirectorios.Mes, DirXMLFD,DirPDF, frmDirectorios.cxslvOutbox.InnerListView.Items);
+  CrearPDF(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar);
 end;
 
 procedure TdmDirectorios.actCrearXMLExecute(Sender: TObject);
@@ -132,8 +141,9 @@ begin
     // Solo Genera XML
     dmCFDI.CrearXMLMasivo(DirINI, DirXML, frmDirectorios.cxslvInbox.InnerListView.Items);
   {$ELSE}
-    // Genera XML y timbra con Folios Digitales
-    dmCFDI.CrearXML(frmDirectorios.Mes,DirINI, DirINIPr, DirError, DirXML, DirXMLFD, frmDirectorios.cxslvInbox.InnerListView.Items);
+    // Genera XML y timbra
+    dmCFDI.CrearXMLTimbrar(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar,
+    DirINI, DirINIPr, DirError, DirXML, DirXMLFD, frmDirectorios.cxslvInbox.InnerListView.Items);
   {$ENDIF}
   DirectoriosActualizar;
 end;
@@ -141,8 +151,13 @@ end;
 procedure TdmDirectorios.actTimbrarExecute(Sender: TObject);
 begin
   ValidarDirectorios;
-  dmCFDI.Timbrar(DirINI, frmDirectorios.cxslvInbox.InnerListView.Items);
+  dmCFDI.TimbrarEcodex(DirINI, frmDirectorios.cxslvInbox.InnerListView.Items);
   DirectoriosActualizar;
+end;
+
+procedure TdmDirectorios.actFDConsultarCreditosExecute(Sender: TObject);
+begin
+  dmCFDI.FDConsultarCreditos;
 end;
 
 procedure TdmDirectorios.actFDObtenerExecute(Sender: TObject);
@@ -150,21 +165,13 @@ begin
 //
 end;
 
-procedure TdmDirectorios.actFDOBtenerPDFExecute(Sender: TObject);
+procedure TdmDirectorios.actFDObtenerPDFExecute(Sender: TObject);
 begin
   ValidarDirectorios;
   FDObtenerPDF(frmDirectorios.Mes);
 end;
 
-procedure TdmDirectorios.actFDTimbrarExecute(Sender: TObject);
-begin
-  ValidarDirectorios;
-  dmCFDI.FDTimbrarMasivo(frmDirectorios.Mes, DirXML,DirXMLFD, frmDirectorios.cxslvOutbox.InnerListView.Items);
-  DirectoriosActualizar;
-end;
-
-
-procedure TdmDirectorios.CrearPDF(pMes: Integer);
+procedure TdmDirectorios.CrearPDF(pAnio, pMes: Integer; pFiltrar: Boolean);
 var
   vCount: Integer;
   vCountTotal: Integer;
@@ -173,19 +180,32 @@ var
 begin
   vCount := 0;
   adoqryPDFCount.Close;
-  adoqryPDFCount.Parameters.ParamByName('Mes').Value:= pMes;
+  if pFiltrar then
+  begin
+    adoqryPDFCount.Parameters.ParamByName('Mes1').Value:= pMes;
+    adoqryPDFCount.Parameters.ParamByName('Mes2').Value:= pMes;
+    adoqryPDFCount.Parameters.ParamByName('Anio1').Value:= pAnio;
+    adoqryPDFCount.Parameters.ParamByName('Anio2').Value:= pAnio;
+  end;
   adoqryPDFCount.Open;
   vCountTotal:= adoqryPDFCountCUENTA.Value;
   adoqryPDFCount.Close;
 
   adoqryPDF.Close;
   adoqryPDF.Parameters.ParamByName('Mes').Value:= pMes;
+  if pFiltrar then
+  begin
+    adoqryPDF.Parameters.ParamByName('Mes1').Value:= pMes;
+    adoqryPDF.Parameters.ParamByName('Mes2').Value:= pMes;
+    adoqryPDF.Parameters.ParamByName('Anio1').Value:= pAnio;
+    adoqryPDF.Parameters.ParamByName('Anio2').Value:= pAnio;
+  end;
   adoqryPDF.Open;
   try
     while not adoqryPDF.Eof do
     begin
-      vFileXML := DirXMLFD + PathDelim + adoqryPDFTFD2Referencia.AsString + '.XML';
-      vFilePDF := DirPDF + PathDelim + adoqryPDFTFD2Referencia.AsString + '.PDF';
+      vFileXML := DirXMLFD + PathDelim + adoqryPDFXMLNombre.AsString;
+      vFilePDF := DirPDF + PathDelim + ChangeFileExt(adoqryPDFXMLNombre.AsString, '.PDF');
       if dmCFDI.CrearPDF(vFileXML, vFilePDF) then
       begin
         adocUptLog.Parameters.ParamByName('IdCFDILog').Value := adoqryPDFIdCFDILog.Value;
@@ -223,35 +243,43 @@ begin
   frmDirectorios.OutboxDirectory:= DirXML;
   frmDirectorios.ErrorDirectory:= DirError;
   frmDirectorios.ProcessDirectory:= DirXMLFD;
-
   frmDirectorios.actCrearINI := actCrearINI;
   frmDirectorios.actCrearXML := actCrearXML;
+  frmDirectorios.actCrearPDF := actCrearPDF;
+  frmDirectorios.actFDConsultarCreditos := actFDConsultarCreditos;
   frmDirectorios.actTimbrar := actTimbrar;
-  frmDirectorios.actFDTimbrar := actFDTimbrar;
+  frmDirectorios.actFDObtenerPDF := actFDOBtenerPDF;
   frmDirectorios.actFDObtener := actFDObtener;
-  frmDirectorios.actFDObtenerPDF := actCrearPDF;
-//  frmDirectorios.actFDObtenerPDF := actFDOBtenerPDF;
   dmCFDI := TdmCFDI.Create(Self);
   dmCFDI.Bitacora := frmDirectorios.mBitacora;
   case FModulo of
     1: begin
-      dmCFDI.FCertificado.Ruta := '.\Certificados\cbe830914qz0.cer';
-      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_CBE830914QZ0_20140226_145218.key';
-      dmCFDI.FCertificado.LlavePrivada.Clave := 'DELEGA12';
-//      dmCFDI.FDUser:= 'DEMO830914QZ0';
-//      dmCFDI.FDPass:= 'aN%zoEPXw@';
-      dmCFDI.FDUser:= 'CBE830914QZ0';
-      dmCFDI.FDPass:= 'sOeU$uBBm7c@';
-    end;
-    2: begin
 //      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD01_AAA010101AAA.cer';
 //      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD01_AAA010101AAA.key';
 //      dmCFDI.FCertificado.LlavePrivada.Clave := '12345678a';
+//      dmCFDI.PAC := pacFoliosDigitales;
+//      dmCFDI.FDUser:= 'DEMO830914QZ0';
+//      dmCFDI.FDPass:= 'aN%zoEPXw@';
+      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD010_AAA010101AAA.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD010_AAA010101AAA.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := '12345678a';
+      dmCFDI.PAC := pacFinkok;
+      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+      dmCFDI.FDPass:= 'BPS@sociados1';
+    end;
+    2: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\cbe830914qz0.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_CBE830914QZ0_20140226_145218.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'DELEGA12';
+      dmCFDI.PAC := pacFoliosDigitales;
+      dmCFDI.FDUser:= 'CBE830914QZ0';
+      dmCFDI.FDPass:= 'sOeU$uBBm7c@';
+    end;
+    3: begin
       dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_MORELIA_ICT920525GC6_20140311_115055s.cer';
       dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_ICT920525GC6_20140311_115055.key';
       dmCFDI.FCertificado.LlavePrivada.Clave := 'Icatmi1992';
-//      dmCFDI.FDUser:= 'DEMO830914QZ0';
-//      dmCFDI.FDPass:= 'aN%zoEPXw@';
+      dmCFDI.PAC := pacFoliosDigitales;
       dmCFDI.FDUser:= 'ICT920525GC6';
       dmCFDI.FDPass:= 'WNdYitbArcbH7#';
     end;

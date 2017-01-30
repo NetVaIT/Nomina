@@ -18,10 +18,14 @@ type
     ICATMI1: TMenuItem;
     Button1: TButton;
     Button2: TButton;
+    Prueba1: TMenuItem;
+    Emisor1: TMenuItem;
+    Salir1: TMenuItem;
     procedure COBAEM1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure Salir1Click(Sender: TObject);
   private
     { Private declarations }
     dmDirectorios: TdmDirectorios;
@@ -79,11 +83,15 @@ end;
 
 procedure TfrmMain.Conectar(pModulo: Integer);
 begin
+//Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaPDS;Data Source=NAS4\NOMINASV12;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Workstation ID=DESARROLLO3;Use Encryption for Data=False;Tag with column collation when possible=False
+//Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=ICATMI;Data Source=NAS4\NOMINASV12;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Workstation ID=DESARROLLO3;Use Encryption for Data=False;Tag with column collation when possible=False
   ADOConnection.Close;
   case pModulo of
     1: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaPDS;Data Source=NAS4\NOMINASV12;' +
     'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
-    2: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=ICATMI;Data Source=NAS4\NOMINASV12;' +
+    2: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaPDS;Data Source=NAS4\NOMINASV12;' +
+    'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
+    3: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=ICATMI;Data Source=NAS4\NOMINASV12;' +
     'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
   end;
   ADOConnection.Open();
@@ -92,6 +100,11 @@ end;
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
   if Assigned(dmDirectorios) then FreeAndNil(dmDirectorios);
+end;
+
+procedure TfrmMain.Salir1Click(Sender: TObject);
+begin
+  Exit;
 end;
 
 end.

@@ -20,7 +20,7 @@ uses
   cxControls, Winapi.ShlObj, cxShellCommon, cxContainer, cxEdit, cxTextEdit,
   cxMaskEdit, cxDropDownEdit, cxShellComboBox, cxSplitter, cxListView,
   cxShellListView, cxPC, cxButtons, Vcl.ExtCtrls, cxMemo, Data.DB,
-  Data.Win.ADODB, cxSpinEdit, cxPropertiesStore;
+  Data.Win.ADODB, cxSpinEdit, cxPropertiesStore, cxCheckBox;
 
 type
   TfrmDirectorios = class(TForm)
@@ -44,14 +44,18 @@ type
     btnCrearXML: TcxButton;
     mBitacora: TcxMemo;
     cxSplitter1: TcxSplitter;
-    btnTimbrar: TcxButton;
-    btnFDTimbrar: TcxButton;
-    btnFDObtener: TcxButton;
     btnFDObtenerPDF: TcxButton;
-    Label1: TLabel;
-    edtmes: TcxSpinEdit;
+    btnFDObtener: TcxButton;
     cxPropertiesStore: TcxPropertiesStore;
     Edit1: TEdit;
+    btnFDConsultarCreditos: TcxButton;
+    Label2: TLabel;
+    edtAnio: TcxSpinEdit;
+    Label1: TLabel;
+    edtmes: TcxSpinEdit;
+    btnTimbrar: TcxButton;
+    btnCrearPDF: TcxButton;
+    cbFiltrar: TcxCheckBox;
   private
     { Private declarations }
     FProcessDirectory: string;
@@ -61,9 +65,10 @@ type
     FactCrearINI: TBasicAction;
     FactTimbrar: TBasicAction;
     FactCrearXML: TBasicAction;
-    FactFDTimbrar: TBasicAction;
     FactFDObtener: TBasicAction;
     FactFDObtenerPDF: TBasicAction;
+    FactCrearPDF: TBasicAction;
+    FactFDConsultarCreditos: TBasicAction;
     procedure SetErrorDirectory(const Value: string);
     procedure SetInboxDirectory(const Value: string);
     procedure SetOutboxDirectory(const Value: string);
@@ -71,29 +76,47 @@ type
     procedure SetactCrearINI(const Value: TBasicAction);
     procedure SetactCrearXML(const Value: TBasicAction);
     procedure SetactTimbrar(const Value: TBasicAction);
-    procedure SetactFDTimbrar(const Value: TBasicAction);
     procedure SetactFDObtener(const Value: TBasicAction);
     procedure SetactFDObtenerPDF(const Value: TBasicAction);
     function GetMes: Integer;
     procedure SetMes(const Value: Integer);
+    procedure SetactCrearPDF(const Value: TBasicAction);
+    procedure SetactFDConsultarCreditos(const Value: TBasicAction);
+    function GetAnio: Integer;
+    procedure SetAnio(const Value: Integer);
+    function GetFiltrar: Boolean;
+    procedure SetFiltrar(const Value: Boolean);
   public
     { Public declarations }
     property Mes: Integer read GetMes write SetMes;
+    property Anio: Integer read GetAnio write SetAnio;
+    property Filtrar: Boolean read GetFiltrar write SetFiltrar;
     property InboxDirectory: string read FInboxDirectory write SetInboxDirectory;
     property OutboxDirectory: string read FOutboxDirectory write SetOutboxDirectory;
     property ProcessDirectory: string read FProcessDirectory write SetProcessDirectory;
     property ErrorDirectory: string read FErrorDirectory write SetErrorDirectory;
     property actCrearINI: TBasicAction read FactCrearINI write SetactCrearINI;
     property actCrearXML: TBasicAction read FactCrearXML write SetactCrearXML;
+    property actCrearPDF: TBasicAction read FactCrearPDF write SetactCrearPDF;
     property actTimbrar: TBasicAction read FactTimbrar write SetactTimbrar;
-    property actFDTimbrar: TBasicAction read FactFDTimbrar write SetactFDTimbrar;
     property actFDObtenerPDF: TBasicAction read FactFDObtenerPDF write SetactFDObtenerPDF;
     property actFDObtener: TBasicAction read FactFDObtener write SetactFDObtener;
+    property actFDConsultarCreditos: TBasicAction read FactFDConsultarCreditos write SetactFDConsultarCreditos;
   end;
 
 implementation
 
 {$R *.dfm}
+
+function TfrmDirectorios.GetAnio: Integer;
+begin
+  Result:= edtAnio.Value;
+end;
+
+function TfrmDirectorios.GetFiltrar: Boolean;
+begin
+  Result := cbFiltrar.Checked;
+end;
 
 function TfrmDirectorios.GetMes: Integer;
 begin
@@ -106,10 +129,22 @@ begin
   btnCrearINI.Action := Value;
 end;
 
+procedure TfrmDirectorios.SetactCrearPDF(const Value: TBasicAction);
+begin
+  FactCrearPDF := Value;
+  btnCrearPDF.Action := Value;
+end;
+
 procedure TfrmDirectorios.SetactCrearXML(const Value: TBasicAction);
 begin
   FactCrearXML := Value;
   btnCrearXML.Action := Value;
+end;
+
+procedure TfrmDirectorios.SetactFDConsultarCreditos(const Value: TBasicAction);
+begin
+  FactFDConsultarCreditos := Value;
+  btnFDConsultarCreditos.Action := Value;
 end;
 
 procedure TfrmDirectorios.SetactFDObtener(const Value: TBasicAction);
@@ -124,22 +159,26 @@ begin
   btnFDObtenerPDF.Action := Value;
 end;
 
-procedure TfrmDirectorios.SetactFDTimbrar(const Value: TBasicAction);
-begin
-  FactFDTimbrar := Value;
-  btnFDTimbrar.Action := Value;
-end;
-
 procedure TfrmDirectorios.SetactTimbrar(const Value: TBasicAction);
 begin
   FactTimbrar := Value;
   btnTimbrar.Action := Value;
 end;
 
+procedure TfrmDirectorios.SetAnio(const Value: Integer);
+begin
+  edtAnio.Value := Value;
+end;
+
 procedure TfrmDirectorios.SetErrorDirectory(const Value: string);
 begin
   FErrorDirectory := Value;
   cxscbError.AbsolutePath := Value
+end;
+
+procedure TfrmDirectorios.SetFiltrar(const Value: Boolean);
+begin
+  cbFiltrar.Checked := Value;
 end;
 
 procedure TfrmDirectorios.SetInboxDirectory(const Value: string);

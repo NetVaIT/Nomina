@@ -152,14 +152,15 @@ type
     adoqryNominaComplementoNominaTipoContrato: TWideStringField;
     adoqryNominaCount: TADOQuery;
     adoqryNominaCountCUENTA: TIntegerField;
-    adoqryNominaP69G: TFloatField;
-    adoqryNominaP69E: TFloatField;
+    adoqryNominaComplementoNominaFechaInicioRelLaboral: TDateTimeField;
+    adoqryNominaP69: TFloatField;
   private
     { Private declarations }
   public
     { Public declarations }
     FCertificado: TFECertificado;
-    procedure CrearINI(pMes: Integer; pCDirINI, pCDirXML: string);
+    procedure CrearINI(pAnio, pMes: Integer; pFiltrar: Boolean; pCDirINI,
+      pCDirXML: string);
   end;
 
 implementation
@@ -172,7 +173,7 @@ uses _Utils;
 
 { TdmCOBAEM }
 
-procedure TdmCOBAEM.CrearINI(pMes: Integer; pCDirINI, pCDirXML: string);
+procedure TdmCOBAEM.CrearINI(pAnio, pMes: Integer; pFiltrar: Boolean; pCDirINI, pCDirXML: string);
 var
   Ini: TIniFile;
   INIFileName: String;
@@ -195,13 +196,25 @@ begin
   FormatSettings.DateSeparator:= '-';
   vCount := 0;
   adoqryNominaCount.Close;
-  adoqryNominaCount.Parameters.ParamByName('Mes').Value:= pMes;
+  if pFiltrar then
+  begin
+    adoqryNominaCount.Parameters.ParamByName('Mes1').Value:= pMes;
+    adoqryNominaCount.Parameters.ParamByName('Mes2').Value:= pMes;
+    adoqryNominaCount.Parameters.ParamByName('Anio1').Value:= pAnio;
+    adoqryNominaCount.Parameters.ParamByName('Anio2').Value:= pAnio;
+  end;
   adoqryNominaCount.Open;
   vCountTotal:= adoqryNominaCountCUENTA.Value;
   adoqryNominaCount.Close;
 
   adoqryNomina.Close;
-  adoqryNomina.Parameters.ParamByName('Mes').Value:= pMes;
+  if pFiltrar then
+  begin
+    adoqryNominaCount.Parameters.ParamByName('Mes1').Value:= pMes;
+    adoqryNominaCount.Parameters.ParamByName('Mes2').Value:= pMes;
+    adoqryNominaCount.Parameters.ParamByName('Anio1').Value:= pAnio;
+    adoqryNominaCount.Parameters.ParamByName('Anio2').Value:= pAnio;
+  end;
   adoqryNomina.Open;
   try
 
@@ -720,27 +733,29 @@ begin
           Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cFormatFloat,adoqryNominaP68.Value));
         end;
         // Normal
-//        if (adoqryNominaP69.Value <> 0) then
-//        begin
-//          Inc(vCountPercepcion);
-//          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
-//          Ini.WriteString(vPercepciones, 'TipoPercepcion', '023');
-//          Ini.WriteString(vPercepciones, 'Clave', 'P69');
-//          Ini.WriteString(vPercepciones, 'Concepto', 'PAGOS POR SEPARACION');
-//          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
-//          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cFormatFloat,adoqryNominaP69.Value));
-//        end;
-        //Jubilacion
-        if (adoqryNominaP69G.Value <> 0) OR (adoqryNominaP69E.Value <> 0) then
+        if (adoqryNominaP69.Value <> 0) then
         begin
           Inc(vCountPercepcion);
           vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
           Ini.WriteString(vPercepciones, 'TipoPercepcion', '023');
           Ini.WriteString(vPercepciones, 'Clave', 'P69');
           Ini.WriteString(vPercepciones, 'Concepto', 'PAGOS POR SEPARACION');
-          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cFormatFloat,adoqryNominaP69G.Value));
-          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cFormatFloat,adoqryNominaP69E.Value));
+          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
+          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cFormatFloat,adoqryNominaP69.Value));
         end;
+
+        //Jubilacion
+//        if (adoqryNominaP69G.Value <> 0) OR (adoqryNominaP69E.Value <> 0) then
+//        begin
+//          Inc(vCountPercepcion);
+//          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+//          Ini.WriteString(vPercepciones, 'TipoPercepcion', '023');
+//          Ini.WriteString(vPercepciones, 'Clave', 'P69');
+//          Ini.WriteString(vPercepciones, 'Concepto', 'PAGOS POR SEPARACION');
+//          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cFormatFloat,adoqryNominaP69G.Value));
+//          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cFormatFloat,adoqryNominaP69E.Value));
+//        end;
+
         // Ingresos mixtos
         //'042' AS P042Clave, 'Percepciones' AS P042Concepto, N.TOTPER / 2 AS P042ImporteGravado, 0 AS P042ImporteExento,
         //'041' AS P041Clave, 'Percepciones' AS P041Concepto, N.TOTPER / 2 * - 1 AS P041ImporteGravado, 0 AS P041ImporteExento,

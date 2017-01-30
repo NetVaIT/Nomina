@@ -21,7 +21,8 @@ uses
   CadenaOriginalTimbre in 'tfacturaelectronica\CadenaOriginalTimbre.pas',
   COBAEMDM in 'COBAEMDM.pas' {dmCOBAEM: TDataModule},
   IntervaDM in 'IntervaDM.pas' {dmInterva: TDataModule},
-  XMLtoPDFDmod in 'XMLToPDF\XMLtoPDFDmod.pas' {dmodXMLtoPDF: TDataModule};
+  XMLtoPDFDmod in 'XMLToPDF\XMLtoPDFDmod.pas' {dmodXMLtoPDF: TDataModule},
+  WSFinkokStampDemo in 'WSFinkokStampDemo.pas';
 
 {$R *.res}
 

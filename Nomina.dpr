@@ -22,7 +22,9 @@ uses
   COBAEMDM in 'COBAEMDM.pas' {dmCOBAEM: TDataModule},
   IntervaDM in 'IntervaDM.pas' {dmInterva: TDataModule},
   XMLtoPDFDmod in 'XMLToPDF\XMLtoPDFDmod.pas' {dmodXMLtoPDF: TDataModule},
-  WSFinkokStampDemo in 'WSFinkokStampDemo.pas';
+  WSFinkokStampDemo in 'WSFinkokStampDemo.pas',
+  SMRTVDM in 'SMRTVDM.pas' {dmSMRTV: TDataModule},
+  WSFinkokCancelDemo in 'WSFinkokCancelDemo.pas';
 
 {$R *.res}
 

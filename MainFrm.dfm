@@ -46,7 +46,7 @@ object frmMain: TfrmMain
   object ADOConnection: TADOConnection
     ConnectionString = 
       'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True' +
-      ';User ID=sa;Initial Catalog=IntervaPDS;Data Source=NAS4\NOMINASV' +
+      ';User ID=sa;Initial Catalog=IntervaRTV;Data Source=NAS4\NOMINASV' +
       '12;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4' +
       '096;Workstation ID=DESARROLLO3;Use Encryption for Data=False;Tag' +
       ' with column collation when possible=False'
@@ -75,6 +75,11 @@ object frmMain: TfrmMain
       object ICATMI1: TMenuItem
         Tag = 3
         Caption = 'ICATMI'
+        OnClick = COBAEM1Click
+      end
+      object SMRTV1: TMenuItem
+        Tag = 4
+        Caption = 'SMRTV'
         OnClick = COBAEM1Click
       end
     end

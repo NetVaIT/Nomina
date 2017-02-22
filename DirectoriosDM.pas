@@ -75,7 +75,7 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses _Utils, MainFrm, COBAEMDM, IntervaDM;
+uses _Utils, MainFrm, COBAEMDM, IntervaDM, SMRTVDM;
 
 {$R *.dfm}
 
@@ -85,6 +85,7 @@ procedure TdmDirectorios.actCrearINIExecute(Sender: TObject);
 var
   dmInterva: TdmInterva;
   dmCOBAEM: TdmCOBAEM;
+  dmSMRTV: TdmSMRTV;
 begin
   ValidarDirectorios;
   case FModulo of
@@ -122,6 +123,21 @@ begin
         dmInterva.CrearINI(cDirINI, cDirXML);
       finally
         dmInterva.Free;
+      end;
+    end;
+    4: begin
+      dmSMRTV := TdmSMRTV.Create(Self);
+      try
+        dmSMRTV.FCertificado.Ruta := '.\Certificados\CSD010_AAA010101AAA.cer';
+        dmSMRTV.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD010_AAA010101AAA.key';
+        dmSMRTV.FCertificado.LlavePrivada.Clave := '12345678a';
+        dmSMRTV.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+//        dmSMRTV.FCertificado.Ruta := '.\Certificados\CSD_DA_SMR8407159IA_20160711_125940.cer';
+//        dmSMRTV.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_DA_SMR8407159IA_20160711_125940.key';
+//        dmSMRTV.FCertificado.LlavePrivada.Clave := 'taniabustos2015';
+//        dmSMRTV.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmSMRTV.Free;
       end;
     end;
   end;
@@ -282,6 +298,20 @@ begin
       dmCFDI.PAC := pacFoliosDigitales;
       dmCFDI.FDUser:= 'ICT920525GC6';
       dmCFDI.FDPass:= 'WNdYitbArcbH7#';
+    end;
+    4: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD010_AAA010101AAA.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD010_AAA010101AAA.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := '12345678a';
+      dmCFDI.PAC := pacFinkok;
+      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+      dmCFDI.FDPass:= 'BPS@sociados1';
+//      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_DA_SMR8407159IA_20160711_125940.cer';
+//      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_DA_SMR8407159IA_20160711_125940.key';
+//      dmCFDI.FCertificado.LlavePrivada.Clave := 'taniabustos2015';
+//      dmCFDI.PAC := pacFinkok;
+//      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+//      dmCFDI.FDPass:= 'BPS@sociados1';
     end;
   end;
 end;

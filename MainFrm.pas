@@ -22,11 +22,13 @@ type
     Emisor1: TMenuItem;
     Salir1: TMenuItem;
     SMRTV1: TMenuItem;
+    CFDLibVersion1: TMenuItem;
     procedure COBAEM1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure Salir1Click(Sender: TObject);
+    procedure CFDLibVersion1Click(Sender: TObject);
   private
     { Private declarations }
     dmDirectorios: TdmDirectorios;
@@ -42,7 +44,7 @@ implementation
 
 {$R *.dfm}
 
-uses XMLtoPDFDmod, CFDIDM;
+uses XMLtoPDFDmod, CFDIDM, CFDLibHeader;
 
 procedure TfrmMain.Button1Click(Sender: TObject);
 var
@@ -69,6 +71,11 @@ begin
   finally
     dmCFDI.Free;
   end;
+end;
+
+procedure TfrmMain.CFDLibVersion1Click(Sender: TObject);
+begin
+  ShowMessage(CFDLibVersion);
 end;
 
 procedure TfrmMain.COBAEM1Click(Sender: TObject);

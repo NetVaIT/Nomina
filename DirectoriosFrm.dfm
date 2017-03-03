@@ -135,6 +135,21 @@ object frmDirectorios: TfrmDirectorios
         TabOrder = 10
         Width = 121
       end
+      object edtUUID: TcxTextEdit
+        Left = 577
+        Top = 35
+        TabOrder = 11
+        Text = '520B9EF0-4B8B-484D-9B4A-FDF7D575DEEF'
+        Width = 169
+      end
+      object btnCancelar: TcxButton
+        Left = 752
+        Top = 33
+        Width = 75
+        Height = 25
+        Caption = 'Cancelar'
+        TabOrder = 12
+      end
     end
     object cxPageControl1: TcxPageControl
       Left = 0

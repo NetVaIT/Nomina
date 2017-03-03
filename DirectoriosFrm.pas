@@ -56,6 +56,8 @@ type
     btnTimbrar: TcxButton;
     btnCrearPDF: TcxButton;
     cbFiltrar: TcxCheckBox;
+    edtUUID: TcxTextEdit;
+    btnCancelar: TcxButton;
   private
     { Private declarations }
     FProcessDirectory: string;
@@ -69,6 +71,7 @@ type
     FactFDObtenerPDF: TBasicAction;
     FactCrearPDF: TBasicAction;
     FactFDConsultarCreditos: TBasicAction;
+    FactCancelar: TBasicAction;
     procedure SetErrorDirectory(const Value: string);
     procedure SetInboxDirectory(const Value: string);
     procedure SetOutboxDirectory(const Value: string);
@@ -86,6 +89,9 @@ type
     procedure SetAnio(const Value: Integer);
     function GetFiltrar: Boolean;
     procedure SetFiltrar(const Value: Boolean);
+    procedure SetactCancelar(const Value: TBasicAction);
+    function GetUUID: string;
+    procedure SetUUID(const Value: string);
   public
     { Public declarations }
     property Mes: Integer read GetMes write SetMes;
@@ -102,11 +108,15 @@ type
     property actFDObtenerPDF: TBasicAction read FactFDObtenerPDF write SetactFDObtenerPDF;
     property actFDObtener: TBasicAction read FactFDObtener write SetactFDObtener;
     property actFDConsultarCreditos: TBasicAction read FactFDConsultarCreditos write SetactFDConsultarCreditos;
+    property actCancelar: TBasicAction read FactCancelar write SetactCancelar;
+    property UUID: string read GetUUID write SetUUID;
   end;
 
 implementation
 
 {$R *.dfm}
+
+uses DirectoriosDM;
 
 function TfrmDirectorios.GetAnio: Integer;
 begin
@@ -121,6 +131,17 @@ end;
 function TfrmDirectorios.GetMes: Integer;
 begin
   Result:= edtMes.Value;
+end;
+
+function TfrmDirectorios.GetUUID: string;
+begin
+  Result := edtUUID.Text;
+end;
+
+procedure TfrmDirectorios.SetactCancelar(const Value: TBasicAction);
+begin
+  FactCancelar := Value;
+  btnCancelar.Action := Value;
 end;
 
 procedure TfrmDirectorios.SetactCrearINI(const Value: TBasicAction);
@@ -202,6 +223,11 @@ procedure TfrmDirectorios.SetProcessDirectory(const Value: string);
 begin
   FProcessDirectory := Value;
   cxslvProcess.AbsolutePath := Value
+end;
+
+procedure TfrmDirectorios.SetUUID(const Value: string);
+begin
+  edtUUID.Text := Value;
 end;
 
 end.

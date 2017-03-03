@@ -8,7 +8,7 @@ object dmSMRTV: TdmSMRTV
     CursorType = ctStatic
     Parameters = <>
     SQL.Strings = (
-      'SELECT  TOP(2)  *'
+      'SELECT  *'
       'FROM            v_SMRTV'
       'WHERE ComplementoNominaFechaPago is not null'
       'ORDER BY ID')
@@ -352,43 +352,9 @@ object dmSMRTV: TdmSMRTV
   object adoqryNominaCount: TADOQuery
     Connection = frmMain.ADOConnection
     CursorType = ctStatic
-    Parameters = <
-      item
-        Name = 'Anio1'
-        Attributes = [paSigned, paNullable]
-        DataType = ftInteger
-        Precision = 10
-        Size = 4
-        Value = Null
-      end
-      item
-        Name = 'Anio2'
-        Attributes = [paSigned]
-        DataType = ftInteger
-        Precision = 10
-        Size = 4
-        Value = Null
-      end
-      item
-        Name = 'Mes1'
-        Attributes = [paSigned, paNullable]
-        DataType = ftInteger
-        Precision = 10
-        Size = 4
-        Value = Null
-      end
-      item
-        Name = 'Mes2'
-        Attributes = [paSigned]
-        DataType = ftInteger
-        Precision = 10
-        Size = 4
-        Value = Null
-      end>
+    Parameters = <>
     SQL.Strings = (
-      'select count(*) AS CUENTA from v_SMRTV'
-      'WHERE (PeriodoAnio = :Anio1 OR :Anio2 = 0)'
-      'AND (PeriodoMes = :Mes1 OR :Mes2 = 0)')
+      'select count(*) AS CUENTA from v_SMRTV')
     Left = 136
     Top = 32
     object adoqryNominaCountCUENTA: TIntegerField

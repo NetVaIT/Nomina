@@ -37,6 +37,7 @@ type
     function Timbrar(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
     function TimbrarFD(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
     function TimbrarFinkok(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
+    function CancelarFinkok(pUUID: string): Boolean;
     procedure CrearPDFMasivo(pMes: Integer; pDirXML, pDirPDF: String;
       pFilesXML: TListItems);
     procedure FDConsultarTimbrePorReferencia(pFileNameXML, pReferencia: string);
@@ -52,6 +53,7 @@ type
     procedure CrearXMLTimbrar(pAnio, pMes: Word; pFiltrar: Boolean; pDirINI,
       pDirINIPr, pDirError, pDirXML, pDirXMLFD: String; pFilesINI: TListItems);
     procedure TimbrarEcodex(pDirINI: String; pFilesINI: TListItems);
+    function Cancelar(pUUID: string): Boolean;
 //    function FDTimbrar(pMes: Integer; pDirXML, pDirXMLFD, pFileName: String): Boolean;
 //    procedure FDTimbrarMasivo(pMes: Integer; pDirXML, pDirXMLFD: String;
 //      pFilesXML: TListItems);
@@ -66,7 +68,12 @@ implementation
 
 uses _Utils, MainFrm, WSTFD, xmlDoc, XMLIntf,
   SelloDigital, ClaseOpenSSL, ClaseCertificadoSellos, CadenaOriginalTimbre,
-  XMLtoPDFDmod, WSFinkokStampDemo;
+  {$IFDEF DEBUG}
+    WSFinkokStampDemo, WSFinkokCancelDemo,
+  {$ELSE}
+    WSFinkokStamp, WSFinkokCancel,
+  {$ENDIF}
+  XMLtoPDFDmod;
 
 {$R *.dfm}
 
@@ -76,6 +83,74 @@ procedure TdmCFDI.AgregarMensaje(pLinea: String);
 begin
   if Assigned(Bitacora) then
     Bitacora.Lines.Add(pLinea);
+end;
+
+function TdmCFDI.Cancelar(pUUID: string): Boolean;
+begin
+  case PAC of
+    pacFoliosDigitales: Result:= False;
+    pacFinkok: Result := CancelarFinkok(pUUID);
+    else Result := False;
+  end;
+end;
+
+function TdmCFDI.CancelarFinkok(pUUID: string): Boolean;
+var
+  WSTFinkok: IWSFinkokCancel;
+  RTFinkok: CancelaCFDResult2;
+  sKey,sCer:TByteDynArray;
+  AUUID:StringArray;
+  UUID:UUIDS;
+  aKey,aCer:TFileName;
+
+  function WStringToArray(const S: WideString): StringArray;
+  var
+  i : integer;
+  begin
+  SetLength(result, Length(S) div 36); //cada uuid es de 36 caracteres
+  if Length(S) > 0 then
+  for i := 1 to Length(S) div 36 do begin
+  SetLength(result[i-1], Length(S));
+  result[i-1] := S;
+  end;
+  end;
+
+begin
+  if FDUser = EmptyStr then exit;
+  if FDPass = EmptyStr then exit;
+ UUID:=UUIDS.Create;
+//openssl x509 -inform DER -outform PEM -in CSD010_AAA010101AAA.cer -pubkey -out CSD010_AAA010101AAA.cer.pem
+//openssl pkcs8 -inform DER -in CSD010_AAA010101AAA.key -passin pass:12345678a -out CSD010_AAA010101AAA.key.pem
+//EjecutaExterno(ExtractFilePath(Application.ExeName)+'openssl x509 -inform DER -outform PEM -in '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.cer -pubkey -out '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.cer.pem');
+//EjecutaExterno(ExtractFilePath(Application.ExeName)+'openssl pkcs8 -inform DER -in '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.key -passin pass:12345678a -out '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.key.pem');
+ sCer:=FileToByteArray(FCertificado.Ruta+'.pem');
+ sKey:=FileToByteArray(FCertificado.LlavePrivada.Ruta+'.pem');
+ WSTFinkok := GetIWSFinkokCancel(True, '', nil);
+ SetLength(AUUID, 0);
+ AUUID:=WStringToArray(Trim(pUUID));
+ UUID.uuids:=AUUID;
+  {$IFDEF DEBUG}
+    RTFinkok := WSTFinkok.cancel(UUID, FDUser, FDPass, FCertificado.RFCAlQuePertenece, sCer, sKey, False, EmptyStr);
+  {$ELSE}
+    RTFinkok := WSTFinkok.cancel(UUID, FDUser, FDPass, FCertificado.RFCAlQuePertenece, sCer, sKey, False);
+  {$ENDIF}
+ if Trim(RTFinkok.CodEstatus)<>'' then
+  AgregarMensaje('Estatus UUID '+RTFinkok.CodEstatus)
+ Else
+  Begin
+   if Trim(RTFinkok.Folios[0].EstatusUUID)<>'' then    AgregarMensaje('Estatus UUID '+RTFinkok.Folios[0].EstatusUUID);
+   if Trim(RTFinkok.Folios[0].UUID)<>'' then    AgregarMensaje('UUID '+RTFinkok.Folios[0].UUID);
+   if Trim(RTFinkok.Acuse)<>'' then     AgregarMensaje('Acuse '+RTFinkok.Acuse);
+   if Trim(RTFinkok.Fecha)<>'' then     AgregarMensaje('Fecha '+RTFinkok.Fecha);
+   if Trim(RTFinkok.RfcEmisor)<>'' Then AgregarMensaje('RFC Emisor '+RTFinkok.RfcEmisor);
+  End;
+//Estatus UUID 201
+//UUID 520B9EF0-4B8B-484D-9B4A-FDF7D575DEEF
+//Acuse <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><CancelaCFDResponse xmlns="http://cancelacfd.sat.gob.mx"><CancelaCFDResult Fecha="2017-02-22T18:05:09" RfcEmisor="AAA010101AAA"><Folios><UUID>520B9EF0-4B8B-484D-9B4A-FDF7D575DEEF</UUID><EstatusUUID>201</EstatusUUID></Folios><Signature Id="SelloSAT" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#hmac-sha512"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116"><XPath>not(ancestor-or-self::*[local-name()='Signature'])</XPath></Transform></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512"/><DigestValue>P2lENAhvzEBJuAS1aIPcpZVjYN2A73ckFc0wkj+XPA2rp6NRIVGFEPL3qCSAwl2R2+xx1ZaItMkSuv+f5t3ZGA==</DigestValue></Reference></SignedInfo><SignatureValue>EeXPV2EIrQtZzERdWgvrVOkl5HVcBVwZChX2Q/q9W2KzliiVWTznzVNVPqzaAvGkaZqAdv6KzbPeD9fUXTpB5g==</SignatureValue><KeyInfo><KeyName>00001088888800000093</KeyName><KeyValue><RSAKeyValue><Modulus>yxMvUucuS+s3aeWTFZvJrrFWIdes7kIDJmO7DA5DP+ZTapofNt37fgeIHlTUdAVvd/fDKhfiwNSh+vbrNbD58X3UEdQor3ngb6zpjrDjgYsedckPLv6fro4DO0NXLCdALFqhN8ARyX77kYBnvIj1fOSVp401Vc3urLUtiEm16Kle3tOyWhfjgFzdK3oAIXF8oeei/GburWbJnpP+NeGaHVE5bkxLCBp5757nKVonXwzpfpEGuBp204NGkI2/jyA2EH8wyRN4yUvzjT7IJYrHng23klRDlJoRYwa98QQPdQSTpcrlNu8nLhpQdI/zMTLoNF2NiBCkQNuAMacKhnvlVw==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue></KeyInfo></Signature></CancelaCFDResult></CancelaCFDResponse></s:Body></s:Envelope>
+//
+//Fecha 2017-02-22T18:05:09
+//RFC Emisor AAA010101AAA
+ UUID.Free;
 end;
 
 function TdmCFDI.CrearPDF(pFileNameXML, pFileNamePDF: string): Boolean;
@@ -395,7 +470,7 @@ end;
 
 function TdmCFDI.TimbrarFinkok(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
 var
-  WSTFinkok: Application_;
+  WSTFinkok: IWSFinkokStamp;
   RTFinkok: AcuseRecepcionCFDI2;
   sXML: TByteDynArray;
   xmlR: IXmlDocument;
@@ -411,12 +486,12 @@ var
     adopSetCFDILog.Parameters.ParamByName('@XMLNombre').Value:= vFileName;
     adopSetCFDILog.Parameters.ParamByName('@TFD2Referencia').Value:= Referencia;
     adopSetCFDILog.Parameters.ParamByName('@TFD2OperacionExitosa').Value:= OperacionExitosa;
-//      adopSetCFDILog.Parameters.ParamByName('@TFD2Estado').Value:= 'Vigente';
-      adopSetCFDILog.Parameters.ParamByName('@TFD2FechaTimbrado').Value:= StrToDateTimeDef(RTFinkok.Fecha, Now);
-      adopSetCFDILog.Parameters.ParamByName('@TFD2NumeroCertificadoSAT').Value:= RTFinkok.NoCertificadoSAT;
-      adopSetCFDILog.Parameters.ParamByName('@TFD2SelloCFD').Value:= RTFinkok.Fecha;
-      adopSetCFDILog.Parameters.ParamByName('@TFD2SelloSAT').Value:= RTFinkok.SatSeal;
-      adopSetCFDILog.Parameters.ParamByName('@TFD2UUID').Value:= RTFinkok.UUID;
+    adopSetCFDILog.Parameters.ParamByName('@TFD2Estado').Value:= 'Vigente';
+    adopSetCFDILog.Parameters.ParamByName('@TFD2FechaTimbrado').Value:= StrToDateTimeDef(RTFinkok.Fecha, Now);
+    adopSetCFDILog.Parameters.ParamByName('@TFD2NumeroCertificadoSAT').Value:= RTFinkok.NoCertificadoSAT;
+    adopSetCFDILog.Parameters.ParamByName('@TFD2SelloCFD').Value:= RTFinkok.Fecha;
+    adopSetCFDILog.Parameters.ParamByName('@TFD2SelloSAT').Value:= RTFinkok.SatSeal;
+    adopSetCFDILog.Parameters.ParamByName('@TFD2UUID').Value:= RTFinkok.UUID;
     if Incidencias > 0 then
     begin
       adopSetCFDILog.Parameters.ParamByName('@TFD2CodigoRespuesta').Value:= RTFinkok.Incidencias[0].CodigoError;
@@ -430,8 +505,12 @@ begin
   vFileName := ExtractFileName(pFileNameXML);
   Referencia := ChangeFileExt(vFileName, EmptyStr);
   sXML:= FIleToByteArray(pFileNameXML);
-  WSTFinkok := GetApplication_(true, '', nil);
-  RTFinkok := WSTFinkok.stamp(sXML, FDUser, FDPass, EmptyStr);
+  WSTFinkok := GetIWSFinkokStamp(true, '', nil);
+  {$IFDEF DEBUG}
+    RTFinkok := WSTFinkok.stamp(sXML, FDUser, FDPass, EmptyStr);
+  {$ELSE}
+    RTFinkok := WSTFinkok.stamp(sXML, FDUser, FDPass);
+  {$ENDIF}
   OperacionExitosa := (RTFinkok.CodEstatus = 'Comprobante timbrado satisfactoriamente');
   Incidencias := Length(RTFinkok.Incidencias);
   if OperacionExitosa then

@@ -46,7 +46,7 @@ object frmMain: TfrmMain
   object ADOConnection: TADOConnection
     ConnectionString = 
       'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True' +
-      ';User ID=sa;Initial Catalog=IntervaRTV;Data Source=NAS4\NOMINASV' +
+      ';User ID=sa;Initial Catalog=IntervaPDS;Data Source=NAS4\NOMINASV' +
       '12;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4' +
       '096;Workstation ID=DESARROLLO3;Use Encryption for Data=False;Tag' +
       ' with column collation when possible=False'
@@ -60,6 +60,10 @@ object frmMain: TfrmMain
     Top = 48
     object Archivo1: TMenuItem
       Caption = 'Archivo'
+      object CFDLibVersion1: TMenuItem
+        Caption = 'CFDLibVersion'
+        OnClick = CFDLibVersion1Click
+      end
       object Salir1: TMenuItem
         Caption = 'Salir'
         OnClick = Salir1Click

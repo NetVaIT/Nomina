@@ -38,6 +38,10 @@ object dmDirectorios: TdmDirectorios
       Caption = 'FD Creditos'
       OnExecute = actFDConsultarCreditosExecute
     end
+    object actCancelar: TAction
+      Caption = 'Cancelar'
+      OnExecute = actCancelarExecute
+    end
   end
   object adoqryPDF: TADOQuery
     Connection = frmMain.ADOConnection

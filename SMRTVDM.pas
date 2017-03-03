@@ -190,7 +190,7 @@ var
   FDateSeparator: Char;
   vPercepciones: string;
   vDeducciones: string;
-  vP40, vP41, vP42: Double;
+//  vP40, vP41, vP42: Double;
   vCampoIni, vCampoFin, vCampoI: Integer;
   vCampoN, vClave: string;
   vCampoV: Double;
@@ -200,13 +200,13 @@ begin
   FormatSettings.DateSeparator:= '-';
   vCount := 0;
   adoqryNominaCount.Close;
-  if pFiltrar then
-  begin
-    adoqryNominaCount.Parameters.ParamByName('Mes1').Value:= pMes;
-    adoqryNominaCount.Parameters.ParamByName('Mes2').Value:= pMes;
-    adoqryNominaCount.Parameters.ParamByName('Anio1').Value:= pAnio;
-    adoqryNominaCount.Parameters.ParamByName('Anio2').Value:= pAnio;
-  end;
+//  if pFiltrar then
+//  begin
+//    adoqryNominaCount.Parameters.ParamByName('Mes1').Value:= pMes;
+//    adoqryNominaCount.Parameters.ParamByName('Mes2').Value:= pMes;
+//    adoqryNominaCount.Parameters.ParamByName('Anio1').Value:= pAnio;
+//    adoqryNominaCount.Parameters.ParamByName('Anio2').Value:= pAnio;
+//  end;
   adoqryNominaCount.Open;
   vCountTotal:= adoqryNominaCountCUENTA.Value;
   adoqryNominaCount.Close;
@@ -257,7 +257,11 @@ begin
         Ini.WriteString('Comprobante', 'TipoDeComprobante', adoqryNominaTipoDeComprobante.AsString);
         Ini.WriteString('Comprobante', 'LugarExpedicion', adoqryNominaLugarExpedicion.AsString);
         //[Emisor]
-        Ini.WriteString('Emisor', 'Rfc', adoqryNominaEmisorRFC.AsString);
+        {$IFDEF DEBUG}
+          Ini.WriteString('Emisor', 'Rfc', FCertificado.RFCAlQuePertenece);
+        {$ELSE}
+          Ini.WriteString('Emisor', 'Rfc', adoqryNominaEmisorRFC.AsString);
+        {$ENDIF}
         Ini.WriteString('Emisor', 'Nombre', adoqryNominaEmisorNombre.AsString);
         Ini.WriteString('Emisor', 'Regimen', adoqryNominaEmisorRegimen.AsString);
         //[Receptor]
@@ -375,28 +379,6 @@ begin
 //          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cFormatFloat,vP41));
 //          Ini.WriteString(vPercepciones, 'ImporteExento', '0.00');
 
-//        //[nomPercepciones41]
-//        if (adoqryNominaP041ImporteGravado.Value <> 0) OR (adoqryNominaP041ImporteExento.Value <> 0) then
-//        begin
-//          Inc(vCountPercepcion);
-//          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
-//          Ini.WriteString(vPercepciones, 'TipoPercepcion', '041');
-//          Ini.WriteString(vPercepciones, 'Clave', adoqryNominaP041Clave.AsString);
-//          Ini.WriteString(vPercepciones, 'Concepto', adoqryNominaP041Concepto.AsString);
-//          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cFormatFloat,adoqryNominaP041ImporteGravado.Value));
-//          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cFormatFloat,adoqryNominaP041ImporteExento.Value));
-//        end;
-//        //[nomPercepciones42]
-//        if (adoqryNominaP042ImporteGravado.Value <> 0) OR (adoqryNominaP042ImporteExento.Value <> 0) then
-//        begin
-//          Inc(vCountPercepcion);
-//          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
-//          Ini.WriteString(vPercepciones, 'TipoPercepcion', '042');
-//          Ini.WriteString(vPercepciones, 'Clave', adoqryNominaP042Clave.AsString);
-//          Ini.WriteString(vPercepciones, 'Concepto', adoqryNominaP042Concepto.AsString);
-//          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cFormatFloat,adoqryNominaP042ImporteGravado.Value));
-//          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cFormatFloat,adoqryNominaP042ImporteExento.Value));
-//        end;
         //[nomDeducciones]
         if (adoqryNominaDTotalGravado.Value <> 0) or (adoqryNominaDTotalExento.Value <> 0) then
         begin

@@ -1,15 +1,15 @@
 // ************************************************************************ //
 // The types declared in this file were generated from data read from the
 // WSDL File described below:
-// WSDL     : http://demo-facturacion.finkok.com/servicios/soap/stamp.wsdl
-//  >Import : http://demo-facturacion.finkok.com/servicios/soap/stamp.wsdl>0
-//  >Import : http://demo-facturacion.finkok.com/servicios/soap/stamp.wsdl>1
+// WSDL     : https://facturacion.finkok.com/servicios/soap/stamp.wsdl
+//  >Import : https://facturacion.finkok.com/servicios/soap/stamp.wsdl>0
+//  >Import : https://facturacion.finkok.com/servicios/soap/stamp.wsdl>1
 // Encoding : UTF-8
 // Version  : 1.0
-// (24/01/2017 05:51:29 p. m. - - $Rev: 56641 $)
+// (23/02/2017 05:29:00 p. m. - - $Rev: 56641 $)
 // ************************************************************************ //
 
-unit WSFinkokStampDemo;
+unit WSFinkokStamp;
 
 interface
 
@@ -245,15 +245,14 @@ type
   // binding   : Application
   // service   : StampSOAP
   // port      : Application
-  // URL       : http://demo-facturacion.finkok.com/servicios/soap/stamp
+  // URL       : https://facturacion.finkok.com/servicios/soap/stamp
   // ************************************************************************ //
   IWSFinkokStamp = interface(IInvokable)
   ['{0AA07360-97A0-C6DA-8BD0-6C56DCAE7D6F}']
-    function  stamp(const xml: TByteDynArray; const username: string; const password: string; const secret_key: string): AcuseRecepcionCFDI2; stdcall;
-    function  sign_stamp(const xml: TByteDynArray; const username: string; const password: string; const secret_key: string): AcuseRecepcionCFDI2; stdcall;
-    function  stamped(const xml: TByteDynArray; const username: string; const password: string; const secret_key: string): AcuseRecepcionCFDI2; stdcall;
-    function  quick_stamp(const xml: TByteDynArray; const username: string; const password: string; const secret_key: string): AcuseRecepcionCFDI2; stdcall;
-    function  query_pending(const username: string; const password: string; const uuid: string; const secret_key: string): QueryPendingResult2; stdcall;
+    function  stamp(const xml: TByteDynArray; const username: string; const password: string): AcuseRecepcionCFDI2; stdcall;
+    function  stamped(const xml: TByteDynArray; const username: string; const password: string): AcuseRecepcionCFDI2; stdcall;
+    function  quick_stamp(const xml: TByteDynArray; const username: string; const password: string): AcuseRecepcionCFDI2; stdcall;
+    function  query_pending(const username: string; const password: string; const uuid: string): QueryPendingResult2; stdcall;
   end;
 
 function GetIWSFinkokStamp(UseWSDL: Boolean=System.False; Addr: string=''; HTTPRIO: THTTPRIO = nil): IWSFinkokStamp;
@@ -264,8 +263,8 @@ implementation
 
 function GetIWSFinkokStamp(UseWSDL: Boolean; Addr: string; HTTPRIO: THTTPRIO): IWSFinkokStamp;
 const
-  defWSDL = 'http://demo-facturacion.finkok.com/servicios/soap/stamp.wsdl';
-  defURL  = 'http://demo-facturacion.finkok.com/servicios/soap/stamp';
+  defWSDL = 'https://facturacion.finkok.com/servicios/soap/stamp.wsdl';
+  defURL  = 'https://facturacion.finkok.com/servicios/soap/stamp';
   defSvc  = 'StampSOAP';
   defPrt  = 'Application';
 var
@@ -598,22 +597,7 @@ initialization
                                 '', IS_NLBL);
   InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'stamp', 'password', '',
                                 '', IS_NLBL);
-  InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'stamp', 'secret_key', '',
-                                '', IS_NLBL);
   InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'stamp', 'stampResult', '',
-                                '[Namespace="apps.services.soap.core.views"]', IS_NLBL);
-  { Application.sign_stamp }
-  InvRegistry.RegisterMethodInfo(TypeInfo(IWSFinkokStamp), 'sign_stamp', '',
-                                 '[ReturnName="sign_stampResult"]', IS_OPTN or IS_NLBL);
-  InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'sign_stamp', 'xml', '',
-                                '', IS_NLBL);
-  InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'sign_stamp', 'username', '',
-                                '', IS_NLBL);
-  InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'sign_stamp', 'password', '',
-                                '', IS_NLBL);
-  InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'sign_stamp', 'secret_key', '',
-                                '', IS_NLBL);
-  InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'sign_stamp', 'sign_stampResult', '',
                                 '[Namespace="apps.services.soap.core.views"]', IS_NLBL);
   { Application.stamped }
   InvRegistry.RegisterMethodInfo(TypeInfo(IWSFinkokStamp), 'stamped', '',
@@ -623,8 +607,6 @@ initialization
   InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'stamped', 'username', '',
                                 '', IS_NLBL);
   InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'stamped', 'password', '',
-                                '', IS_NLBL);
-  InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'stamped', 'secret_key', '',
                                 '', IS_NLBL);
   InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'stamped', 'stampedResult', '',
                                 '[Namespace="apps.services.soap.core.views"]', IS_NLBL);
@@ -637,8 +619,6 @@ initialization
                                 '', IS_NLBL);
   InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'quick_stamp', 'password', '',
                                 '', IS_NLBL);
-  InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'quick_stamp', 'secret_key', '',
-                                '', IS_NLBL);
   InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'quick_stamp', 'quick_stampResult', '',
                                 '[Namespace="apps.services.soap.core.views"]', IS_NLBL);
   { Application.query_pending }
@@ -649,8 +629,6 @@ initialization
   InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'query_pending', 'password', '',
                                 '', IS_NLBL);
   InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'query_pending', 'uuid', '',
-                                '', IS_NLBL);
-  InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'query_pending', 'secret_key', '',
                                 '', IS_NLBL);
   InvRegistry.RegisterParamInfo(TypeInfo(IWSFinkokStamp), 'query_pending', 'query_pendingResult', '',
                                 '[Namespace="apps.services.soap.core.views"]', IS_NLBL);

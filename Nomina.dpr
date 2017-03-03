@@ -24,7 +24,9 @@ uses
   XMLtoPDFDmod in 'XMLToPDF\XMLtoPDFDmod.pas' {dmodXMLtoPDF: TDataModule},
   WSFinkokStampDemo in 'WSFinkokStampDemo.pas',
   SMRTVDM in 'SMRTVDM.pas' {dmSMRTV: TDataModule},
-  WSFinkokCancelDemo in 'WSFinkokCancelDemo.pas';
+  WSFinkokCancelDemo in 'WSFinkokCancelDemo.pas',
+  WSFinkokStamp in 'WSFinkokStamp.pas',
+  WSFinkokCancel in 'WSFinkokCancel.pas';
 
 {$R *.res}
 

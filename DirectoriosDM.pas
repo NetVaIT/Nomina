@@ -77,7 +77,7 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses _Utils, MainFrm, COBAEMDM, IntervaDM, SMRTVDM;
+uses _Utils, MainFrm, COBAEMDM, IntervaDM, SMRTVDM, IVEMDM;
 
 {$R *.dfm}
 
@@ -95,6 +95,7 @@ var
   dmInterva: TdmInterva;
   dmCOBAEM: TdmCOBAEM;
   dmSMRTV: TdmSMRTV;
+  dmIVEM: TdmIVEM;
 begin
   ValidarDirectorios;
   case FModulo of
@@ -157,6 +158,18 @@ begin
         dmSMRTV.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
       finally
         dmSMRTV.Free;
+      end;
+    end;
+    5: begin
+      dmIVEM := TdmIVEM.Create(Self);
+      try
+        dmIVEM.FCertificado.Ruta := '.\Certificados\ive961202li8.cer';
+        dmIVEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_IVE961202LI8_20160413_093734.key';
+        dmIVEM.FCertificado.LlavePrivada.Clave := 'Nimsey76';
+        dmIVEM.FCertificado.RFCAlQuePertenece := 'IVE961202LI8';
+        dmIVEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmIVEM.Free;
       end;
     end;
   end;
@@ -328,6 +341,14 @@ begin
       dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_DA_SMR8407159IA_20160711_125940.cer';
       dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_DA_SMR8407159IA_20160711_125940.key';
       dmCFDI.FCertificado.LlavePrivada.Clave := 'taniabustos2015';
+      dmCFDI.PAC := pacFinkok;
+      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+      dmCFDI.FDPass:= 'BPS@sociados1';
+    end;
+    5: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\ive961202li8.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_IVE961202LI8_20160413_093734.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'Nimsey76';
       dmCFDI.PAC := pacFinkok;
       dmCFDI.FDUser:= 'bps.finkok@gmail.com';
       dmCFDI.FDPass:= 'BPS@sociados1';

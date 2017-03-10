@@ -147,6 +147,11 @@
         <DCCReference Include="WSFinkokCancelDemo.pas"/>
         <DCCReference Include="WSFinkokStamp.pas"/>
         <DCCReference Include="WSFinkokCancel.pas"/>
+        <DCCReference Include="IVEMDM.pas">
+            <Form>dmIVEM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

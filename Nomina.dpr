@@ -26,7 +26,8 @@ uses
   SMRTVDM in 'SMRTVDM.pas' {dmSMRTV: TDataModule},
   WSFinkokCancelDemo in 'WSFinkokCancelDemo.pas',
   WSFinkokStamp in 'WSFinkokStamp.pas',
-  WSFinkokCancel in 'WSFinkokCancel.pas';
+  WSFinkokCancel in 'WSFinkokCancel.pas',
+  IVEMDM in 'IVEMDM.pas' {dmIVEM: TDataModule};
 
 {$R *.res}
 

@@ -27,7 +27,8 @@ uses
   WSFinkokCancelDemo in 'WSFinkokCancelDemo.pas',
   WSFinkokStamp in 'WSFinkokStamp.pas',
   WSFinkokCancel in 'WSFinkokCancel.pas',
-  IVEMDM in 'IVEMDM.pas' {dmIVEM: TDataModule};
+  IVEMDM in 'IVEMDM.pas' {dmIVEM: TDataModule},
+  COMPESCADM in 'COMPESCADM.pas' {dmCOMPESCA: TDataModule};
 
 {$R *.res}
 

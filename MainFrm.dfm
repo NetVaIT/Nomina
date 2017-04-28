@@ -46,10 +46,10 @@ object frmMain: TfrmMain
   object ADOConnection: TADOConnection
     ConnectionString = 
       'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True' +
-      ';User ID=sa;Initial Catalog=IntervaIVEM;Data Source=NAS4\NOMINAS' +
-      'V12;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=' +
-      '4096;Workstation ID=DESARROLLO3;Use Encryption for Data=False;Ta' +
-      'g with column collation when possible=False'
+      ';User ID=sa;Initial Catalog=IntervaSMRTV;Data Source=NAS4\NOMINA' +
+      'SV12;Use Procedure for Prepare=1;Auto Translate=True;Packet Size' +
+      '=4096;Workstation ID=DESARROLLO3;Use Encryption for Data=False;T' +
+      'ag with column collation when possible=False'
     LoginPrompt = False
     Provider = 'SQLOLEDB.1'
     Left = 31
@@ -89,6 +89,11 @@ object frmMain: TfrmMain
       object IVEM1: TMenuItem
         Tag = 5
         Caption = 'IVEM'
+        OnClick = COBAEM1Click
+      end
+      object COMPESCA1: TMenuItem
+        Tag = 6
+        Caption = 'COMPESCA'
         OnClick = COBAEM1Click
       end
     end

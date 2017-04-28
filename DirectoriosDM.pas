@@ -77,7 +77,7 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses _Utils, MainFrm, COBAEMDM, IntervaDM, SMRTVDM, IVEMDM;
+uses _Utils, MainFrm, COBAEMDM, IntervaDM, SMRTVDM, IVEMDM, COMPESCADM;
 
 {$R *.dfm}
 
@@ -96,6 +96,7 @@ var
   dmCOBAEM: TdmCOBAEM;
   dmSMRTV: TdmSMRTV;
   dmIVEM: TdmIVEM;
+  dmCOMPESCA: TdmCOMPESCA;
 begin
   ValidarDirectorios;
   case FModulo of
@@ -172,6 +173,19 @@ begin
         dmIVEM.Free;
       end;
     end;
+    6: begin
+      dmCOMPESCA := TdmCOMPESCA.Create(Self);
+      try
+        dmCOMPESCA.FCertificado.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.cer';
+        dmCOMPESCA.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.key';
+        dmCOMPESCA.FCertificado.LlavePrivada.Clave := 'Pesca6819';
+        dmCOMPESCA.FCertificado.RFCAlQuePertenece := 'CPE980406816';
+        dmCOMPESCA.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmCOMPESCA.Free;
+      end;
+    end;
+
   end;
   DirectoriosActualizar;
 end;
@@ -353,6 +367,15 @@ begin
       dmCFDI.FDUser:= 'bps.finkok@gmail.com';
       dmCFDI.FDPass:= 'BPS@sociados1';
     end;
+    6: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'Pesca6819';
+      dmCFDI.PAC := pacFinkok;
+      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+      dmCFDI.FDPass:= 'BPS@sociados1';
+    end;
+
   end;
 end;
 

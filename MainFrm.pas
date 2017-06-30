@@ -97,7 +97,7 @@ begin
 //Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=ICATMI;Data Source=NAS4\NOMINASV12;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Workstation ID=DESARROLLO3;Use Encryption for Data=False;Tag with column collation when possible=False
   ADOConnection.Close;
   case pModulo of
-    1: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaPDS;Data Source=NAS4\NOMINASV12;' +
+    1: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaSMRTV;Data Source=NAS4\NOMINASV12;' +
     'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
     2: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaPDS;Data Source=NAS4\NOMINASV12;' +
     'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';

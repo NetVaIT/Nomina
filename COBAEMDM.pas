@@ -178,13 +178,11 @@ type
     adoqryNominaComplementoNominaFechaPago: TDateTimeField;
     adoqryNominaComplementoNominaFechaInicialPago: TDateTimeField;
     adoqryNominaComplementoNominaFechaFinalPago: TDateTimeField;
-    adoqryNominaComplementoNominaNumDiasPagados: TIntegerField;
     adoqryNominaComplementoNominaTotalPercepciones: TFloatField;
     adoqryNominaComplementoNominaTotalDeducciones: TFloatField;
     adoqryNominanomEmisorCURP: TStringField;
     adoqryNominanomEmisorRegistroPatronal: TWideStringField;
     adoqryNominanomReceptorCURP: TWideStringField;
-    adoqryNominanomReceptorNumSeguridadSocial: TFloatField;
     adoqryNominanomReceptorFechaInicioRelLaboral: TDateTimeField;
     adoqryNominanomReceptorTipoContrato: TWideStringField;
     adoqryNominanomReceptorSindicalizado: TWideStringField;
@@ -306,8 +304,10 @@ type
     adoqryNominanomReceptorAntiguedad: TStringField;
     adoqryNominanomReceptorRiesgoPuesto: TStringField;
     adoqryNominanomReceptorSalarioDiarioIntegrado: TFloatField;
+    adoqryNominaComplementoNominaNumDiasPagados: TFloatField;
+    adoqryNominanomReceptorNumSeguridadSocial: TWideStringField;
+    adoqryNominaSubsidioAlEmpleo: TFloatField;
   private
-    vMontoRecursoPropio: Extended;
     { Private declarations }
   public
     { Public declarations }
@@ -1299,6 +1299,7 @@ var
   vCampoGravado, vCampoExento: Boolean;
   vCountOtrosPagos: Integer;
   vOtrosPagos: string;
+  vMontoRecursoPropio: Extended;
 
   function Remplazar(s: string): string;
   begin
@@ -1306,6 +1307,9 @@ var
     s := StringReplace(s,'.', '', [rfReplaceAll]);
     s := StringReplace(s,'(', '', [rfReplaceAll]);
     s := StringReplace(s,')', '', [rfReplaceAll]);
+    s := StringReplace(s,'/', ' ', [rfReplaceAll]);
+    s := StringReplace(s,'¥', 'Ñ', [rfReplaceAll]);
+    s := StringReplace(s,'š', 'Ü', [rfReplaceAll]);
     Result := s;
   end;
 
@@ -1627,7 +1631,7 @@ begin
           vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
           Ini.WriteString(vPercepciones, 'TipoPercepcion', '038');
           Ini.WriteString(vPercepciones, 'Clave', 'P17');
-          Ini.WriteString(vPercepciones, 'Concepto', 'DIA DEL DOCENTE y/o ADMINISTRATIVO');
+          Ini.WriteString(vPercepciones, 'Concepto', 'DIA DEL DOCENTE y o ADMINISTRATIVO');
           Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
           Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP17.Value));
         end;
@@ -1667,7 +1671,7 @@ begin
           vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
           Ini.WriteString(vPercepciones, 'TipoPercepcion', '038');
           Ini.WriteString(vPercepciones, 'Clave', 'P22');
-          Ini.WriteString(vPercepciones, 'Concepto', 'AYUDA P/LA ADQUISICION DE LIBROS');
+          Ini.WriteString(vPercepciones, 'Concepto', 'AYUDA PARA LA ADQUISICION DE LIBROS');
           Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
           Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP22.Value));
         end;
@@ -1827,7 +1831,7 @@ begin
           vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
           Ini.WriteString(vPercepciones, 'TipoPercepcion', '035');
           Ini.WriteString(vPercepciones, 'Clave', 'P58');
-          Ini.WriteString(vPercepciones, 'Concepto', 'AYUDA P/COMPRA DE LENTES');
+          Ini.WriteString(vPercepciones, 'Concepto', 'AYUDA PARA COMPRA DE LENTES');
           Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
           Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP58.Value));
         end;
@@ -1968,56 +1972,6 @@ begin
       //IngresoAcumulable=3000.00
       //IngresoNoAcumulable=1000.00
 
-        // Ingresos propios
-//          Inc(vCountPercepcion);
-//          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
-//          Ini.WriteString(vPercepciones, 'TipoPercepcion', '040');
-//          Ini.WriteString(vPercepciones, 'Clave', '000');
-//          Ini.WriteString(vPercepciones, 'Concepto', 'INGRESOS PROPIOS');
-//          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
-//          Ini.WriteString(vPercepciones, 'ImporteExento', '0.00');
-//        // Ingresos mixtos
-//        //'042' AS P042Clave, 'Percepciones' AS P042Concepto, N.TOTPER / 2 AS P042ImporteGravado, 0 AS P042ImporteExento,
-//        //'041' AS P041Clave, 'Percepciones' AS P041Concepto, N.TOTPER / 2 * - 1 AS P041ImporteGravado, 0 AS P041ImporteExento,
-//        vP42:= adoqryNominaTOTPER.Value/2;
-//        vP41:= (adoqryNominaTOTPER.Value/2)*-1;
-//          Inc(vCountPercepcion);
-//          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
-//          Ini.WriteString(vPercepciones, 'TipoPercepcion', '042');
-//          Ini.WriteString(vPercepciones, 'Clave', '000');
-//          Ini.WriteString(vPercepciones, 'Concepto', 'INGRESOS MIXTOS');
-//          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,vP42));
-//          Ini.WriteString(vPercepciones, 'ImporteExento', '0.00');
-//          Inc(vCountPercepcion);
-//          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
-//          Ini.WriteString(vPercepciones, 'TipoPercepcion', '041');
-//          Ini.WriteString(vPercepciones, 'Clave', '000');
-//          Ini.WriteString(vPercepciones, 'Concepto', 'INGRESOS FEDERALES');
-//          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,vP41));
-//          Ini.WriteString(vPercepciones, 'ImporteExento', '0.00');
-
-//        //[nomPercepciones41]
-//        if (adoqryNominaP041ImporteGravado.Value <> 0) OR (adoqryNominaP041ImporteExento.Value <> 0) then
-//        begin
-//          Inc(vCountPercepcion);
-//          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
-//          Ini.WriteString(vPercepciones, 'TipoPercepcion', '041');
-//          Ini.WriteString(vPercepciones, 'Clave', adoqryNominaP041Clave.AsString);
-//          Ini.WriteString(vPercepciones, 'Concepto', adoqryNominaP041Concepto.AsString);
-//          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP041ImporteGravado.Value));
-//          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP041ImporteExento.Value));
-//        end;
-//        //[nomPercepciones42]
-//        if (adoqryNominaP042ImporteGravado.Value <> 0) OR (adoqryNominaP042ImporteExento.Value <> 0) then
-//        begin
-//          Inc(vCountPercepcion);
-//          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
-//          Ini.WriteString(vPercepciones, 'TipoPercepcion', '042');
-//          Ini.WriteString(vPercepciones, 'Clave', adoqryNominaP042Clave.AsString);
-//          Ini.WriteString(vPercepciones, 'Concepto', adoqryNominaP042Concepto.AsString);
-//          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP042ImporteGravado.Value));
-//          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP042ImporteExento.Value));
-//        end;
         //[nomDeducciones]
         if (adoqryNominanomDeduccionesTotalOtrasDeducciones.Value <> 0) then
           Ini.WriteString('nomDeducciones', 'TotalOtrasDeducciones', FormatFloat(cCFDI_ImporteMXN,adoqryNominanomDeduccionesTotalOtrasDeducciones.Value));
@@ -2350,6 +2304,7 @@ begin
           Ini.WriteString(vOtrosPagos, 'Clave', 'P42');
           Ini.WriteString(vOtrosPagos, 'Concepto', 'SUBSIDIO PARA EL EMPLEO');
           Ini.WriteString(vOtrosPagos, 'Importe', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP42.Value));
+          Ini.WriteString(vOtrosPagos, 'SubsidioCausado', FormatFloat(cCFDI_ImporteMXN,adoqryNominaSubsidioAlEmpleo.Value));
         end;
 
         //[nomIncapacidades1]

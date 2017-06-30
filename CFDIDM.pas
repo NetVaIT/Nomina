@@ -241,7 +241,7 @@ var
           for J := 0 to nodeP.ChildNodes.Count - 1 do
           begin
             nodeD := nodeP.ChildNodes[J];
-            if nodeD.NodeName = 'nomina:Nomina' then
+            if nodeD.NodeName = 'nomina12:Nomina' then
             begin
               if nodeD.HasAttribute('FechaPago') then
               begin

@@ -1,7 +1,7 @@
 object dmSMRTV: TdmSMRTV
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 264
+  Height = 362
   Width = 275
   object adoqryNomina: TADOQuery
     Connection = frmMain.ADOConnection
@@ -369,8 +369,8 @@ object dmSMRTV: TdmSMRTV
       0014000900436F6E636570746F0002000000050007004578656E746F00020000
       00050008004772617661646F00FF0000001400040053415400}
     SortOptions = []
-    Left = 48
-    Top = 152
+    Left = 56
+    Top = 232
     object dxmdPercepcionesTipoClave: TWideStringField
       FieldName = 'Clave'
       Size = 255
@@ -397,8 +397,8 @@ object dmSMRTV: TdmSMRTV
     SQL.Strings = (
       'SELECT Clave, Concepto, Exento, Gravado, SAT'
       'FROM PercepcionesTipo')
-    Left = 48
-    Top = 96
+    Left = 56
+    Top = 176
   end
   object dxmdDeduccionesTipo: TdxMemData
     Indexes = <>
@@ -407,8 +407,8 @@ object dmSMRTV: TdmSMRTV
       0014000900436F6E636570746F0002000000050007004578656E746F00020000
       00050008004772617661646F00FF0000001400040053415400}
     SortOptions = []
-    Left = 184
-    Top = 152
+    Left = 192
+    Top = 232
     object dxmdDeduccionesTipoClave: TWideStringField
       FieldName = 'Clave'
       Size = 255
@@ -435,7 +435,413 @@ object dmSMRTV: TdmSMRTV
     SQL.Strings = (
       'SELECT Clave, Concepto, Exento, Gravado, SAT'
       'FROM DeduccionesTipo')
-    Left = 184
-    Top = 96
+    Left = 192
+    Top = 176
+  end
+  object adoqryNomina12: TADOQuery
+    Connection = frmMain.ADOConnection
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'SELECT  *'
+      'FROM            v_SMRTV'
+      'WHERE ComplementoNominaFechaPago is not null'
+      'ORDER BY ID')
+    Left = 40
+    Top = 104
+    object adoqryNomina12ID: TFloatField
+      FieldName = 'ID'
+    end
+    object adoqryNomina12FormaDePago: TStringField
+      FieldName = 'FormaDePago'
+      ReadOnly = True
+      Size = 22
+    end
+    object adoqryNomina12SubTotal: TFloatField
+      FieldName = 'SubTotal'
+    end
+    object adoqryNomina12Descuento: TFloatField
+      FieldName = 'Descuento'
+    end
+    object adoqryNomina12TipoCambio: TIntegerField
+      FieldName = 'TipoCambio'
+      ReadOnly = True
+    end
+    object adoqryNomina12Moneda: TStringField
+      FieldName = 'Moneda'
+      ReadOnly = True
+      Size = 3
+    end
+    object adoqryNomina12Total: TFloatField
+      FieldName = 'Total'
+    end
+    object adoqryNomina12MetodoDePago: TStringField
+      FieldName = 'MetodoDePago'
+      ReadOnly = True
+      Size = 2
+    end
+    object adoqryNomina12TipoDeComprobante: TStringField
+      FieldName = 'TipoDeComprobante'
+      ReadOnly = True
+      Size = 6
+    end
+    object adoqryNomina12LugarExpedicion: TStringField
+      FieldName = 'LugarExpedicion'
+      ReadOnly = True
+      Size = 5
+    end
+    object adoqryNomina12EmisorRFC: TStringField
+      FieldName = 'EmisorRFC'
+      ReadOnly = True
+      Size = 12
+    end
+    object adoqryNomina12EmisorNombre: TStringField
+      FieldName = 'EmisorNombre'
+      ReadOnly = True
+      Size = 40
+    end
+    object adoqryNomina12EmisorRegimen: TStringField
+      FieldName = 'EmisorRegimen'
+      ReadOnly = True
+      Size = 3
+    end
+    object adoqryNomina12ReceptorRFC: TWideStringField
+      FieldName = 'ReceptorRFC'
+      Size = 255
+    end
+    object adoqryNomina12ReceptorNombre: TWideStringField
+      FieldName = 'ReceptorNombre'
+      Size = 255
+    end
+    object adoqryNomina12ConceptoValorUnitario: TFloatField
+      FieldName = 'ConceptoValorUnitario'
+    end
+    object adoqryNomina12ConceptoImporte: TFloatField
+      FieldName = 'ConceptoImporte'
+    end
+    object adoqryNomina12ComplementoNominaTipoNomina: TWideStringField
+      FieldName = 'ComplementoNominaTipoNomina'
+      Size = 255
+    end
+    object adoqryNomina12ComplementoNominaFechaPago: TDateTimeField
+      FieldName = 'ComplementoNominaFechaPago'
+    end
+    object adoqryNomina12ComplementoNominaFechaInicialPago: TDateTimeField
+      FieldName = 'ComplementoNominaFechaInicialPago'
+    end
+    object adoqryNomina12ComplementoNominaFechaFinalPago: TDateTimeField
+      FieldName = 'ComplementoNominaFechaFinalPago'
+    end
+    object adoqryNomina12ComplementoNominaNumDiasPagados: TFloatField
+      FieldName = 'ComplementoNominaNumDiasPagados'
+    end
+    object adoqryNomina12SubsidioAlEmpleo: TIntegerField
+      FieldName = 'SubsidioAlEmpleo'
+      ReadOnly = True
+    end
+    object adoqryNomina12ComplementoNominaTotalPercepciones: TFloatField
+      FieldName = 'ComplementoNominaTotalPercepciones'
+      ReadOnly = True
+    end
+    object adoqryNomina12ComplementoNominaTotalDeducciones: TFloatField
+      FieldName = 'ComplementoNominaTotalDeducciones'
+      ReadOnly = True
+    end
+    object adoqryNomina12ComplementoNominaTotalOtrosPagos: TIntegerField
+      FieldName = 'ComplementoNominaTotalOtrosPagos'
+      ReadOnly = True
+    end
+    object adoqryNomina12nomEmisorCURP: TStringField
+      FieldName = 'nomEmisorCURP'
+      ReadOnly = True
+      Size = 1
+    end
+    object adoqryNomina12nomEmisorRegistroPatronal: TStringField
+      FieldName = 'nomEmisorRegistroPatronal'
+      ReadOnly = True
+      Size = 10
+    end
+    object adoqryNomina12nomReceptorCURP: TWideStringField
+      FieldName = 'nomReceptorCURP'
+      Size = 255
+    end
+    object adoqryNomina12nomReceptorNumSeguridadSocial: TWideStringField
+      FieldName = 'nomReceptorNumSeguridadSocial'
+      Size = 255
+    end
+    object adoqryNomina12nomReceptorFechaInicioRelLaboral: TDateTimeField
+      FieldName = 'nomReceptorFechaInicioRelLaboral'
+    end
+    object adoqryNomina12nomReceptorAntiguedad: TStringField
+      FieldName = 'nomReceptorAntiguedad'
+      ReadOnly = True
+      Size = 7
+    end
+    object adoqryNomina12nomReceptorTipoContrato: TWideStringField
+      FieldName = 'nomReceptorTipoContrato'
+      Size = 255
+    end
+    object adoqryNomina12nomReceptorSindicalizado: TWideStringField
+      FieldName = 'nomReceptorSindicalizado'
+      Size = 255
+    end
+    object adoqryNomina12nomReceptorTipoJornada: TWideStringField
+      FieldName = 'nomReceptorTipoJornada'
+      Size = 255
+    end
+    object adoqryNomina12nomReceptorTipoRegimen: TWideStringField
+      FieldName = 'nomReceptorTipoRegimen'
+      Size = 255
+    end
+    object adoqryNomina12nomReceptorNumEmpleado: TWideStringField
+      FieldName = 'nomReceptorNumEmpleado'
+      Size = 255
+    end
+    object adoqryNomina12nomReceptorDepartamento: TWideStringField
+      FieldName = 'nomReceptorDepartamento'
+      Size = 255
+    end
+    object adoqryNomina12nomReceptorPuesto: TWideStringField
+      FieldName = 'nomReceptorPuesto'
+      Size = 255
+    end
+    object adoqryNomina12nomReceptorRiesgoPuesto: TStringField
+      FieldName = 'nomReceptorRiesgoPuesto'
+      ReadOnly = True
+      Size = 1
+    end
+    object adoqryNomina12nomReceptorPeriodicidadPago: TWideStringField
+      FieldName = 'nomReceptorPeriodicidadPago'
+      Size = 255
+    end
+    object adoqryNomina12nomReceptorSalarioBaseCotApor: TFloatField
+      FieldName = 'nomReceptorSalarioBaseCotApor'
+    end
+    object adoqryNomina12nomReceptorSalarioDiarioIntegrado: TFloatField
+      FieldName = 'nomReceptorSalarioDiarioIntegrado'
+    end
+    object adoqryNomina12nomReceptorClaveEntFed: TWideStringField
+      FieldName = 'nomReceptorClaveEntFed'
+      Size = 255
+    end
+    object adoqryNomina12nomPercepcionesTotalSueldos: TFloatField
+      FieldName = 'nomPercepcionesTotalSueldos'
+      ReadOnly = True
+    end
+    object adoqryNomina12nomPercepcionesTotalGravado: TFloatField
+      FieldName = 'nomPercepcionesTotalGravado'
+      ReadOnly = True
+    end
+    object adoqryNomina12nomPercepcionesTotalExento: TFloatField
+      FieldName = 'nomPercepcionesTotalExento'
+      ReadOnly = True
+    end
+    object adoqryNomina12nomDeduccionesTotalOtrasDeducciones: TFloatField
+      FieldName = 'nomDeduccionesTotalOtrasDeducciones'
+      ReadOnly = True
+    end
+    object adoqryNomina12nomDeduccionesTotalImpuestosRetenidos: TFloatField
+      FieldName = 'nomDeduccionesTotalImpuestosRetenidos'
+    end
+    object adoqryNomina12C101: TFloatField
+      FieldName = 'C101'
+    end
+    object adoqryNomina12C102: TFloatField
+      FieldName = 'C102'
+    end
+    object adoqryNomina12C106: TFloatField
+      FieldName = 'C106'
+    end
+    object adoqryNomina12C114: TFloatField
+      FieldName = 'C114'
+    end
+    object adoqryNomina12C115: TFloatField
+      FieldName = 'C115'
+    end
+    object adoqryNomina12C116: TFloatField
+      FieldName = 'C116'
+    end
+    object adoqryNomina12C119: TFloatField
+      FieldName = 'C119'
+    end
+    object adoqryNomina12C122: TFloatField
+      FieldName = 'C122'
+    end
+    object adoqryNomina12C127: TFloatField
+      FieldName = 'C127'
+    end
+    object adoqryNomina12C128: TFloatField
+      FieldName = 'C128'
+    end
+    object adoqryNomina12C1AD: TFloatField
+      FieldName = 'C1AD'
+    end
+    object adoqryNomina12C1AJ: TFloatField
+      FieldName = 'C1AJ'
+    end
+    object adoqryNomina12C1AF: TFloatField
+      FieldName = 'C1AF'
+    end
+    object adoqryNomina12C1EF: TFloatField
+      FieldName = 'C1EF'
+    end
+    object adoqryNomina12C1PE: TFloatField
+      FieldName = 'C1PE'
+    end
+    object adoqryNomina12C1CH: TFloatField
+      FieldName = 'C1CH'
+    end
+    object adoqryNomina12C1DF: TFloatField
+      FieldName = 'C1DF'
+    end
+    object adoqryNomina12C1VP: TFloatField
+      FieldName = 'C1VP'
+    end
+    object adoqryNomina12C1CU: TFloatField
+      FieldName = 'C1CU'
+    end
+    object adoqryNomina12C1CP: TFloatField
+      FieldName = 'C1CP'
+    end
+    object adoqryNomina12C1PL: TFloatField
+      FieldName = 'C1PL'
+    end
+    object adoqryNomina12C1LC: TFloatField
+      FieldName = 'C1LC'
+    end
+    object adoqryNomina12C1SC: TFloatField
+      FieldName = 'C1SC'
+    end
+    object adoqryNomina12C251: TFloatField
+      FieldName = 'C251'
+    end
+    object adoqryNomina12C252: TFloatField
+      FieldName = 'C252'
+    end
+    object adoqryNomina12C253: TFloatField
+      FieldName = 'C253'
+    end
+    object adoqryNomina12C256: TFloatField
+      FieldName = 'C256'
+    end
+    object adoqryNomina12C258: TFloatField
+      FieldName = 'C258'
+    end
+    object adoqryNomina12C259: TFloatField
+      FieldName = 'C259'
+    end
+    object adoqryNomina12C262: TFloatField
+      FieldName = 'C262'
+    end
+    object adoqryNomina12C263: TFloatField
+      FieldName = 'C263'
+    end
+    object adoqryNomina12C264: TFloatField
+      FieldName = 'C264'
+    end
+    object adoqryNomina12C265: TFloatField
+      FieldName = 'C265'
+    end
+    object adoqryNomina12C268: TFloatField
+      FieldName = 'C268'
+    end
+    object adoqryNomina12C271: TFloatField
+      FieldName = 'C271'
+    end
+    object adoqryNomina12C272: TFloatField
+      FieldName = 'C272'
+    end
+    object adoqryNomina12C273: TFloatField
+      FieldName = 'C273'
+    end
+    object adoqryNomina12C274: TFloatField
+      FieldName = 'C274'
+    end
+    object adoqryNomina12C275: TFloatField
+      FieldName = 'C275'
+    end
+    object adoqryNomina12C280: TFloatField
+      FieldName = 'C280'
+    end
+    object adoqryNomina12C290: TFloatField
+      FieldName = 'C290'
+    end
+    object adoqryNomina12C291: TFloatField
+      FieldName = 'C291'
+    end
+    object adoqryNomina12C2S1: TFloatField
+      FieldName = 'C2S1'
+    end
+    object adoqryNomina12C2S2: TFloatField
+      FieldName = 'C2S2'
+    end
+    object adoqryNomina12C2S3: TFloatField
+      FieldName = 'C2S3'
+    end
+    object adoqryNomina12C2S4: TFloatField
+      FieldName = 'C2S4'
+    end
+    object adoqryNomina12C2U1: TFloatField
+      FieldName = 'C2U1'
+    end
+    object adoqryNomina12C2U2: TFloatField
+      FieldName = 'C2U2'
+    end
+    object adoqryNomina12C2U3: TFloatField
+      FieldName = 'C2U3'
+    end
+    object adoqryNomina12C2U8: TFloatField
+      FieldName = 'C2U8'
+    end
+    object adoqryNomina12C2V1: TFloatField
+      FieldName = 'C2V1'
+    end
+    object adoqryNomina12C2V7: TFloatField
+      FieldName = 'C2V7'
+    end
+    object adoqryNomina12C2W2: TFloatField
+      FieldName = 'C2W2'
+    end
+    object adoqryNomina12C2W4: TFloatField
+      FieldName = 'C2W4'
+    end
+    object adoqryNomina12C2Y2: TFloatField
+      FieldName = 'C2Y2'
+    end
+    object adoqryNomina12C2Y4: TFloatField
+      FieldName = 'C2Y4'
+    end
+    object adoqryNomina12C2Y5: TFloatField
+      FieldName = 'C2Y5'
+    end
+    object adoqryNomina12C2Y6: TFloatField
+      FieldName = 'C2Y6'
+    end
+    object adoqryNomina12C2Y8: TFloatField
+      FieldName = 'C2Y8'
+    end
+    object adoqryNomina12C2Z5: TFloatField
+      FieldName = 'C2Z5'
+    end
+    object adoqryNomina12C2Z8: TFloatField
+      FieldName = 'C2Z8'
+    end
+    object adoqryNomina12TOTPER: TFloatField
+      FieldName = 'TOTPER'
+    end
+    object adoqryNomina12TOTDED: TFloatField
+      FieldName = 'TOTDED'
+    end
+    object adoqryNomina12TOTLIQ: TFloatField
+      FieldName = 'TOTLIQ'
+    end
+    object adoqryNomina12PeriodoMes: TIntegerField
+      FieldName = 'PeriodoMes'
+      ReadOnly = True
+    end
+    object adoqryNomina12PeriodoAnio: TIntegerField
+      FieldName = 'PeriodoAnio'
+      ReadOnly = True
+    end
   end
 end

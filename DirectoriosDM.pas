@@ -100,33 +100,30 @@ var
 begin
   ValidarDirectorios;
   case FModulo of
-    1: begin
-      dmCOBAEM := TdmCOBAEM.Create(Self);
-      try
-//        dmCOBAEM.FCertificado.Ruta := '.\Certificados\CSD01_AAA010101AAA.cer';
-//        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD01_AAA010101AAA.key';
-//        dmCOBAEM.FCertificado.LlavePrivada.Clave := '12345678a';
-//        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'AAA010101AAA';
-        dmCOBAEM.FCertificado.Ruta := '.\Certificados\cbe830914qz0.cer';
-        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_CBE830914QZ0_20140226_145218.key';
-        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'DELEGA12';
-        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
-      finally
-        dmCOBAEM.Free;
-      end;
-    end;
 //    1: begin
-//      dmSMRTV := TdmSMRTV.Create(Self);
+//      dmCOBAEM := TdmCOBAEM.Create(Self);
 //      try
-//        dmSMRTV.FCertificado.Ruta := '.\Certificados\CSD010_AAA010101AAA.cer';
-//        dmSMRTV.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD010_AAA010101AAA.key';
-//        dmSMRTV.FCertificado.LlavePrivada.Clave := '12345678a';
-//        dmSMRTV.FCertificado.RFCAlQuePertenece := 'AAA010101AAA';
-//        dmSMRTV.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+//        dmCOBAEM.FCertificado.Ruta := '.\Certificados\cbe830914qz0.cer';
+//        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_CBE830914QZ0_20140226_145218.key';
+//        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'DELEGA12';
+//        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'ACO560518KW7';
+//        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
 //      finally
-//        dmSMRTV.Free;
+//        dmCOBAEM.Free;
 //      end;
 //    end;
+    1: begin
+      dmSMRTV := TdmSMRTV.Create(Self);
+      try
+        dmSMRTV.FCertificado.Ruta := '.\Certificados\CSD010_AAA010101AAA.cer';
+        dmSMRTV.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD010_AAA010101AAA.key';
+        dmSMRTV.FCertificado.LlavePrivada.Clave := '12345678a';
+        dmSMRTV.FCertificado.RFCAlQuePertenece := 'AAA010101AAA';
+        dmSMRTV.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmSMRTV.Free;
+      end;
+    end;
     2: begin
       dmCOBAEM := TdmCOBAEM.Create(Self);
       try
@@ -317,23 +314,20 @@ begin
   dmCFDI.Bitacora := frmDirectorios.mBitacora;
   case FModulo of
     1: begin
-//      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD01_AAA010101AAA.cer';
-//      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD01_AAA010101AAA.key';
-//      dmCFDI.FCertificado.LlavePrivada.Clave := '12345678a';
-      dmCFDI.FCertificado.Ruta := '.\Certificados\cbe830914qz0.cer';
-      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_CBE830914QZ0_20140226_145218.key';
-      dmCFDI.FCertificado.LlavePrivada.Clave := 'DELEGA12';
-      dmCFDI.PAC := pacFoliosDigitales;
-      dmCFDI.FDUser:= 'DEMO830914QZ0';
-      dmCFDI.FDPass:= 'aN%zoEPXw@';
+//      dmCFDI.FCertificado.Ruta := '.\Certificados\cbe830914qz0.cer';
+//      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_CBE830914QZ0_20140226_145218.key';
+//      dmCFDI.FCertificado.LlavePrivada.Clave := 'DELEGA12';
+//      dmCFDI.PAC := pacFoliosDigitales;
+//      dmCFDI.FDUser:= 'DEMO830914QZ0';
+//      dmCFDI.FDPass:= 'aN%zoEPXw@';
 
-//      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD010_AAA010101AAA.cer';
-//      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD010_AAA010101AAA.key';
-//      dmCFDI.FCertificado.LlavePrivada.Clave := '12345678a';
-//      dmCFDI.FCertificado.RFCAlQuePertenece := 'AAA010101AAA';
-//      dmCFDI.PAC := pacFinkok;
-//      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
-//      dmCFDI.FDPass:= 'BPS@sociados1';
+      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD010_AAA010101AAA.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD010_AAA010101AAA.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := '12345678a';
+      dmCFDI.FCertificado.RFCAlQuePertenece := 'AAA010101AAA';
+      dmCFDI.PAC := pacFinkok;
+      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+      dmCFDI.FDPass:= 'BPS@sociados1';
     end;
     2: begin
       dmCFDI.FCertificado.Ruta := '.\Certificados\cbe830914qz0.cer';

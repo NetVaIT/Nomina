@@ -537,7 +537,7 @@ object dmCOBAEM: TdmCOBAEM
         Value = Null
       end>
     SQL.Strings = (
-      'select count(*) AS CUENTA from v_COBAEM201609'
+      'select count(*) AS CUENTA from v_COBAEM201512'
       'WHERE (PeriodoAnio = :Anio1 OR :Anio2 = 0)'
       'AND (PeriodoMes = :Mes1 OR :Mes2 = 0)')
     Left = 136
@@ -586,7 +586,7 @@ object dmCOBAEM: TdmCOBAEM
       end>
     SQL.Strings = (
       'SELECT  *'
-      'FROM            v_COBAEM201609'
+      'FROM            v_COBAEM201512'
       'WHERE ComplementoNominaFechaPago is not null'
       'AND (PeriodoAnio = :Anio1 OR :Anio2 = 0)'
       'AND (PeriodoMes = :Mes1 OR :Mes2 = 0)'
@@ -678,10 +678,6 @@ object dmCOBAEM: TdmCOBAEM
     object adoqryNominaComplementoNominaFechaFinalPago: TDateTimeField
       FieldName = 'ComplementoNominaFechaFinalPago'
     end
-    object adoqryNominaComplementoNominaNumDiasPagados: TIntegerField
-      FieldName = 'ComplementoNominaNumDiasPagados'
-      ReadOnly = True
-    end
     object adoqryNominaComplementoNominaTotalPercepciones: TFloatField
       FieldName = 'ComplementoNominaTotalPercepciones'
       ReadOnly = True
@@ -705,9 +701,6 @@ object dmCOBAEM: TdmCOBAEM
     object adoqryNominanomReceptorCURP: TWideStringField
       FieldName = 'nomReceptorCURP'
       Size = 255
-    end
-    object adoqryNominanomReceptorNumSeguridadSocial: TFloatField
-      FieldName = 'nomReceptorNumSeguridadSocial'
     end
     object adoqryNominanomReceptorFechaInicioRelLaboral: TDateTimeField
       FieldName = 'nomReceptorFechaInicioRelLaboral'
@@ -1090,6 +1083,16 @@ object dmCOBAEM: TdmCOBAEM
     object adoqryNominaPeriodoAnio: TIntegerField
       FieldName = 'PeriodoAnio'
       ReadOnly = True
+    end
+    object adoqryNominaComplementoNominaNumDiasPagados: TFloatField
+      FieldName = 'ComplementoNominaNumDiasPagados'
+    end
+    object adoqryNominanomReceptorNumSeguridadSocial: TWideStringField
+      FieldName = 'nomReceptorNumSeguridadSocial'
+      Size = 255
+    end
+    object adoqryNominaSubsidioAlEmpleo: TFloatField
+      FieldName = 'SubsidioAlEmpleo'
     end
   end
 end

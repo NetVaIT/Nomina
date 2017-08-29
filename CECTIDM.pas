@@ -1,4 +1,4 @@
-unit SMRTVDM;
+unit CECTIDM;
 
 interface
 
@@ -15,7 +15,7 @@ const
   cCFDI_ImporteMXN = '0.00';
 
 type
-  TdmSMRTV = class(TDataModule)
+  TdmCECTI = class(TDataModule)
     adoqryNomina: TADOQuery;
     adoqryNominaCount: TADOQuery;
     adoqryNominaCountCUENTA: TIntegerField;
@@ -163,7 +163,7 @@ type
     adoqryNomina12nomEmisorCURP: TStringField;
     adoqryNomina12nomEmisorRegistroPatronal: TStringField;
     adoqryNomina12nomReceptorCURP: TWideStringField;
-    adoqryNomina12nomReceptorNumSeguridadSocial: TWideStringField;
+    adoqryNomina12nomReceptorNumSeguridadSocial: TStringField;
     adoqryNomina12nomReceptorFechaInicioRelLaboral: TDateTimeField;
     adoqryNomina12nomReceptorAntiguedad: TStringField;
     adoqryNomina12nomReceptorTipoContrato: TWideStringField;
@@ -178,72 +178,29 @@ type
     adoqryNomina12nomReceptorSalarioBaseCotApor: TFloatField;
     adoqryNomina12nomReceptorSalarioDiarioIntegrado: TFloatField;
     adoqryNomina12nomReceptorClaveEntFed: TWideStringField;
-    adoqryNomina12nomPercepcionesTotalSueldos: TFloatField;
-    adoqryNomina12nomPercepcionesTotalGravado: TFloatField;
-    adoqryNomina12nomPercepcionesTotalExento: TFloatField;
+    adoqryNomina12nomPercepcionesTotalSueldos: TBCDField;
+    adoqryNomina12nomPercepcionesTotalGravado: TBCDField;
+    adoqryNomina12nomPercepcionesTotalExento: TBCDField;
     adoqryNomina12nomDeduccionesTotalOtrasDeducciones: TFloatField;
     adoqryNomina12nomDeduccionesTotalImpuestosRetenidos: TFloatField;
     adoqryNomina12C101: TFloatField;
     adoqryNomina12C102: TFloatField;
-    adoqryNomina12C106: TFloatField;
-    adoqryNomina12C114: TFloatField;
-    adoqryNomina12C115: TFloatField;
-    adoqryNomina12C116: TFloatField;
-    adoqryNomina12C119: TFloatField;
     adoqryNomina12C122: TFloatField;
-    adoqryNomina12C127: TFloatField;
-    adoqryNomina12C128: TFloatField;
-    adoqryNomina12C1AD: TFloatField;
-    adoqryNomina12C1AJ: TFloatField;
-    adoqryNomina12C1AF: TFloatField;
-    adoqryNomina12C1EF: TFloatField;
-    adoqryNomina12C1PE: TFloatField;
-    adoqryNomina12C1CH: TFloatField;
-    adoqryNomina12C1DF: TFloatField;
-    adoqryNomina12C1VP: TFloatField;
-    adoqryNomina12C1CU: TFloatField;
-    adoqryNomina12C1CP: TFloatField;
-    adoqryNomina12C1PL: TFloatField;
-    adoqryNomina12C1LC: TFloatField;
-    adoqryNomina12C1SC: TFloatField;
+    adoqryNomina12C103: TFloatField;
+    adoqryNomina12C104: TFloatField;
+    adoqryNomina12C105: TFloatField;
+    adoqryNomina12C106: TFloatField;
+    adoqryNomina12C107: TFloatField;
+    adoqryNomina12C108: TFloatField;
+    adoqryNomina12C115: TFloatField;
+    adoqryNomina12C109: TFloatField;
+    adoqryNomina12C110: TFloatField;
     adoqryNomina12C251: TFloatField;
-    adoqryNomina12C252: TFloatField;
-    adoqryNomina12C253: TFloatField;
-    adoqryNomina12C256: TFloatField;
-    adoqryNomina12C258: TFloatField;
-    adoqryNomina12C259: TFloatField;
-    adoqryNomina12C262: TFloatField;
-    adoqryNomina12C263: TFloatField;
-    adoqryNomina12C264: TFloatField;
-    adoqryNomina12C265: TFloatField;
-    adoqryNomina12C268: TFloatField;
-    adoqryNomina12C271: TFloatField;
-    adoqryNomina12C272: TFloatField;
-    adoqryNomina12C273: TFloatField;
     adoqryNomina12C274: TFloatField;
-    adoqryNomina12C275: TFloatField;
+    adoqryNomina12C277: TFloatField;
+    adoqryNomina12C276: TFloatField;
+    adoqryNomina12C252: TFloatField;
     adoqryNomina12C280: TFloatField;
-    adoqryNomina12C290: TFloatField;
-    adoqryNomina12C291: TFloatField;
-    adoqryNomina12C2S1: TFloatField;
-    adoqryNomina12C2S2: TFloatField;
-    adoqryNomina12C2S3: TFloatField;
-    adoqryNomina12C2S4: TFloatField;
-    adoqryNomina12C2U1: TFloatField;
-    adoqryNomina12C2U2: TFloatField;
-    adoqryNomina12C2U3: TFloatField;
-    adoqryNomina12C2U8: TFloatField;
-    adoqryNomina12C2V1: TFloatField;
-    adoqryNomina12C2V7: TFloatField;
-    adoqryNomina12C2W2: TFloatField;
-    adoqryNomina12C2W4: TFloatField;
-    adoqryNomina12C2Y2: TFloatField;
-    adoqryNomina12C2Y4: TFloatField;
-    adoqryNomina12C2Y5: TFloatField;
-    adoqryNomina12C2Y6: TFloatField;
-    adoqryNomina12C2Y8: TFloatField;
-    adoqryNomina12C2Z5: TFloatField;
-    adoqryNomina12C2Z8: TFloatField;
     adoqryNomina12TOTPER: TFloatField;
     adoqryNomina12TOTDED: TFloatField;
     adoqryNomina12TOTLIQ: TFloatField;
@@ -272,7 +229,7 @@ uses _Utils;
 
 { TdmRTV }
 
-procedure TdmSMRTV.CargarTipos;
+procedure TdmCECTI.CargarTipos;
 begin
   // Catalogo Percepciones
   adoqPercepcionesTipo.Close;
@@ -292,7 +249,7 @@ begin
   end;
 end;
 
-procedure TdmSMRTV.CrearINI(pAnio, pMes: Integer; pFiltrar: Boolean; pCDirINI,
+procedure TdmCECTI.CrearINI(pAnio, pMes: Integer; pFiltrar: Boolean; pCDirINI,
   pCDirXML: string);
 var
   Ini: TIniFile;
@@ -476,7 +433,7 @@ begin
         //[nomPercepciones1]
         vCountPercepcion := 0;
         vCampoIni := 49;
-        vCampoFin := 71;
+        vCampoFin := 58;
         for vCampoI := vCampoIni to vCampoFin do
         begin
           vCampoN := adoqryNomina12.Fields[vCampoI].FieldName;
@@ -532,8 +489,8 @@ begin
           Ini.WriteString('nomDeducciones', 'TotalImpuestosRetenidos', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12nomDeduccionesTotalImpuestosRetenidos.Value));
         //[nomDeducciones1]
         vCountDeduccion := 0;
-        vCampoIni := 72;
-        vCampoFin := 109;
+        vCampoIni := 59;
+        vCampoFin := 66;
         for vCampoI := vCampoIni to vCampoFin do
         begin
           vCampoN := adoqryNomina12.Fields[vCampoI].FieldName;
@@ -609,7 +566,7 @@ begin
   end;
 end;
 
-procedure TdmSMRTV.CrearINI_11(pAnio, pMes: Integer; pFiltrar: Boolean; pCDirINI,
+procedure TdmCECTI.CrearINI_11(pAnio, pMes: Integer; pFiltrar: Boolean; pCDirINI,
   pCDirXML: string);
 var
   Ini: TIniFile;
@@ -848,7 +805,7 @@ begin
   end;
 end;
 
-procedure TdmSMRTV.DataModuleCreate(Sender: TObject);
+procedure TdmCECTI.DataModuleCreate(Sender: TObject);
 begin
   CargarTipos;
 end;

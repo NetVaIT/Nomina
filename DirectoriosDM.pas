@@ -77,7 +77,8 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses _Utils, MainFrm, COBAEMDM, IntervaDM, SMRTVDM, IVEMDM, COMPESCADM;
+uses _Utils, MainFrm, COBAEMDM, IntervaDM, SMRTVDM, IVEMDM, COMPESCADM,
+  COFEEEMDM;
 
 {$R *.dfm}
 
@@ -97,6 +98,7 @@ var
   dmSMRTV: TdmSMRTV;
   dmIVEM: TdmIVEM;
   dmCOMPESCA: TdmCOMPESCA;
+  dmCOFEEEM: TdmCOFEEEM;
 begin
   ValidarDirectorios;
   case FModulo of
@@ -182,6 +184,18 @@ begin
         dmCOMPESCA.Free;
       end;
     end;
+    7: begin
+      dmCOFEEEM := TdmCOFEEEM.Create(Self);
+      try
+        dmCOFEEEM.FCertificado.Ruta := '.\Certificados\CSD_CFE0211159J7_00001000000401858885.cer';
+        dmCOFEEEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_CFE0211159J7_20160331_105213.key';
+        dmCOFEEEM.FCertificado.LlavePrivada.Clave := 'nancyangelicavallejogarcia161114cofeeem050578';
+        dmCOFEEEM.FCertificado.RFCAlQuePertenece := 'CFE0211159J7';
+        dmCOFEEEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmCOFEEEM.Free;
+      end;
+    end;
 
   end;
   DirectoriosActualizar;
@@ -196,14 +210,14 @@ end;
 procedure TdmDirectorios.actCrearXMLExecute(Sender: TObject);
 begin
   ValidarDirectorios;
-//  {$IFDEF DEBUG}
-//    // Solo Genera XML
-//    dmCFDI.CrearXMLMasivo(DirINI, DirXML, frmDirectorios.cxslvInbox.InnerListView.Items);
-//  {$ELSE}
+  {$IFDEF DEBUG}
+    // Solo Genera XML
+    dmCFDI.CrearXMLMasivo(DirINI, DirXML, frmDirectorios.cxslvInbox.InnerListView.Items);
+  {$ELSE}
     // Genera XML y timbra
     dmCFDI.CrearXMLTimbrar(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar,
     DirINI, DirINIPr, DirError, DirXML, DirXMLFD, frmDirectorios.cxslvInbox.InnerListView.Items);
-//  {$ENDIF}
+  {$ENDIF}
   DirectoriosActualizar;
 end;
 
@@ -365,6 +379,14 @@ begin
       dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.cer';
       dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.key';
       dmCFDI.FCertificado.LlavePrivada.Clave := 'Pesca6819';
+      dmCFDI.PAC := pacFinkok;
+      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+      dmCFDI.FDPass:= 'BPS@sociados1';
+    end;
+    7: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_CFE0211159J7_00001000000401858885.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_CFE0211159J7_20160331_105213.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'nancyangelicavallejogarcia161114cofeeem050578';
       dmCFDI.PAC := pacFinkok;
       dmCFDI.FDUser:= 'bps.finkok@gmail.com';
       dmCFDI.FDPass:= 'BPS@sociados1';

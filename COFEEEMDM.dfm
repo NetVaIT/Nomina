@@ -1,7 +1,7 @@
-object dmCOMPESCA: TdmCOMPESCA
+object dmCOFEEEM: TdmCOFEEEM
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 369
+  Height = 362
   Width = 275
   object adoqryNomina: TADOQuery
     Connection = frmMain.ADOConnection
@@ -9,7 +9,7 @@ object dmCOMPESCA: TdmCOMPESCA
     Parameters = <>
     SQL.Strings = (
       'SELECT  *'
-      'FROM            v_COMPESCA'
+      'FROM            v_SMRTV'
       'WHERE ComplementoNominaFechaPago is not null'
       'ORDER BY ID')
     Left = 40
@@ -59,7 +59,7 @@ object dmCOMPESCA: TdmCOMPESCA
     object adoqryNominaEmisorNombre: TStringField
       FieldName = 'EmisorNombre'
       ReadOnly = True
-      Size = 41
+      Size = 40
     end
     object adoqryNominaEmisorRegimen: TStringField
       FieldName = 'EmisorRegimen'
@@ -154,9 +154,6 @@ object dmCOMPESCA: TdmCOMPESCA
     object adoqryNominaC102: TFloatField
       FieldName = 'C102'
     end
-    object adoqryNominaC105: TFloatField
-      FieldName = 'C105'
-    end
     object adoqryNominaC106: TFloatField
       FieldName = 'C106'
     end
@@ -178,35 +175,35 @@ object dmCOMPESCA: TdmCOMPESCA
     object adoqryNominaC127: TFloatField
       FieldName = 'C127'
     end
-    object adoqryNominaC1SE: TFloatField
-      FieldName = 'C1SE'
-    end
-    object adoqryNominaC1AJ: TFloatField
-      FieldName = 'C1AJ'
-    end
     object adoqryNominaC128: TFloatField
       FieldName = 'C128'
-    end
-    object adoqryNominaC17D: TFloatField
-      FieldName = 'C17D'
     end
     object adoqryNominaC1AD: TFloatField
       FieldName = 'C1AD'
     end
+    object adoqryNominaC1AJ: TFloatField
+      FieldName = 'C1AJ'
+    end
     object adoqryNominaC1AF: TFloatField
       FieldName = 'C1AF'
+    end
+    object adoqryNominaC1EF: TFloatField
+      FieldName = 'C1EF'
+    end
+    object adoqryNominaC1PE: TFloatField
+      FieldName = 'C1PE'
     end
     object adoqryNominaC1CH: TFloatField
       FieldName = 'C1CH'
     end
-    object adoqryNominaC1CU: TFloatField
-      FieldName = 'C1CU'
-    end
     object adoqryNominaC1DF: TFloatField
       FieldName = 'C1DF'
     end
-    object adoqryNominaC1LC: TFloatField
-      FieldName = 'C1LC'
+    object adoqryNominaC1VP: TFloatField
+      FieldName = 'C1VP'
+    end
+    object adoqryNominaC1CU: TFloatField
+      FieldName = 'C1CU'
     end
     object adoqryNominaC1CP: TFloatField
       FieldName = 'C1CP'
@@ -214,17 +211,11 @@ object dmCOMPESCA: TdmCOMPESCA
     object adoqryNominaC1PL: TFloatField
       FieldName = 'C1PL'
     end
-    object adoqryNominaC1TI: TFloatField
-      FieldName = 'C1TI'
+    object adoqryNominaC1LC: TFloatField
+      FieldName = 'C1LC'
     end
     object adoqryNominaC1SC: TFloatField
       FieldName = 'C1SC'
-    end
-    object adoqryNominaC1VP: TFloatField
-      FieldName = 'C1VP'
-    end
-    object adoqryNominaC1PE: TFloatField
-      FieldName = 'C1PE'
     end
     object adoqryNominaC251: TFloatField
       FieldName = 'C251'
@@ -301,20 +292,38 @@ object dmCOMPESCA: TdmCOMPESCA
     object adoqryNominaC2U2: TFloatField
       FieldName = 'C2U2'
     end
+    object adoqryNominaC2U3: TFloatField
+      FieldName = 'C2U3'
+    end
+    object adoqryNominaC2U8: TFloatField
+      FieldName = 'C2U8'
+    end
     object adoqryNominaC2V1: TFloatField
       FieldName = 'C2V1'
     end
     object adoqryNominaC2V7: TFloatField
       FieldName = 'C2V7'
     end
+    object adoqryNominaC2W2: TFloatField
+      FieldName = 'C2W2'
+    end
+    object adoqryNominaC2W4: TFloatField
+      FieldName = 'C2W4'
+    end
     object adoqryNominaC2Y2: TFloatField
       FieldName = 'C2Y2'
+    end
+    object adoqryNominaC2Y4: TFloatField
+      FieldName = 'C2Y4'
     end
     object adoqryNominaC2Y5: TFloatField
       FieldName = 'C2Y5'
     end
     object adoqryNominaC2Y6: TFloatField
       FieldName = 'C2Y6'
+    end
+    object adoqryNominaC2Y8: TFloatField
+      FieldName = 'C2Y8'
     end
     object adoqryNominaC2Z5: TFloatField
       FieldName = 'C2Z5'
@@ -345,7 +354,8 @@ object dmCOMPESCA: TdmCOMPESCA
     CursorType = ctStatic
     Parameters = <>
     SQL.Strings = (
-      'select count(*) AS CUENTA from v_COMPESCA_E')
+      'select count(*) AS CUENTA from v_COFEEEM_E'
+      '')
     Left = 136
     Top = 32
     object adoqryNominaCountCUENTA: TIntegerField
@@ -360,8 +370,8 @@ object dmCOMPESCA: TdmCOMPESCA
       0014000900436F6E636570746F0002000000050007004578656E746F00020000
       00050008004772617661646F00FF0000001400040053415400}
     SortOptions = []
-    Left = 48
-    Top = 224
+    Left = 56
+    Top = 232
     object dxmdPercepcionesTipoClave: TWideStringField
       FieldName = 'Clave'
       Size = 255
@@ -388,8 +398,8 @@ object dmCOMPESCA: TdmCOMPESCA
     SQL.Strings = (
       'SELECT Clave, Concepto, Exento, Gravado, SAT'
       'FROM PercepcionesTipo')
-    Left = 48
-    Top = 168
+    Left = 56
+    Top = 176
   end
   object dxmdDeduccionesTipo: TdxMemData
     Indexes = <>
@@ -398,8 +408,8 @@ object dmCOMPESCA: TdmCOMPESCA
       0014000900436F6E636570746F0002000000050007004578656E746F00020000
       00050008004772617661646F00FF0000001400040053415400}
     SortOptions = []
-    Left = 184
-    Top = 224
+    Left = 192
+    Top = 232
     object dxmdDeduccionesTipoClave: TWideStringField
       FieldName = 'Clave'
       Size = 255
@@ -426,8 +436,8 @@ object dmCOMPESCA: TdmCOMPESCA
     SQL.Strings = (
       'SELECT Clave, Concepto, Exento, Gravado, SAT'
       'FROM DeduccionesTipo')
-    Left = 184
-    Top = 168
+    Left = 192
+    Top = 176
   end
   object adoqryNomina12: TADOQuery
     Connection = frmMain.ADOConnection
@@ -435,11 +445,10 @@ object dmCOMPESCA: TdmCOMPESCA
     Parameters = <>
     SQL.Strings = (
       'SELECT  *'
-      'FROM            v_COMPESCA_E'
+      'FROM            v_COFEEEM_E'
       'WHERE ComplementoNominaFechaPago is not null'
-      'ORDER BY ID'
-      '')
-    Left = 48
+      'ORDER BY ID')
+    Left = 40
     Top = 104
     object adoqryNomina12ID: TFloatField
       FieldName = 'ID'
@@ -490,7 +499,7 @@ object dmCOMPESCA: TdmCOMPESCA
     object adoqryNomina12EmisorNombre: TStringField
       FieldName = 'EmisorNombre'
       ReadOnly = True
-      Size = 41
+      Size = 40
     end
     object adoqryNomina12EmisorRegimen: TStringField
       FieldName = 'EmisorRegimen'
@@ -559,8 +568,7 @@ object dmCOMPESCA: TdmCOMPESCA
     end
     object adoqryNomina12nomReceptorNumSeguridadSocial: TWideStringField
       FieldName = 'nomReceptorNumSeguridadSocial'
-      ReadOnly = True
-      Size = 4000
+      Size = 255
     end
     object adoqryNomina12nomReceptorFechaInicioRelLaboral: TDateTimeField
       FieldName = 'nomReceptorFechaInicioRelLaboral'
@@ -642,77 +650,29 @@ object dmCOMPESCA: TdmCOMPESCA
     object adoqryNomina12C102: TFloatField
       FieldName = 'C102'
     end
-    object adoqryNomina12C105: TFloatField
-      FieldName = 'C105'
+    object adoqryNomina12C114: TFloatField
+      FieldName = 'C114'
     end
     object adoqryNomina12C106: TFloatField
       FieldName = 'C106'
     end
-    object adoqryNomina12C114: TFloatField
-      FieldName = 'C114'
-    end
     object adoqryNomina12C115: TFloatField
       FieldName = 'C115'
-    end
-    object adoqryNomina12C116: TFloatField
-      FieldName = 'C116'
     end
     object adoqryNomina12C119: TFloatField
       FieldName = 'C119'
     end
-    object adoqryNomina12C122: TFloatField
-      FieldName = 'C122'
-    end
     object adoqryNomina12C127: TFloatField
       FieldName = 'C127'
-    end
-    object adoqryNomina12C1SE: TFloatField
-      FieldName = 'C1SE'
-    end
-    object adoqryNomina12C1AJ: TFloatField
-      FieldName = 'C1AJ'
-    end
-    object adoqryNomina12C128: TFloatField
-      FieldName = 'C128'
-    end
-    object adoqryNomina12C17D: TFloatField
-      FieldName = 'C17D'
-    end
-    object adoqryNomina12C1AD: TFloatField
-      FieldName = 'C1AD'
-    end
-    object adoqryNomina12C1AF: TFloatField
-      FieldName = 'C1AF'
     end
     object adoqryNomina12C1CH: TFloatField
       FieldName = 'C1CH'
     end
-    object adoqryNomina12C1CU: TFloatField
-      FieldName = 'C1CU'
-    end
-    object adoqryNomina12C1DF: TFloatField
-      FieldName = 'C1DF'
-    end
-    object adoqryNomina12C1LC: TFloatField
-      FieldName = 'C1LC'
-    end
-    object adoqryNomina12C1CP: TFloatField
-      FieldName = 'C1CP'
-    end
-    object adoqryNomina12C1PL: TFloatField
-      FieldName = 'C1PL'
-    end
-    object adoqryNomina12C1TI: TFloatField
-      FieldName = 'C1TI'
-    end
-    object adoqryNomina12C1SC: TFloatField
-      FieldName = 'C1SC'
+    object adoqryNomina12C1AF: TFloatField
+      FieldName = 'C1AF'
     end
     object adoqryNomina12C1VP: TFloatField
       FieldName = 'C1VP'
-    end
-    object adoqryNomina12C1PE: TFloatField
-      FieldName = 'C1PE'
     end
     object adoqryNomina12C251: TFloatField
       FieldName = 'C251'
@@ -720,17 +680,11 @@ object dmCOMPESCA: TdmCOMPESCA
     object adoqryNomina12C252: TFloatField
       FieldName = 'C252'
     end
-    object adoqryNomina12C253: TFloatField
-      FieldName = 'C253'
-    end
-    object adoqryNomina12C256: TFloatField
-      FieldName = 'C256'
+    object adoqryNomina12C259: TFloatField
+      FieldName = 'C259'
     end
     object adoqryNomina12C258: TFloatField
       FieldName = 'C258'
-    end
-    object adoqryNomina12C259: TFloatField
-      FieldName = 'C259'
     end
     object adoqryNomina12C262: TFloatField
       FieldName = 'C262'
@@ -738,77 +692,14 @@ object dmCOMPESCA: TdmCOMPESCA
     object adoqryNomina12C263: TFloatField
       FieldName = 'C263'
     end
-    object adoqryNomina12C264: TFloatField
-      FieldName = 'C264'
-    end
-    object adoqryNomina12C265: TFloatField
-      FieldName = 'C265'
-    end
     object adoqryNomina12C268: TFloatField
       FieldName = 'C268'
     end
-    object adoqryNomina12C271: TFloatField
-      FieldName = 'C271'
-    end
-    object adoqryNomina12C272: TFloatField
-      FieldName = 'C272'
-    end
-    object adoqryNomina12C273: TFloatField
-      FieldName = 'C273'
-    end
-    object adoqryNomina12C274: TFloatField
+    object adoqryNomina12C274: TBCDField
       FieldName = 'C274'
-    end
-    object adoqryNomina12C275: TFloatField
-      FieldName = 'C275'
-    end
-    object adoqryNomina12C280: TFloatField
-      FieldName = 'C280'
-    end
-    object adoqryNomina12C290: TFloatField
-      FieldName = 'C290'
-    end
-    object adoqryNomina12C291: TFloatField
-      FieldName = 'C291'
-    end
-    object adoqryNomina12C2S1: TFloatField
-      FieldName = 'C2S1'
-    end
-    object adoqryNomina12C2S2: TFloatField
-      FieldName = 'C2S2'
-    end
-    object adoqryNomina12C2S3: TFloatField
-      FieldName = 'C2S3'
-    end
-    object adoqryNomina12C2S4: TFloatField
-      FieldName = 'C2S4'
-    end
-    object adoqryNomina12C2U1: TFloatField
-      FieldName = 'C2U1'
-    end
-    object adoqryNomina12C2U2: TFloatField
-      FieldName = 'C2U2'
-    end
-    object adoqryNomina12C2V1: TFloatField
-      FieldName = 'C2V1'
-    end
-    object adoqryNomina12C2V7: TFloatField
-      FieldName = 'C2V7'
-    end
-    object adoqryNomina12C2Y2: TFloatField
-      FieldName = 'C2Y2'
-    end
-    object adoqryNomina12C2Y5: TFloatField
-      FieldName = 'C2Y5'
-    end
-    object adoqryNomina12C2Y6: TFloatField
-      FieldName = 'C2Y6'
-    end
-    object adoqryNomina12C2Z5: TFloatField
-      FieldName = 'C2Z5'
-    end
-    object adoqryNomina12C2Z8: TFloatField
-      FieldName = 'C2Z8'
+      ReadOnly = True
+      Precision = 1
+      Size = 1
     end
     object adoqryNomina12TOTPER: TFloatField
       FieldName = 'TOTPER'

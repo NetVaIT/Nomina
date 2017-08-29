@@ -354,7 +354,7 @@ object dmSMRTV: TdmSMRTV
     CursorType = ctStatic
     Parameters = <>
     SQL.Strings = (
-      'select count(*) AS CUENTA from v_SMRTV')
+      'select count(*) AS CUENTA from v_SMRTV_E')
     Left = 136
     Top = 32
     object adoqryNominaCountCUENTA: TIntegerField
@@ -444,7 +444,7 @@ object dmSMRTV: TdmSMRTV
     Parameters = <>
     SQL.Strings = (
       'SELECT  *'
-      'FROM            v_SMRTV'
+      'FROM            v_SMRTV_E'
       'WHERE ComplementoNominaFechaPago is not null'
       'ORDER BY ID')
     Left = 40

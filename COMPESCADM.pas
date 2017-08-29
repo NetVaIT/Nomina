@@ -166,7 +166,6 @@ type
     adoqryNomina12nomReceptorTipoContrato: TWideStringField;
     adoqryNomina12nomReceptorSindicalizado: TWideStringField;
     adoqryNomina12nomReceptorTipoJornada: TWideStringField;
-    adoqryNomina12nomReceptorTipoRegimen: TFloatField;
     adoqryNomina12nomReceptorNumEmpleado: TWideStringField;
     adoqryNomina12nomReceptorDepartamento: TWideStringField;
     adoqryNomina12nomReceptorPuesto: TWideStringField;
@@ -243,6 +242,7 @@ type
     adoqryNomina12TOTLIQ: TFloatField;
     adoqryNomina12PeriodoMes: TIntegerField;
     adoqryNomina12PeriodoAnio: TIntegerField;
+    adoqryNomina12nomReceptorTipoRegimen: TWideStringField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

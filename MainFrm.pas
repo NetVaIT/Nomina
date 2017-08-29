@@ -25,6 +25,8 @@ type
     CFDLibVersion1: TMenuItem;
     IVEM1: TMenuItem;
     COMPESCA1: TMenuItem;
+    COFEEEM1: TMenuItem;
+    CECTI1: TMenuItem;
     procedure COBAEM1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -109,6 +111,11 @@ begin
     'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
     6: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaCOMPESCA;Data Source=NAS4\NOMINASV12;' +
     'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
+    7: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaCOFEEEM;Data Source=NAS4\NOMINASV12;' +
+    'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
+    8: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaCECTI;Data Source=NAS4\NOMINASV12;' +
+    'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
+
   end;
   ADOConnection.Open();
 end;

@@ -537,7 +537,7 @@ object dmCOBAEM: TdmCOBAEM
         Value = Null
       end>
     SQL.Strings = (
-      'select count(*) AS CUENTA from v_COBAEM201512'
+      'select count(*) AS CUENTA from v_COBAEM201612'
       'WHERE (PeriodoAnio = :Anio1 OR :Anio2 = 0)'
       'AND (PeriodoMes = :Mes1 OR :Mes2 = 0)')
     Left = 136
@@ -586,7 +586,7 @@ object dmCOBAEM: TdmCOBAEM
       end>
     SQL.Strings = (
       'SELECT  *'
-      'FROM            v_COBAEM201512'
+      'FROM            v_COBAEM201612'
       'WHERE ComplementoNominaFechaPago is not null'
       'AND (PeriodoAnio = :Anio1 OR :Anio2 = 0)'
       'AND (PeriodoMes = :Mes1 OR :Mes2 = 0)'
@@ -599,14 +599,13 @@ object dmCOBAEM: TdmCOBAEM
     object adoqryNominaFormaDePago: TStringField
       FieldName = 'FormaDePago'
       ReadOnly = True
-      Size = 27
+      Size = 22
     end
     object adoqryNominaSubTotal: TFloatField
       FieldName = 'SubTotal'
     end
     object adoqryNominaDescuento: TFloatField
       FieldName = 'Descuento'
-      ReadOnly = True
     end
     object adoqryNominaTipoCambio: TIntegerField
       FieldName = 'TipoCambio'
@@ -664,10 +663,9 @@ object dmCOBAEM: TdmCOBAEM
     object adoqryNominaConceptoImporte: TFloatField
       FieldName = 'ConceptoImporte'
     end
-    object adoqryNominaComplementoNominaTipoNomina: TStringField
+    object adoqryNominaComplementoNominaTipoNomina: TWideStringField
       FieldName = 'ComplementoNominaTipoNomina'
-      ReadOnly = True
-      Size = 1
+      Size = 255
     end
     object adoqryNominaComplementoNominaFechaPago: TDateTimeField
       FieldName = 'ComplementoNominaFechaPago'
@@ -677,6 +675,12 @@ object dmCOBAEM: TdmCOBAEM
     end
     object adoqryNominaComplementoNominaFechaFinalPago: TDateTimeField
       FieldName = 'ComplementoNominaFechaFinalPago'
+    end
+    object adoqryNominaComplementoNominaNumDiasPagados: TFloatField
+      FieldName = 'ComplementoNominaNumDiasPagados'
+    end
+    object adoqryNominaSubsidioAlEmpleo: TFloatField
+      FieldName = 'SubsidioAlEmpleo'
     end
     object adoqryNominaComplementoNominaTotalPercepciones: TFloatField
       FieldName = 'ComplementoNominaTotalPercepciones'
@@ -700,6 +704,10 @@ object dmCOBAEM: TdmCOBAEM
     end
     object adoqryNominanomReceptorCURP: TWideStringField
       FieldName = 'nomReceptorCURP'
+      Size = 255
+    end
+    object adoqryNominanomReceptorNumSeguridadSocial: TWideStringField
+      FieldName = 'nomReceptorNumSeguridadSocial'
       Size = 255
     end
     object adoqryNominanomReceptorFechaInicioRelLaboral: TDateTimeField
@@ -733,12 +741,12 @@ object dmCOBAEM: TdmCOBAEM
     end
     object adoqryNominanomReceptorDepartamento: TWideStringField
       FieldName = 'nomReceptorDepartamento'
-      Size = 255
+      ReadOnly = True
+      Size = 511
     end
     object adoqryNominanomReceptorPuesto: TWideStringField
       FieldName = 'nomReceptorPuesto'
-      ReadOnly = True
-      Size = 511
+      Size = 255
     end
     object adoqryNominanomReceptorRiesgoPuesto: TStringField
       FieldName = 'nomReceptorRiesgoPuesto'
@@ -848,6 +856,9 @@ object dmCOBAEM: TdmCOBAEM
     object adoqryNominaP24: TFloatField
       FieldName = 'P24'
     end
+    object adoqryNominaP25: TFloatField
+      FieldName = 'P25'
+    end
     object adoqryNominaD26: TFloatField
       FieldName = 'D26'
     end
@@ -953,11 +964,17 @@ object dmCOBAEM: TdmCOBAEM
     object adoqryNominaP61: TFloatField
       FieldName = 'P61'
     end
-    object adoqryNominaP62: TFloatField
-      FieldName = 'P62'
+    object adoqryNominaP62E: TFloatField
+      FieldName = 'P62E'
     end
-    object adoqryNominaP63: TFloatField
-      FieldName = 'P63'
+    object adoqryNominaP62G: TFloatField
+      FieldName = 'P62G'
+    end
+    object adoqryNominaP63E: TFloatField
+      FieldName = 'P63E'
+    end
+    object adoqryNominaP63G: TFloatField
+      FieldName = 'P63G'
     end
     object adoqryNominaP64: TFloatField
       FieldName = 'P64'
@@ -1083,16 +1100,6 @@ object dmCOBAEM: TdmCOBAEM
     object adoqryNominaPeriodoAnio: TIntegerField
       FieldName = 'PeriodoAnio'
       ReadOnly = True
-    end
-    object adoqryNominaComplementoNominaNumDiasPagados: TFloatField
-      FieldName = 'ComplementoNominaNumDiasPagados'
-    end
-    object adoqryNominanomReceptorNumSeguridadSocial: TWideStringField
-      FieldName = 'nomReceptorNumSeguridadSocial'
-      Size = 255
-    end
-    object adoqryNominaSubsidioAlEmpleo: TFloatField
-      FieldName = 'SubsidioAlEmpleo'
     end
   end
 end

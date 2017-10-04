@@ -174,16 +174,21 @@ type
     adoqryNominaReceptorNombre: TWideStringField;
     adoqryNominaConceptoValorUnitario: TFloatField;
     adoqryNominaConceptoImporte: TFloatField;
-    adoqryNominaComplementoNominaTipoNomina: TStringField;
+    adoqryNominaComplementoNominaTipoNomina: TWideStringField;
     adoqryNominaComplementoNominaFechaPago: TDateTimeField;
     adoqryNominaComplementoNominaFechaInicialPago: TDateTimeField;
     adoqryNominaComplementoNominaFechaFinalPago: TDateTimeField;
+    adoqryNominaComplementoNominaNumDiasPagados: TFloatField;
+    adoqryNominaSubsidioAlEmpleo: TFloatField;
     adoqryNominaComplementoNominaTotalPercepciones: TFloatField;
     adoqryNominaComplementoNominaTotalDeducciones: TFloatField;
+    adoqryNominaComplementoNominaTotalOtrosPagos: TFloatField;
     adoqryNominanomEmisorCURP: TStringField;
     adoqryNominanomEmisorRegistroPatronal: TWideStringField;
     adoqryNominanomReceptorCURP: TWideStringField;
+    adoqryNominanomReceptorNumSeguridadSocial: TWideStringField;
     adoqryNominanomReceptorFechaInicioRelLaboral: TDateTimeField;
+    adoqryNominanomReceptorAntiguedad: TStringField;
     adoqryNominanomReceptorTipoContrato: TWideStringField;
     adoqryNominanomReceptorSindicalizado: TWideStringField;
     adoqryNominanomReceptorTipoJornada: TWideStringField;
@@ -191,9 +196,12 @@ type
     adoqryNominanomReceptorNumEmpleado: TWideStringField;
     adoqryNominanomReceptorDepartamento: TWideStringField;
     adoqryNominanomReceptorPuesto: TWideStringField;
+    adoqryNominanomReceptorRiesgoPuesto: TStringField;
     adoqryNominanomReceptorPeriodicidadPago: TWideStringField;
     adoqryNominanomReceptorSalarioBaseCotApor: TFloatField;
+    adoqryNominanomReceptorSalarioDiarioIntegrado: TFloatField;
     adoqryNominanomReceptorClaveEntFed: TWideStringField;
+    adoqryNominanomPercepcionesTotalSueldos: TFloatField;
     adoqryNominanomPercepcionesTotalGravado: TFloatField;
     adoqryNominanomPercepcionesTotalExento: TFloatField;
     adoqryNominanomDeduccionesTotalOtrasDeducciones: TFloatField;
@@ -221,6 +229,7 @@ type
     adoqryNominaP22: TFloatField;
     adoqryNominaP23: TFloatField;
     adoqryNominaP24: TFloatField;
+    adoqryNominaP25: TFloatField;
     adoqryNominaD26: TFloatField;
     adoqryNominaD27: TFloatField;
     adoqryNominaD28: TFloatField;
@@ -256,8 +265,10 @@ type
     adoqryNominaP59: TFloatField;
     adoqryNominaP60: TFloatField;
     adoqryNominaP61: TFloatField;
-    adoqryNominaP62: TFloatField;
-    adoqryNominaP63: TFloatField;
+    adoqryNominaP62E: TFloatField;
+    adoqryNominaP62G: TFloatField;
+    adoqryNominaP63E: TFloatField;
+    adoqryNominaP63G: TFloatField;
     adoqryNominaP64: TFloatField;
     adoqryNominaP65: TFloatField;
     adoqryNominaP66: TFloatField;
@@ -299,14 +310,6 @@ type
     adoqryNominaTOTLIQ: TFloatField;
     adoqryNominaPeriodoMes: TIntegerField;
     adoqryNominaPeriodoAnio: TIntegerField;
-    adoqryNominanomPercepcionesTotalSueldos: TFloatField;
-    adoqryNominaComplementoNominaTotalOtrosPagos: TFloatField;
-    adoqryNominanomReceptorAntiguedad: TStringField;
-    adoqryNominanomReceptorRiesgoPuesto: TStringField;
-    adoqryNominanomReceptorSalarioDiarioIntegrado: TFloatField;
-    adoqryNominaComplementoNominaNumDiasPagados: TFloatField;
-    adoqryNominanomReceptorNumSeguridadSocial: TWideStringField;
-    adoqryNominaSubsidioAlEmpleo: TFloatField;
   private
     { Private declarations }
   public
@@ -1695,6 +1698,16 @@ begin
           Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
           Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP24.Value));
         end;
+        if (adoqryNominaP25.Value <> 0) then
+        begin
+          Inc(vCountPercepcion);
+          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+          Ini.WriteString(vPercepciones, 'TipoPercepcion', '038');
+          Ini.WriteString(vPercepciones, 'Clave', 'P25');
+          Ini.WriteString(vPercepciones, 'Concepto', 'PROGRAMA EN LA DIFUCION POR INCENTIVO EDUCACION MEDIA SUPERIOR');
+          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
+          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP25.Value));
+        end;
         if (adoqryNominaP30.Value <> 0) then
         begin
           Inc(vCountPercepcion);
@@ -1865,26 +1878,47 @@ begin
           Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
           Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP61.Value));
         end;
-        if (adoqryNominaP62.Value <> 0) then
+        if (adoqryNominaP62G.Value <> 0) OR (adoqryNominaP62E.Value <> 0) then
         begin
           Inc(vCountPercepcion);
           vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
           Ini.WriteString(vPercepciones, 'TipoPercepcion', '021');
           Ini.WriteString(vPercepciones, 'Clave', 'P62');
           Ini.WriteString(vPercepciones, 'Concepto', 'PRIMA VACACIONAL');
-          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
-          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP62.Value));
+          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP62G.Value));
+          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP62E.Value));
         end;
-        if (adoqryNominaP63.Value <> 0) then
+        if (adoqryNominaP63G.Value <> 0) OR (adoqryNominaP63E.Value <> 0) then
         begin
           Inc(vCountPercepcion);
           vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
           Ini.WriteString(vPercepciones, 'TipoPercepcion', '002');
           Ini.WriteString(vPercepciones, 'Clave', 'P63');
           Ini.WriteString(vPercepciones, 'Concepto', 'AGINALDO');
-          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
-          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP63.Value));
+          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP63G.Value));
+          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP63E.Value));
         end;
+
+//        if (adoqryNominaP62.Value <> 0) then
+//        begin
+//          Inc(vCountPercepcion);
+//          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+//          Ini.WriteString(vPercepciones, 'TipoPercepcion', '021');
+//          Ini.WriteString(vPercepciones, 'Clave', 'P62');
+//          Ini.WriteString(vPercepciones, 'Concepto', 'PRIMA VACACIONAL');
+//          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
+//          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP62.Value));
+//        end;
+//        if (adoqryNominaP63.Value <> 0) then
+//        begin
+//          Inc(vCountPercepcion);
+//          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+//          Ini.WriteString(vPercepciones, 'TipoPercepcion', '002');
+//          Ini.WriteString(vPercepciones, 'Clave', 'P63');
+//          Ini.WriteString(vPercepciones, 'Concepto', 'AGINALDO');
+//          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
+//          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNominaP63.Value));
+//        end;
         if (adoqryNominaP64.Value <> 0) then
         begin
           Inc(vCountPercepcion);

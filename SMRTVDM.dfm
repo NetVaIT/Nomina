@@ -354,7 +354,7 @@ object dmSMRTV: TdmSMRTV
     CursorType = ctStatic
     Parameters = <>
     SQL.Strings = (
-      'select count(*) AS CUENTA from v_SMRTV_E')
+      'select count(*) AS CUENTA from v_SMRTV20162S')
     Left = 136
     Top = 32
     object adoqryNominaCountCUENTA: TIntegerField
@@ -444,7 +444,7 @@ object dmSMRTV: TdmSMRTV
     Parameters = <>
     SQL.Strings = (
       'SELECT  *'
-      'FROM            v_SMRTV_E'
+      'FROM            v_SMRTV20162S'
       'WHERE ComplementoNominaFechaPago is not null'
       'ORDER BY ID')
     Left = 40
@@ -532,8 +532,9 @@ object dmSMRTV: TdmSMRTV
     object adoqryNomina12ComplementoNominaFechaFinalPago: TDateTimeField
       FieldName = 'ComplementoNominaFechaFinalPago'
     end
-    object adoqryNomina12ComplementoNominaNumDiasPagados: TFloatField
+    object adoqryNomina12ComplementoNominaNumDiasPagados: TWideStringField
       FieldName = 'ComplementoNominaNumDiasPagados'
+      Size = 255
     end
     object adoqryNomina12SubsidioAlEmpleo: TIntegerField
       FieldName = 'SubsidioAlEmpleo'
@@ -567,7 +568,8 @@ object dmSMRTV: TdmSMRTV
     end
     object adoqryNomina12nomReceptorNumSeguridadSocial: TWideStringField
       FieldName = 'nomReceptorNumSeguridadSocial'
-      Size = 255
+      ReadOnly = True
+      Size = 4000
     end
     object adoqryNomina12nomReceptorFechaInicioRelLaboral: TDateTimeField
       FieldName = 'nomReceptorFechaInicioRelLaboral'
@@ -670,9 +672,6 @@ object dmSMRTV: TdmSMRTV
     object adoqryNomina12C127: TFloatField
       FieldName = 'C127'
     end
-    object adoqryNomina12C128: TFloatField
-      FieldName = 'C128'
-    end
     object adoqryNomina12C1AD: TFloatField
       FieldName = 'C1AD'
     end
@@ -682,29 +681,14 @@ object dmSMRTV: TdmSMRTV
     object adoqryNomina12C1AF: TFloatField
       FieldName = 'C1AF'
     end
-    object adoqryNomina12C1EF: TFloatField
-      FieldName = 'C1EF'
-    end
-    object adoqryNomina12C1PE: TFloatField
-      FieldName = 'C1PE'
-    end
     object adoqryNomina12C1CH: TFloatField
       FieldName = 'C1CH'
     end
     object adoqryNomina12C1DF: TFloatField
       FieldName = 'C1DF'
     end
-    object adoqryNomina12C1VP: TFloatField
-      FieldName = 'C1VP'
-    end
-    object adoqryNomina12C1CU: TFloatField
-      FieldName = 'C1CU'
-    end
-    object adoqryNomina12C1CP: TFloatField
-      FieldName = 'C1CP'
-    end
-    object adoqryNomina12C1PL: TFloatField
-      FieldName = 'C1PL'
+    object adoqryNomina12C1GE: TFloatField
+      FieldName = 'C1GE'
     end
     object adoqryNomina12C1LC: TFloatField
       FieldName = 'C1LC'
@@ -721,14 +705,8 @@ object dmSMRTV: TdmSMRTV
     object adoqryNomina12C253: TFloatField
       FieldName = 'C253'
     end
-    object adoqryNomina12C256: TFloatField
-      FieldName = 'C256'
-    end
     object adoqryNomina12C258: TFloatField
       FieldName = 'C258'
-    end
-    object adoqryNomina12C259: TFloatField
-      FieldName = 'C259'
     end
     object adoqryNomina12C262: TFloatField
       FieldName = 'C262'
@@ -781,29 +759,17 @@ object dmSMRTV: TdmSMRTV
     object adoqryNomina12C2S4: TFloatField
       FieldName = 'C2S4'
     end
-    object adoqryNomina12C2U1: TFloatField
-      FieldName = 'C2U1'
-    end
     object adoqryNomina12C2U2: TFloatField
       FieldName = 'C2U2'
     end
-    object adoqryNomina12C2U3: TFloatField
-      FieldName = 'C2U3'
-    end
     object adoqryNomina12C2U8: TFloatField
       FieldName = 'C2U8'
-    end
-    object adoqryNomina12C2V1: TFloatField
-      FieldName = 'C2V1'
     end
     object adoqryNomina12C2V7: TFloatField
       FieldName = 'C2V7'
     end
     object adoqryNomina12C2W2: TFloatField
       FieldName = 'C2W2'
-    end
-    object adoqryNomina12C2W4: TFloatField
-      FieldName = 'C2W4'
     end
     object adoqryNomina12C2Y2: TFloatField
       FieldName = 'C2Y2'
@@ -816,9 +782,6 @@ object dmSMRTV: TdmSMRTV
     end
     object adoqryNomina12C2Y6: TFloatField
       FieldName = 'C2Y6'
-    end
-    object adoqryNomina12C2Y8: TFloatField
-      FieldName = 'C2Y8'
     end
     object adoqryNomina12C2Z5: TFloatField
       FieldName = 'C2Z5'

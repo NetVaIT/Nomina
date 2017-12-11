@@ -46,7 +46,7 @@ object frmMain: TfrmMain
   object ADOConnection: TADOConnection
     ConnectionString = 
       'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True' +
-      ';User ID=sa;Initial Catalog=IntervaSMRTV;Data Source=NAS4\NOMINA' +
+      ';User ID=sa;Initial Catalog=IntervaCECTI;Data Source=NAS4\NOMINA' +
       'SV12;Use Procedure for Prepare=1;Auto Translate=True;Packet Size' +
       '=4096;Workstation ID=DESARROLLO3;Use Encryption for Data=False;T' +
       'ag with column collation when possible=False'
@@ -71,40 +71,47 @@ object frmMain: TfrmMain
     end
     object Emisor1: TMenuItem
       Caption = 'Emisor'
-      object COBAEM1: TMenuItem
-        Tag = 2
-        Caption = 'COBAEM'
-        OnClick = COBAEM1Click
+      object BPS1: TMenuItem
+        Caption = 'BPS'
+        object COBAEM1: TMenuItem
+          Tag = 2
+          Caption = 'COBAEM'
+          OnClick = COBAEM1Click
+        end
+        object ICATMI1: TMenuItem
+          Tag = 3
+          Caption = 'ICATMI'
+          OnClick = COBAEM1Click
+        end
+        object SMRTV1: TMenuItem
+          Tag = 4
+          Caption = 'SMRTV'
+          OnClick = COBAEM1Click
+        end
+        object IVEM1: TMenuItem
+          Tag = 5
+          Caption = 'IVEM'
+          OnClick = COBAEM1Click
+        end
+        object COMPESCA1: TMenuItem
+          Tag = 6
+          Caption = 'COMPESCA'
+          OnClick = COBAEM1Click
+        end
+        object COFEEEM1: TMenuItem
+          Tag = 7
+          Caption = 'COFEEEM'
+          OnClick = COBAEM1Click
+        end
+        object CECTI1: TMenuItem
+          Tag = 8
+          Caption = 'CECTI'
+          OnClick = COBAEM1Click
+        end
       end
-      object ICATMI1: TMenuItem
-        Tag = 3
-        Caption = 'ICATMI'
-        OnClick = COBAEM1Click
-      end
-      object SMRTV1: TMenuItem
-        Tag = 4
-        Caption = 'SMRTV'
-        OnClick = COBAEM1Click
-      end
-      object IVEM1: TMenuItem
-        Tag = 5
-        Caption = 'IVEM'
-        OnClick = COBAEM1Click
-      end
-      object COMPESCA1: TMenuItem
-        Tag = 6
-        Caption = 'COMPESCA'
-        OnClick = COBAEM1Click
-      end
-      object COFEEEM1: TMenuItem
-        Tag = 7
-        Caption = 'COFEEEM'
-        OnClick = COBAEM1Click
-      end
-      object CECTI1: TMenuItem
+      object JUMAPAM1: TMenuItem
         Tag = 9
-        Caption = 'CECTI'
-        OnClick = COBAEM1Click
+        Caption = 'JUMAPAM'
       end
     end
     object Prueba1: TMenuItem

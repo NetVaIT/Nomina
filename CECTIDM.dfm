@@ -548,9 +548,8 @@ object dmCECTI: TdmCECTI
       FieldName = 'ComplementoNominaTotalDeducciones'
       ReadOnly = True
     end
-    object adoqryNomina12ComplementoNominaTotalOtrosPagos: TIntegerField
+    object adoqryNomina12ComplementoNominaTotalOtrosPagos: TFloatField
       FieldName = 'ComplementoNominaTotalOtrosPagos'
-      ReadOnly = True
     end
     object adoqryNomina12nomEmisorCURP: TStringField
       FieldName = 'nomEmisorCURP'
@@ -566,10 +565,10 @@ object dmCECTI: TdmCECTI
       FieldName = 'nomReceptorCURP'
       Size = 255
     end
-    object adoqryNomina12nomReceptorNumSeguridadSocial: TStringField
+    object adoqryNomina12nomReceptorNumSeguridadSocial: TWideStringField
       FieldName = 'nomReceptorNumSeguridadSocial'
       ReadOnly = True
-      Size = 8000
+      Size = 4000
     end
     object adoqryNomina12nomReceptorFechaInicioRelLaboral: TDateTimeField
       FieldName = 'nomReceptorFechaInicioRelLaboral'
@@ -626,23 +625,17 @@ object dmCECTI: TdmCECTI
       FieldName = 'nomReceptorClaveEntFed'
       Size = 255
     end
-    object adoqryNomina12nomPercepcionesTotalSueldos: TBCDField
+    object adoqryNomina12nomPercepcionesTotalSueldos: TFloatField
       FieldName = 'nomPercepcionesTotalSueldos'
       ReadOnly = True
-      Precision = 1
-      Size = 1
     end
-    object adoqryNomina12nomPercepcionesTotalGravado: TBCDField
+    object adoqryNomina12nomPercepcionesTotalGravado: TFloatField
       FieldName = 'nomPercepcionesTotalGravado'
       ReadOnly = True
-      Precision = 1
-      Size = 1
     end
-    object adoqryNomina12nomPercepcionesTotalExento: TBCDField
+    object adoqryNomina12nomPercepcionesTotalExento: TFloatField
       FieldName = 'nomPercepcionesTotalExento'
       ReadOnly = True
-      Precision = 1
-      Size = 1
     end
     object adoqryNomina12nomDeduccionesTotalOtrasDeducciones: TFloatField
       FieldName = 'nomDeduccionesTotalOtrasDeducciones'
@@ -651,59 +644,62 @@ object dmCECTI: TdmCECTI
     object adoqryNomina12nomDeduccionesTotalImpuestosRetenidos: TFloatField
       FieldName = 'nomDeduccionesTotalImpuestosRetenidos'
     end
-    object adoqryNomina12C101: TFloatField
-      FieldName = 'C101'
+    object adoqryNomina12FloatField001: TFloatField
+      FieldName = '001'
     end
-    object adoqryNomina12C102: TFloatField
-      FieldName = 'C102'
+    object adoqryNomina12FloatField002: TFloatField
+      FieldName = '002'
     end
-    object adoqryNomina12C122: TFloatField
-      FieldName = 'C122'
+    object adoqryNomina12FloatField003: TFloatField
+      FieldName = '003'
     end
-    object adoqryNomina12C103: TFloatField
-      FieldName = 'C103'
+    object adoqryNomina12FloatField004: TFloatField
+      FieldName = '004'
     end
-    object adoqryNomina12C104: TFloatField
-      FieldName = 'C104'
+    object adoqryNomina12FloatField005: TFloatField
+      FieldName = '005'
     end
-    object adoqryNomina12C105: TFloatField
-      FieldName = 'C105'
+    object adoqryNomina12FloatField006: TFloatField
+      FieldName = '006'
     end
-    object adoqryNomina12C106: TFloatField
-      FieldName = 'C106'
+    object adoqryNomina12FloatField007: TFloatField
+      FieldName = '007'
     end
-    object adoqryNomina12C107: TFloatField
-      FieldName = 'C107'
+    object adoqryNomina12FloatField008: TFloatField
+      FieldName = '008'
     end
-    object adoqryNomina12C108: TFloatField
-      FieldName = 'C108'
+    object adoqryNomina12FloatField009E: TFloatField
+      FieldName = '009E'
     end
-    object adoqryNomina12C115: TFloatField
-      FieldName = 'C115'
+    object adoqryNomina12FloatField009G: TFloatField
+      FieldName = '009G'
     end
-    object adoqryNomina12C109: TFloatField
-      FieldName = 'C109'
+    object adoqryNomina12FloatField010E: TFloatField
+      FieldName = '010E'
     end
-    object adoqryNomina12C110: TFloatField
-      FieldName = 'C110'
+    object adoqryNomina12FloatField010G: TFloatField
+      FieldName = '010G'
     end
-    object adoqryNomina12C251: TFloatField
-      FieldName = 'C251'
+    object adoqryNomina12FloatField011: TFloatField
+      FieldName = '011'
     end
-    object adoqryNomina12C274: TFloatField
-      FieldName = 'C274'
+    object adoqryNomina12FloatField012: TFloatField
+      FieldName = '012'
     end
-    object adoqryNomina12C277: TFloatField
-      FieldName = 'C277'
+    object adoqryNomina12FloatField013: TFloatField
+      FieldName = '013'
     end
-    object adoqryNomina12C276: TFloatField
-      FieldName = 'C276'
+    object adoqryNomina12FloatField014: TFloatField
+      FieldName = '014'
     end
-    object adoqryNomina12C252: TFloatField
-      FieldName = 'C252'
+    object adoqryNomina12FloatField015: TFloatField
+      FieldName = '015'
     end
-    object adoqryNomina12C280: TFloatField
-      FieldName = 'C280'
+    object adoqryNomina12FloatField016: TFloatField
+      FieldName = '016'
+    end
+    object adoqryNomina12FloatField017: TFloatField
+      FieldName = '017'
     end
     object adoqryNomina12TOTPER: TFloatField
       FieldName = 'TOTPER'

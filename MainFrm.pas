@@ -27,6 +27,8 @@ type
     COMPESCA1: TMenuItem;
     COFEEEM1: TMenuItem;
     CECTI1: TMenuItem;
+    BPS1: TMenuItem;
+    JUMAPAM1: TMenuItem;
     procedure COBAEM1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -99,7 +101,7 @@ begin
 //Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=ICATMI;Data Source=NAS4\NOMINASV12;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Workstation ID=DESARROLLO3;Use Encryption for Data=False;Tag with column collation when possible=False
   ADOConnection.Close;
   case pModulo of
-    1: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaSMRTV;Data Source=NAS4\NOMINASV12;' +
+    1: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaJUMAPAM;Data Source=NAS4\NOMINASV12;' +
     'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
     2: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaPDS;Data Source=NAS4\NOMINASV12;' +
     'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
@@ -114,6 +116,8 @@ begin
     7: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaCOFEEEM;Data Source=NAS4\NOMINASV12;' +
     'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
     8: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaCECTI;Data Source=NAS4\NOMINASV12;' +
+    'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
+    9: ADOConnection.ConnectionString:= 'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True;User ID=sa;Initial Catalog=IntervaJUMAPAM;Data Source=NAS4\NOMINASV12;' +
     'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False';
 
   end;

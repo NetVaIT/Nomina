@@ -30,7 +30,8 @@ uses
   IVEMDM in 'IVEMDM.pas' {dmIVEM: TDataModule},
   COMPESCADM in 'COMPESCADM.pas' {dmCOMPESCA: TDataModule},
   COFEEEMDM in 'COFEEEMDM.pas' {dmCOFEEEM: TDataModule},
-  CECTIDM in 'CECTIDM.pas' {dmCECTI: TDataModule};
+  CECTIDM in 'CECTIDM.pas' {dmCECTI: TDataModule},
+  JUMAPAMDM in 'JUMAPAMDM.pas' {dmJUMAPAM: TDataModule};
 
 {$R *.res}
 

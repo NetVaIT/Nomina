@@ -159,11 +159,11 @@ type
     adoqryNomina12SubsidioAlEmpleo: TIntegerField;
     adoqryNomina12ComplementoNominaTotalPercepciones: TFloatField;
     adoqryNomina12ComplementoNominaTotalDeducciones: TFloatField;
-    adoqryNomina12ComplementoNominaTotalOtrosPagos: TIntegerField;
+    adoqryNomina12ComplementoNominaTotalOtrosPagos: TFloatField;
     adoqryNomina12nomEmisorCURP: TStringField;
     adoqryNomina12nomEmisorRegistroPatronal: TStringField;
     adoqryNomina12nomReceptorCURP: TWideStringField;
-    adoqryNomina12nomReceptorNumSeguridadSocial: TStringField;
+    adoqryNomina12nomReceptorNumSeguridadSocial: TWideStringField;
     adoqryNomina12nomReceptorFechaInicioRelLaboral: TDateTimeField;
     adoqryNomina12nomReceptorAntiguedad: TStringField;
     adoqryNomina12nomReceptorTipoContrato: TWideStringField;
@@ -178,29 +178,30 @@ type
     adoqryNomina12nomReceptorSalarioBaseCotApor: TFloatField;
     adoqryNomina12nomReceptorSalarioDiarioIntegrado: TFloatField;
     adoqryNomina12nomReceptorClaveEntFed: TWideStringField;
-    adoqryNomina12nomPercepcionesTotalSueldos: TBCDField;
-    adoqryNomina12nomPercepcionesTotalGravado: TBCDField;
-    adoqryNomina12nomPercepcionesTotalExento: TBCDField;
+    adoqryNomina12nomPercepcionesTotalSueldos: TFloatField;
+    adoqryNomina12nomPercepcionesTotalGravado: TFloatField;
+    adoqryNomina12nomPercepcionesTotalExento: TFloatField;
     adoqryNomina12nomDeduccionesTotalOtrasDeducciones: TFloatField;
     adoqryNomina12nomDeduccionesTotalImpuestosRetenidos: TFloatField;
-    adoqryNomina12C101: TFloatField;
-    adoqryNomina12C102: TFloatField;
-    adoqryNomina12C122: TFloatField;
-    adoqryNomina12C103: TFloatField;
-    adoqryNomina12C104: TFloatField;
-    adoqryNomina12C105: TFloatField;
-    adoqryNomina12C106: TFloatField;
-    adoqryNomina12C107: TFloatField;
-    adoqryNomina12C108: TFloatField;
-    adoqryNomina12C115: TFloatField;
-    adoqryNomina12C109: TFloatField;
-    adoqryNomina12C110: TFloatField;
-    adoqryNomina12C251: TFloatField;
-    adoqryNomina12C274: TFloatField;
-    adoqryNomina12C277: TFloatField;
-    adoqryNomina12C276: TFloatField;
-    adoqryNomina12C252: TFloatField;
-    adoqryNomina12C280: TFloatField;
+    adoqryNomina12FloatField001: TFloatField;
+    adoqryNomina12FloatField002: TFloatField;
+    adoqryNomina12FloatField003: TFloatField;
+    adoqryNomina12FloatField004: TFloatField;
+    adoqryNomina12FloatField005: TFloatField;
+    adoqryNomina12FloatField006: TFloatField;
+    adoqryNomina12FloatField007: TFloatField;
+    adoqryNomina12FloatField008: TFloatField;
+    adoqryNomina12FloatField009E: TFloatField;
+    adoqryNomina12FloatField009G: TFloatField;
+    adoqryNomina12FloatField010E: TFloatField;
+    adoqryNomina12FloatField010G: TFloatField;
+    adoqryNomina12FloatField011: TFloatField;
+    adoqryNomina12FloatField012: TFloatField;
+    adoqryNomina12FloatField013: TFloatField;
+    adoqryNomina12FloatField014: TFloatField;
+    adoqryNomina12FloatField015: TFloatField;
+    adoqryNomina12FloatField016: TFloatField;
+    adoqryNomina12FloatField017: TFloatField;
     adoqryNomina12TOTPER: TFloatField;
     adoqryNomina12TOTDED: TFloatField;
     adoqryNomina12TOTLIQ: TFloatField;
@@ -432,40 +433,142 @@ begin
         end;
         //[nomPercepciones1]
         vCountPercepcion := 0;
-        vCampoIni := 49;
-        vCampoFin := 58;
-        for vCampoI := vCampoIni to vCampoFin do
+//        vCampoIni := 49;
+//        vCampoFin := 58;
+//        for vCampoI := vCampoIni to vCampoFin do
+//        begin
+//          vCampoN := adoqryNomina12.Fields[vCampoI].FieldName;
+//          vClave := Copy(vCampoN, 2, Length(vCampoN));
+//          vCampoV := adoqryNomina12.FieldByName(vCampoN).Value;
+//          if (vCampoV <> 0) then
+//          begin
+//            if dxmdPercepcionesTipo.Locate('Clave', vClave, []) then
+//            begin
+//              Inc(vCountPercepcion);
+//              vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+//              Ini.WriteString(vPercepciones, 'TipoPercepcion', dxmdPercepcionesTipoSAT.Value);
+//              Ini.WriteString(vPercepciones, 'Clave', vClave);
+//              Ini.WriteString(vPercepciones, 'Concepto', Remplazar(dxmdPercepcionesTipoConcepto.AsString));
+//              vCampoGravado := dxmdPercepcionesTipoGravado.Value;
+//              vCampoExento := dxmdPercepcionesTipoExento.Value;
+//              if vCampoGravado then
+//                Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,vCampoV))
+//              else
+//                Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
+//              if vCampoExento then
+//                Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,vCampoV))
+//              else
+//                Ini.WriteString(vPercepciones, 'ImporteExento', '0.00');
+//              //ValorMercado=
+//              //PrecioAlOtorgarse=
+//              //HorasExtra1Dias=
+//              //HorasExtra1TipoHoras=
+//              //HorasExtra1HorasExtra=
+//              //HorasExtra1ImportePagado=
+//            end;
+//          end;
+//        end;
+        if (adoqryNomina12FloatField001.Value <> 0) then
         begin
-          vCampoN := adoqryNomina12.Fields[vCampoI].FieldName;
-          vClave := Copy(vCampoN, 2, Length(vCampoN));
-          vCampoV := adoqryNomina12.FieldByName(vCampoN).Value;
-          if (vCampoV <> 0) then
-          begin
-            if dxmdPercepcionesTipo.Locate('Clave', vClave, []) then
-            begin
-              Inc(vCountPercepcion);
-              vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
-              Ini.WriteString(vPercepciones, 'TipoPercepcion', dxmdPercepcionesTipoSAT.Value);
-              Ini.WriteString(vPercepciones, 'Clave', vClave);
-              Ini.WriteString(vPercepciones, 'Concepto', Remplazar(dxmdPercepcionesTipoConcepto.AsString));
-              vCampoGravado := dxmdPercepcionesTipoGravado.Value;
-              vCampoExento := dxmdPercepcionesTipoExento.Value;
-              if vCampoGravado then
-                Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,vCampoV))
-              else
-                Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
-              if vCampoExento then
-                Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,vCampoV))
-              else
-                Ini.WriteString(vPercepciones, 'ImporteExento', '0.00');
-              //ValorMercado=
-              //PrecioAlOtorgarse=
-              //HorasExtra1Dias=
-              //HorasExtra1TipoHoras=
-              //HorasExtra1HorasExtra=
-              //HorasExtra1ImportePagado=
-            end;
-          end;
+          Inc(vCountPercepcion);
+          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+          Ini.WriteString(vPercepciones, 'TipoPercepcion', '001');
+          Ini.WriteString(vPercepciones, 'Clave', '001');
+          Ini.WriteString(vPercepciones, 'Concepto', 'Sueldo Quincenal');
+          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField001.Value));
+          Ini.WriteString(vPercepciones, 'ImporteExento', '0.00');
+        end;
+
+
+        if (adoqryNomina12FloatField002.Value <> 0) then
+        begin
+          Inc(vCountPercepcion);
+          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+          Ini.WriteString(vPercepciones, 'TipoPercepcion', '038');
+          Ini.WriteString(vPercepciones, 'Clave', '002');
+          Ini.WriteString(vPercepciones, 'Concepto', 'Apoyo Actividades Deportivas');
+          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
+          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField002.Value));
+        end;
+        if (adoqryNomina12FloatField003.Value <> 0) then
+        begin
+          Inc(vCountPercepcion);
+          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+          Ini.WriteString(vPercepciones, 'TipoPercepcion', '029');
+          Ini.WriteString(vPercepciones, 'Clave', '003');
+          Ini.WriteString(vPercepciones, 'Concepto', 'Despensa');
+          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
+          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField003.Value));
+        end;
+        if (adoqryNomina12FloatField004.Value <> 0) then
+        begin
+          Inc(vCountPercepcion);
+          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+          Ini.WriteString(vPercepciones, 'TipoPercepcion', '005');
+          Ini.WriteString(vPercepciones, 'Clave', '004');
+          Ini.WriteString(vPercepciones, 'Concepto', 'Fondode Ahorro');
+          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
+          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField004.Value));
+        end;
+        if (adoqryNomina12FloatField005.Value <> 0) then
+        begin
+          Inc(vCountPercepcion);
+          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+          Ini.WriteString(vPercepciones, 'TipoPercepcion', '038');
+          Ini.WriteString(vPercepciones, 'Clave', '005');
+          Ini.WriteString(vPercepciones, 'Concepto', 'Apoyo Act. Cult. y Dep.');
+          Ini.WriteString(vPercepciones, 'ImporteGravado', '0.00');
+          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField005.Value));
+        end;
+        if (adoqryNomina12FloatField006.Value <> 0) then
+        begin
+          Inc(vCountPercepcion);
+          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+          Ini.WriteString(vPercepciones, 'TipoPercepcion', '038');
+          Ini.WriteString(vPercepciones, 'Clave', '006');
+          Ini.WriteString(vPercepciones, 'Concepto', 'compensación');
+          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField006.Value));
+          Ini.WriteString(vPercepciones, 'ImporteExento', '0.00');
+        end;
+        if (adoqryNomina12FloatField008.Value <> 0) then
+        begin
+          Inc(vCountPercepcion);
+          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+          Ini.WriteString(vPercepciones, 'TipoPercepcion', '038');
+          Ini.WriteString(vPercepciones, 'Clave', '008');
+          Ini.WriteString(vPercepciones, 'Concepto', 'Compensación Garantizada');
+          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField008.Value));
+          Ini.WriteString(vPercepciones, 'ImporteExento', '0.00');
+        end;
+        if (adoqryNomina12FloatField009G.Value <> 0) or (adoqryNomina12FloatField009E.Value <> 0)then
+        begin
+          Inc(vCountPercepcion);
+          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+          Ini.WriteString(vPercepciones, 'TipoPercepcion', '021');
+          Ini.WriteString(vPercepciones, 'Clave', '009');
+          Ini.WriteString(vPercepciones, 'Concepto', 'Prima Vacacional');
+          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField009G.Value));
+          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField009E.Value));
+        end;
+        if (adoqryNomina12FloatField010G.Value <> 0) or (adoqryNomina12FloatField010E.Value <> 0)then
+        begin
+          Inc(vCountPercepcion);
+          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+          Ini.WriteString(vPercepciones, 'TipoPercepcion', '002');
+          Ini.WriteString(vPercepciones, 'Clave', '010');
+          Ini.WriteString(vPercepciones, 'Concepto', 'AGUINALDO');
+          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField010G.Value));
+          Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField010E.Value));
+        end;
+        if (adoqryNomina12FloatField011.Value <> 0) then
+        begin
+          Inc(vCountPercepcion);
+          vPercepciones := cPercepciones + IntToStr(vCountPercepcion);
+          Ini.WriteString(vPercepciones, 'TipoPercepcion', '038');
+          Ini.WriteString(vPercepciones, 'Clave', '011');
+          Ini.WriteString(vPercepciones, 'Concepto', 'Quinquenios');
+          Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField011.Value));
+          Ini.WriteString(vPercepciones, 'ImporteExento', '0.00');
         end;
 
       //[nomJubilacionPensionRetiro]
@@ -489,27 +592,80 @@ begin
           Ini.WriteString('nomDeducciones', 'TotalImpuestosRetenidos', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12nomDeduccionesTotalImpuestosRetenidos.Value));
         //[nomDeducciones1]
         vCountDeduccion := 0;
-        vCampoIni := 59;
-        vCampoFin := 66;
-        for vCampoI := vCampoIni to vCampoFin do
+//        vCampoIni := 59;
+//        vCampoFin := 66;
+//        for vCampoI := vCampoIni to vCampoFin do
+//        begin
+//          vCampoN := adoqryNomina12.Fields[vCampoI].FieldName;
+//          vClave := Copy(vCampoN, 2, Length(vCampoN));
+//          vCampoV := adoqryNomina12.FieldByName(vCampoN).Value;
+//          if (vCampoV <> 0) then
+//          begin
+//            if dxmdDeduccionesTipo.Locate('Clave', vClave, []) then
+//            begin
+//              Inc(vCountDeduccion);
+//              vDeducciones := cDeducciones + IntToStr(vCountDeduccion);
+//              Ini.WriteString(vDeducciones, 'TipoDeduccion', dxmdDeduccionesTipoSAT.Value);
+//              Ini.WriteString(vDeducciones, 'Clave', vClave);
+//              Ini.WriteString(vDeducciones, 'Concepto', Remplazar(dxmdDeduccionesTipoConcepto.AsString));
+//              Ini.WriteString(vDeducciones, 'Importe', FormatFloat(cCFDI_ImporteMXN,vCampoV));
+//            end;
+//          end;
+//        end;
+        if (adoqryNomina12FloatField012.Value <> 0) then
         begin
-          vCampoN := adoqryNomina12.Fields[vCampoI].FieldName;
-          vClave := Copy(vCampoN, 2, Length(vCampoN));
-          vCampoV := adoqryNomina12.FieldByName(vCampoN).Value;
-          if (vCampoV <> 0) then
-          begin
-            if dxmdDeduccionesTipo.Locate('Clave', vClave, []) then
-            begin
-              Inc(vCountDeduccion);
-              vDeducciones := cDeducciones + IntToStr(vCountDeduccion);
-              Ini.WriteString(vDeducciones, 'TipoDeduccion', dxmdDeduccionesTipoSAT.Value);
-              Ini.WriteString(vDeducciones, 'Clave', vClave);
-              Ini.WriteString(vDeducciones, 'Concepto', Remplazar(dxmdDeduccionesTipoConcepto.AsString));
-              Ini.WriteString(vDeducciones, 'Importe', FormatFloat(cCFDI_ImporteMXN,vCampoV));
-            end;
-          end;
+          Inc(vCountDeduccion);
+          vDeducciones := cDeducciones + IntToStr(vCountDeduccion);
+          Ini.WriteString(vDeducciones, 'TipoDeduccion', '004');
+          Ini.WriteString(vDeducciones, 'Clave', '012');
+          Ini.WriteString(vDeducciones, 'Concepto', 'Fondo de Ahorro');
+          Ini.WriteString(vDeducciones, 'Importe', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField012.Value));
         end;
-
+        if (adoqryNomina12FloatField013.Value <> 0) then
+        begin
+          Inc(vCountDeduccion);
+          vDeducciones := cDeducciones + IntToStr(vCountDeduccion);
+          Ini.WriteString(vDeducciones, 'TipoDeduccion', '002');
+          Ini.WriteString(vDeducciones, 'Clave', '013');
+          Ini.WriteString(vDeducciones, 'Concepto', 'ISR');
+          Ini.WriteString(vDeducciones, 'Importe', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField013.Value));
+        end;
+        if (adoqryNomina12FloatField014.Value <> 0) then
+        begin
+          Inc(vCountDeduccion);
+          vDeducciones := cDeducciones + IntToStr(vCountDeduccion);
+          Ini.WriteString(vDeducciones, 'TipoDeduccion', '001');
+          Ini.WriteString(vDeducciones, 'Clave', '014');
+          Ini.WriteString(vDeducciones, 'Concepto', 'IMSS');
+          Ini.WriteString(vDeducciones, 'Importe', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField014.Value));
+        end;
+        if (adoqryNomina12FloatField015.Value <> 0) then
+        begin
+          Inc(vCountDeduccion);
+          vDeducciones := cDeducciones + IntToStr(vCountDeduccion);
+          Ini.WriteString(vDeducciones, 'TipoDeduccion', '010');
+          Ini.WriteString(vDeducciones, 'Clave', '015');
+          Ini.WriteString(vDeducciones, 'Concepto', 'Crédito INFONAVIT');
+          Ini.WriteString(vDeducciones, 'Importe', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField015.Value));
+        end;
+        if (adoqryNomina12FloatField016.Value <> 0) then
+        begin
+          Inc(vCountDeduccion);
+          vDeducciones := cDeducciones + IntToStr(vCountDeduccion);
+          Ini.WriteString(vDeducciones, 'TipoDeduccion', '007');
+          Ini.WriteString(vDeducciones, 'Clave', '016');
+          Ini.WriteString(vDeducciones, 'Concepto', 'PENSIÖN ALIMENTICIA');
+          Ini.WriteString(vDeducciones, 'Importe', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField016.Value));
+        end;
+        if (adoqryNomina12FloatField017.Value <> 0) then
+        begin
+          Inc(vCountDeduccion);
+          vDeducciones := cDeducciones + IntToStr(vCountDeduccion);
+          Ini.WriteString(vDeducciones, 'TipoDeduccion', '004');
+          Ini.WriteString(vDeducciones, 'Clave', '017');
+          Ini.WriteString(vDeducciones, 'Concepto', 'PRESTAMO FONDO AHORRO');
+          Ini.WriteString(vDeducciones, 'Importe', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField017.Value));
+        end;
         //[nomOtrosPagos1]
         vCountOtrosPagos := 0;
 //        vCampoIni := 57;
@@ -546,7 +702,16 @@ begin
 //          Ini.WriteString(vOtrosPagos, 'Importe', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12P42.Value));
 //          Ini.WriteString(vOtrosPagos, 'SubsidioCausado', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12SubsidioAlEmpleo.Value));
 //        end;
-
+        if (adoqryNomina12FloatField007.Value <> 0) then
+        begin
+          Inc(vCountOtrosPagos);
+          vOtrosPagos := cOtrosPagos + IntToStr(vCountOtrosPagos);
+          Ini.WriteString(vOtrosPagos, 'TipoOtroPago', '002');
+          Ini.WriteString(vOtrosPagos, 'Clave', '007');
+          Ini.WriteString(vOtrosPagos, 'Concepto', 'Subsidio al Empleo');
+          Ini.WriteString(vOtrosPagos, 'Importe', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12FloatField007.Value));
+          Ini.WriteString(vOtrosPagos, 'SubsidioCausado', FormatFloat(cCFDI_ImporteMXN,adoqryNomina12SubsidioAlEmpleo.Value));
+        end;
         //[nomIncapacidades1]
         //DiasIncapacidad=1
         //TipoIncapacidad=01

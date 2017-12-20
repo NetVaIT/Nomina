@@ -112,6 +112,7 @@ object frmMain: TfrmMain
       object JUMAPAM1: TMenuItem
         Tag = 9
         Caption = 'JUMAPAM'
+        OnClick = COBAEM1Click
       end
     end
     object Prueba1: TMenuItem

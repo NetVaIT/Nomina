@@ -223,18 +223,18 @@ begin
         dmCECTI.Free;
       end;
     end;
-//    9: begin
-//      dmJUMAPAM := TdmJUMAPAM.Create(Self);
-//      try
-//        dmJUMAPAM.FCertificado.Ruta := '.\Certificados\cbe830914qz0.cer';
-//        dmJUMAPAM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MORELIA_CBE830914QZ0_20140226_145218.key';
-//        dmJUMAPAM.FCertificado.LlavePrivada.Clave := 'DELEGA12';
-//        dmJUMAPAM.FCertificado.RFCAlQuePertenece := 'ACO560518KW7';
-//        dmJUMAPAM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
-//      finally
-//        dmJUMAPAM.Free;
-//      end;
-//    end;
+    9: begin
+      dmJUMAPAM := TdmJUMAPAM.Create(Self);
+      try
+        dmJUMAPAM.FCertificado.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.cer';
+        dmJUMAPAM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.key';
+        dmJUMAPAM.FCertificado.LlavePrivada.Clave := 'jumapam88';
+        dmJUMAPAM.FCertificado.RFCAlQuePertenece := 'JMA880101MB2';
+        dmJUMAPAM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmJUMAPAM.Free;
+      end;
+    end;
 
   end;
   DirectoriosActualizar;
@@ -438,7 +438,14 @@ begin
       dmCFDI.FDUser:= 'bps.finkok@gmail.com';
       dmCFDI.FDPass:= 'BPS@sociados1';
     end;
-
+    9: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'jumapam88';
+      dmCFDI.PAC := pacFoliosDigitales;
+      dmCFDI.FDUser:= 'BRA140225GN1';
+      dmCFDI.FDPass:= '@2si6my%';
+    end;
   end;
 end;
 

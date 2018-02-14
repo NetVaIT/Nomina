@@ -317,9 +317,6 @@ object dmJUMAPAM: TdmJUMAPAM
     object adoqryNominaFloatField09A: TFloatField
       FieldName = '09A'
     end
-    object adoqryNominaFloatField11: TFloatField
-      FieldName = '11'
-    end
     object adoqryNominaFloatField12: TFloatField
       FieldName = '12'
     end
@@ -385,6 +382,9 @@ object dmJUMAPAM: TdmJUMAPAM
     end
     object adoqryNominaFloatField10E: TFloatField
       FieldName = '10E'
+    end
+    object adoqryNominaFloatField11: TFloatField
+      FieldName = '11'
     end
     object adoqryNominaFloatField17G: TFloatField
       FieldName = '17G'
@@ -501,6 +501,12 @@ object dmJUMAPAM: TdmJUMAPAM
     object adoqryNominaPeriodoAnio: TIntegerField
       FieldName = 'PeriodoAnio'
       ReadOnly = True
+    end
+    object adoqryNominaSALARIO_BASE: TFloatField
+      FieldName = 'SALARIO_BASE'
+    end
+    object adoqryNominaSALARIO_BASE_INTEGRADO: TFloatField
+      FieldName = 'SALARIO_BASE_INTEGRADO'
     end
   end
   object dxmdPercepcionesTipo: TdxMemData

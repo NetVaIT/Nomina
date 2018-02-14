@@ -150,6 +150,8 @@ type
     adoqryNominaTOTAL_PAGADO: TFloatField;
     adoqryNominaPeriodoMes: TIntegerField;
     adoqryNominaPeriodoAnio: TIntegerField;
+    adoqryNominaSALARIO_BASE: TFloatField;
+    adoqryNominaSALARIO_BASE_INTEGRADO: TFloatField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -385,8 +387,8 @@ begin
         Ini.WriteString('nomReceptor', 'PeriodicidadPago', adoqryNominanomReceptorPeriodicidadPago.AsString);
 //        Ini.WriteString('nomReceptor', 'Banco', adoqryNominanomEmisorBanco.AsString);
 //        Ini.WriteString('nomReceptor', 'CuentaBancaria', adoqryNominanomEmisorCuentaBancaria.AsString);
-        Ini.WriteString('nomReceptor', 'SalarioBaseCotApor', '0.00');
-        Ini.WriteString('nomReceptor', 'SalarioDiarioIntegrado', '0.00');
+        Ini.WriteString('nomReceptor', 'SalarioBaseCotApor', FormatFloat(cCFDI_ImporteMXN,adoqryNominaSALARIO_BASE.Value));
+        Ini.WriteString('nomReceptor', 'SalarioDiarioIntegrado', FormatFloat(cCFDI_ImporteMXN,adoqryNominaSALARIO_BASE_INTEGRADO.Value));
         Ini.WriteString('nomReceptor', 'ClaveEntFed', adoqryNominanomReceptorClaveEntFed.AsString);
         //[nomSubcontratacion1]
         //RfcLabora=XAXX010101000
@@ -405,7 +407,7 @@ begin
         //[nomPercepciones1]
         vCountPercepcion := 0;
         vCampoIni := 50;
-        vCampoFin := 79;
+        vCampoFin := 78;
         for vCampoI := vCampoIni to vCampoFin do
         begin
           vCampoN := adoqryNomina.Fields[vCampoI].FieldName;

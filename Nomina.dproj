@@ -99,25 +99,6 @@
         <DCCReference Include="Standard\_ProgressForm.pas">
             <Form>_frmProgress</Form>
         </DCCReference>
-        <DCCReference Include="MainFrm.pas">
-            <Form>frmMain</Form>
-        </DCCReference>
-        <DCCReference Include="DirectoriosDM.pas">
-            <Form>dmDirectorios</Form>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
-        <DCCReference Include="DirectoriosFrm.pas">
-            <Form>frmDirectorios</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="CFDIDM.pas">
-            <Form>dmCFDI</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
-        <DCCReference Include="CFDLibHeader.pas"/>
-        <DCCReference Include="DataTypeCast.pas"/>
-        <DCCReference Include="WSTFD.pas"/>
         <DCCReference Include="tfacturaelectronica\SelloDigital.pas"/>
         <DCCReference Include="tfacturaelectronica\ClaseOpenSSL.pas"/>
         <DCCReference Include="tfacturaelectronica\FacturaTipos.pas"/>
@@ -126,52 +107,75 @@
         <DCCReference Include="tfacturaelectronica\LibEay32Plus.pas"/>
         <DCCReference Include="tfacturaelectronica\ClaseCertificadoSellos.pas"/>
         <DCCReference Include="tfacturaelectronica\CadenaOriginalTimbre.pas"/>
-        <DCCReference Include="COBAEMDM.pas">
-            <Form>dmCOBAEM</Form>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
-        <DCCReference Include="IntervaDM.pas">
-            <Form>dmInterva</Form>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
         <DCCReference Include="XMLToPDF\XMLtoPDFDmod.pas">
             <Form>dmodXMLtoPDF</Form>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="WSFinkokStampDemo.pas"/>
-        <DCCReference Include="SMRTVDM.pas">
-            <Form>dmSMRTV</Form>
+        <DCCReference Include="Nomina32\MainFrm.pas">
+            <Form>frmMain</Form>
             <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="WSFinkokCancelDemo.pas"/>
-        <DCCReference Include="WSFinkokStamp.pas"/>
-        <DCCReference Include="WSFinkokCancel.pas"/>
-        <DCCReference Include="IVEMDM.pas">
-            <Form>dmIVEM</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
-        <DCCReference Include="COMPESCADM.pas">
-            <Form>dmCOMPESCA</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
-        <DCCReference Include="COFEEEMDM.pas">
-            <Form>dmCOFEEEM</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
-        <DCCReference Include="CECTIDM.pas">
+        <DCCReference Include="Nomina32\CECTIDM.pas">
             <Form>dmCECTI</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="JUMAPAMDM.pas">
+        <DCCReference Include="Nomina32\CFDIDM.pas">
+            <Form>dmCFDI</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Nomina32\CFDLibHeader.pas"/>
+        <DCCReference Include="Nomina32\COBAEMDM.pas">
+            <Form>dmCOBAEM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Nomina32\COFEEEMDM.pas">
+            <Form>dmCOFEEEM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Nomina32\COMPESCADM.pas">
+            <Form>dmCOMPESCA</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Nomina32\DataTypeCast.pas"/>
+        <DCCReference Include="Nomina32\DirectoriosDM.pas">
+            <Form>dmDirectorios</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Nomina32\DirectoriosFrm.pas">
+            <Form>frmDirectorios</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Nomina32\IntervaDM.pas">
+            <Form>dmInterva</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Nomina32\IVEMDM.pas">
+            <Form>dmIVEM</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Nomina32\JUMAPAMDM.pas">
             <Form>dmJUMAPAM</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="Nomina32\SMRTVDM.pas">
+            <Form>dmSMRTV</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="WSTimbrado\WSFinkokCancel.pas"/>
+        <DCCReference Include="WSTimbrado\WSFinkokCancelDemo.pas"/>
+        <DCCReference Include="WSTimbrado\WSFinkokStamp.pas"/>
+        <DCCReference Include="WSTimbrado\WSFinkokStampDemo.pas"/>
+        <DCCReference Include="WSTimbrado\WSTFD.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

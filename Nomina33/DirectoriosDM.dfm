@@ -41,6 +41,10 @@ object dmDirectorios: TdmDirectorios
       Caption = 'Cancelar'
       OnExecute = actCancelarExecute
     end
+    object actCancelarMarcados: TAction
+      Caption = 'Cancelar marcados'
+      OnExecute = actCancelarMarcadosExecute
+    end
   end
   object adoqryPDF: TADOQuery
     Connection = frmMain.ADOConnection
@@ -88,7 +92,7 @@ object dmDirectorios: TdmDirectorios
       'AND (Periodo = :Mes1 OR :Mes2 = 0)'
       'ORDER BY IdCFDILog')
     Left = 40
-    Top = 152
+    Top = 104
     object adoqryPDFIdCFDILog: TAutoIncField
       FieldName = 'IdCFDILog'
       ReadOnly = True
@@ -151,7 +155,7 @@ object dmDirectorios: TdmDirectorios
       'AND (PeriodoAnio = :Anio1 OR :Anio2 = 0)'
       'AND (Periodo = :Mes1 OR :Mes2 = 0)')
     Left = 136
-    Top = 152
+    Top = 104
     object adoqryPDFCountCUENTA: TIntegerField
       FieldName = 'CUENTA'
       ReadOnly = True
@@ -170,6 +174,39 @@ object dmDirectorios: TdmDirectorios
         Value = Null
       end>
     Left = 40
-    Top = 208
+    Top = 160
+  end
+  object adoqCancelar: TADOQuery
+    Connection = frmMain.ADOConnection
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'SELECT IdCFDILog, TFD2UUID FROM CFDILog'
+      'WHERE Cancelar = 1 AND TFD2Estado = '#39'Vigente'#39)
+    Left = 40
+    Top = 224
+    object adoqCancelarIdCFDILog: TAutoIncField
+      FieldName = 'IdCFDILog'
+      ReadOnly = True
+    end
+    object adoqCancelarTFD2UUID: TStringField
+      FieldName = 'TFD2UUID'
+      Size = 36
+    end
+  end
+  object adoqCancelarCount: TADOQuery
+    Connection = frmMain.ADOConnection
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'SELECT COUNT(*) AS CUENTA '
+      'FROM CFDILog'
+      'WHERE Cancelar = 1 AND TFD2Estado = '#39'Vigente'#39)
+    Left = 128
+    Top = 224
+    object adoqCancelarCountCUENTA: TIntegerField
+      FieldName = 'CUENTA'
+      ReadOnly = True
+    end
   end
 end

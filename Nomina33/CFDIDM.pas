@@ -15,6 +15,8 @@ type
   TPAC = (pacFoliosDigitales, pacFinkok);
   TdmCFDI = class(TDataModule)
     adopSetCFDILog: TADOStoredProc;
+    adocUpdCFDILogCancelar: TADOCommand;
+    adocUpdCFDILogCancelarError: TADOCommand;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -23,6 +25,9 @@ type
     FFDPass: string;
     FFDUser: string;
     FPAC: TPAC;
+    FFDPFXFile: string;
+    FFDPFXPass: string;
+    FCertificadoPkcs12Base64: string;
     procedure AgregarMensaje(pLinea: String);
     procedure SetBitacora(const Value: TcxMemo);
     /// <summary> Calculamos el sello digital para la cadena original de la factura
@@ -35,13 +40,18 @@ type
 //      pFileNameXML: string): TStringCadenaOriginal;
     procedure SetFDPass(const Value: string);
     procedure SetFDUser(const Value: string);
+    procedure SetFDPFXFile(const Value: string);
+    procedure SetFDPFXPass(const Value: string);
     procedure SetPAC(const Value: TPAC);
     function Timbrar(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
     function TimbrarFD(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
+    function CancelarFD(pUUID: string): Boolean;
     function TimbrarFinkok(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
     function CancelarFinkok(pUUID: string): Boolean;
     procedure CrearPDFMasivo(pMes: Integer; pDirXML, pDirPDF: String;
       pFilesXML: TListItems);
+    procedure SetCertificadoPkcs12Base64(const Value: string);
+    property CertificadoPkcs12Base64: string read FCertificadoPkcs12Base64 write SetCertificadoPkcs12Base64;
   public
     { Public declarations }
     FCertificado: TFECertificado;
@@ -49,6 +59,8 @@ type
     property Bitacora: TcxMemo read FBitacora write SetBitacora;
     property FDUser: string read FFDUser write SetFDUser;
     property FDPass: string read FFDPass write SetFDPass;
+    property FDPFXFile: string read FFDPFXFile write SetFDPFXFile;
+    property FDPFXPass: string read FFDPFXPass write SetFDPFXPass;
     property PAC: TPAC read FPAC write SetPAC;
     procedure CrearXMLMasivo(pDirINI, pDirXML: String; pFilesINI: TListItems);
     procedure CrearXMLTimbrar(pAnio, pMes: Word; pFiltrar: Boolean; pDirINI,
@@ -74,20 +86,64 @@ uses _Utils, MainFrm, xmlDoc, XMLIntf,
   {$ELSE}
     WSCFDI33,
   {$ENDIF}
+  {$IFDEF DEBUG}
+    WSFinkokStampDemo, WSFinkokCancelDemo,
+  {$ELSE}
+    WSFinkokStamp, WSFinkokCancel,
+  {$ENDIF}
     Facturacion.GeneradorSelloV33, Facturacion.OpenSSL;
-//  SelloDigital, ClaseOpenSSL, ClaseCertificadoSellos, CadenaOriginalTimbre,
-//  WSTFD;
 
-//  {$IFDEF DEBUG}
-//    WSFinkokStampDemo, WSFinkokCancelDemo,
-//  {$ELSE}
-//    WSFinkokStamp, WSFinkokCancel,
-//  {$ENDIF}
 //  XMLtoPDFDmod;
 
 {$R *.dfm}
 
 { TdmCFDI }
+
+function WStringToArray(const S: WideString): StringArray;
+var
+  i : integer;
+begin
+  SetLength(result, Length(S) div 36); //cada uuid es de 36 caracteres
+  if Length(S) > 0 then
+  for i := 1 to Length(S) div 36 do
+  begin
+    SetLength(result[i-1], Length(S));
+    result[i-1] := S;
+  end;
+end;
+
+//function LeerArchivoTexto(pArchivo: string): string;
+//var
+//  F: TFileStream;
+//  s: String;
+//begin
+//  F := TFileStream.Create( pArchivo, fmOpenRead );
+//  try
+//    SetLength( s, F.Size ); // *** Me faltaba esto, gracias por la corrección ***
+//    F.Read( s[1], F.Size );
+//    Result := s;
+//  finally
+//    F.Free;
+//  end;
+//end;
+
+function LeerArchivoTexto(pArchivo: string): string;
+var
+  TXTFile: TextFile;
+  Linea: string;
+  Lineas: string;
+begin
+  Lineas := '';
+  AssignFile(TXTFile, pArchivo);
+  Reset(TXTFile);
+  while not Eof(TXTFile) do
+  begin
+    ReadLn(TXTFile, Linea);
+    Lineas := Lineas + Linea;
+  end;
+  CloseFile(TXTFile);
+  Result := Lineas;
+end;
 
 procedure TdmCFDI.AgregarMensaje(pLinea: String);
 begin
@@ -98,63 +154,84 @@ end;
 function TdmCFDI.Cancelar(pUUID: string): Boolean;
 begin
   case PAC of
-    pacFoliosDigitales: Result:= False;
+    pacFoliosDigitales: Result:= CancelarFD(pUUID);
     pacFinkok: Result := CancelarFinkok(pUUID);
     else Result := False;
   end;
 end;
 
-function TdmCFDI.CancelarFinkok(pUUID: string): Boolean;
-//var
-//  WSTFinkok: IWSFinkokCancel;
-//  RTFinkok: CancelaCFDResult2;
-//  sKey,sCer:TByteDynArray;
-//  AUUID:StringArray;
-//  UUID:UUIDS;
-//  aKey,aCer:TFileName;
-//
-//  function WStringToArray(const S: WideString): StringArray;
-//  var
-//  i : integer;
-//  begin
-//  SetLength(result, Length(S) div 36); //cada uuid es de 36 caracteres
-//  if Length(S) > 0 then
-//  for i := 1 to Length(S) div 36 do begin
-//  SetLength(result[i-1], Length(S));
-//  result[i-1] := S;
-//  end;
-//  end;
-
+function TdmCFDI.CancelarFD(pUUID: string): Boolean;
+var
+  WSTFD: IWSCFDI33;
+  RtFD: RespuestaCancelacion2;
+  listaCFDI: ArrayOfstring;
 begin
-//  if FDUser = EmptyStr then exit;
-//  if FDPass = EmptyStr then exit;
-// UUID:=UUIDS.Create;
-////openssl x509 -inform DER -outform PEM -in CSD010_AAA010101AAA.cer -pubkey -out CSD010_AAA010101AAA.cer.pem
-////openssl pkcs8 -inform DER -in CSD010_AAA010101AAA.key -passin pass:12345678a -out CSD010_AAA010101AAA.key.pem
-////EjecutaExterno(ExtractFilePath(Application.ExeName)+'openssl x509 -inform DER -outform PEM -in '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.cer -pubkey -out '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.cer.pem');
-////EjecutaExterno(ExtractFilePath(Application.ExeName)+'openssl pkcs8 -inform DER -in '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.key -passin pass:12345678a -out '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.key.pem');
-// sCer:=FileToByteArray(FCertificado.Ruta+'.pem');
-// sKey:=FileToByteArray(FCertificado.LlavePrivada.Ruta+'.pem');
-// WSTFinkok := GetIWSFinkokCancel(True, '', nil);
-// SetLength(AUUID, 0);
-// AUUID:=WStringToArray(Trim(pUUID));
-// UUID.uuids:=AUUID;
-//  {$IFDEF DEBUG}
-//    RTFinkok := WSTFinkok.cancel(UUID, FDUser, FDPass, FCertificado.RFCAlQuePertenece, sCer, sKey, False, EmptyStr);
-//  {$ELSE}
-//    RTFinkok := WSTFinkok.cancel(UUID, FDUser, FDPass, FCertificado.RFCAlQuePertenece, sCer, sKey, False);
-//  {$ENDIF}
-// if Trim(RTFinkok.CodEstatus)<>'' then
-//  AgregarMensaje('Estatus UUID '+RTFinkok.CodEstatus)
-// Else
-//  Begin
-//   if Trim(RTFinkok.Folios[0].EstatusUUID)<>'' then    AgregarMensaje('Estatus UUID '+RTFinkok.Folios[0].EstatusUUID);
-//   if Trim(RTFinkok.Folios[0].UUID)<>'' then    AgregarMensaje('UUID '+RTFinkok.Folios[0].UUID);
-//   if Trim(RTFinkok.Acuse)<>'' then     AgregarMensaje('Acuse '+RTFinkok.Acuse);
-//   if Trim(RTFinkok.Fecha)<>'' then     AgregarMensaje('Fecha '+RTFinkok.Fecha);
-//   if Trim(RTFinkok.RfcEmisor)<>'' Then AgregarMensaje('RFC Emisor '+RTFinkok.RfcEmisor);
-//  End;
-// UUID.Free;
+  if FDUser = EmptyStr then exit;
+  if FDPass = EmptyStr then exit;
+  SetLength(listaCFDI, 1);
+  listaCFDI[0]:= pUUID;
+  WSTFD := GetIWSCFDI33(True, '', nil);
+  RtFD := WSTFD.CancelarCFDI(FDUser, FDPass, FCertificado.RFCAlQuePertenece, listaCFDI, CertificadoPkcs12Base64, FDPFXPass);
+  // Alamecan el la bitacora el resultado
+  if RtFD.OperacionExitosa then
+  begin
+    adocUpdCFDILogCancelar.Parameters.ParamByName('UUID').Value:= pUUID;
+    adocUpdCFDILogCancelar.Parameters.ParamByName('TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
+    adocUpdCFDILogCancelar.Parameters.ParamByName('TFD2XMLAcuse').Value:= RtFD.XMLAcuse;
+  //  RtFD.DetallesCancelacion[0].CodigoResultado
+  //  RtFD.DetallesCancelacion[0].MensajeResultado
+  //  RtFD.DetallesCancelacion[0].UUID
+    adocUpdCFDILogCancelar.Execute;
+  end
+  else
+  begin
+    adocUpdCFDILogCancelarError.Parameters.ParamByName('UUID').Value:= pUUID;
+    adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2MensajeError').Value:= RtFD.MensajeError;
+    adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2MensajeErrorDetallado').Value:= RtFD.MensajeErrorDetallado;
+    adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
+    adocUpdCFDILogCancelarError.Execute;
+  end;
+  Result := RtFD.OperacionExitosa;
+end;
+
+function TdmCFDI.CancelarFinkok(pUUID: string): Boolean;
+var
+  WSTFinkok: IWSFinkokCancel;
+  RTFinkok: CancelaCFDResult2;
+  sKey,sCer:TByteDynArray;
+  AUUID:StringArray;
+  UUID:UUIDS;
+  aKey,aCer:TFileName;
+begin
+  if FDUser = EmptyStr then exit;
+  if FDPass = EmptyStr then exit;
+ UUID:=UUIDS.Create;
+//openssl x509 -inform DER -outform PEM -in CSD010_AAA010101AAA.cer -pubkey -out CSD010_AAA010101AAA.cer.pem
+//openssl pkcs8 -inform DER -in CSD010_AAA010101AAA.key -passin pass:12345678a -out CSD010_AAA010101AAA.key.pem
+//EjecutaExterno(ExtractFilePath(Application.ExeName)+'openssl x509 -inform DER -outform PEM -in '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.cer -pubkey -out '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.cer.pem');
+//EjecutaExterno(ExtractFilePath(Application.ExeName)+'openssl pkcs8 -inform DER -in '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.key -passin pass:12345678a -out '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.key.pem');
+ sCer:=FileToByteArray(FCertificado.Ruta+'.pem');
+ sKey:=FileToByteArray(FCertificado.LlavePrivada.Ruta+'.pem');
+ WSTFinkok := GetIWSFinkokCancel(True, '', nil);
+ SetLength(AUUID, 0);
+ AUUID:=WStringToArray(Trim(pUUID));
+ UUID.uuids:=AUUID;
+  {$IFDEF DEBUG}
+    RTFinkok := WSTFinkok.cancel(UUID, FDUser, FDPass, FCertificado.RFCAlQuePertenece, sCer, sKey, False, EmptyStr);
+  {$ELSE}
+    RTFinkok := WSTFinkok.cancel(UUID, FDUser, FDPass, FCertificado.RFCAlQuePertenece, sCer, sKey, False);
+  {$ENDIF}
+ if Trim(RTFinkok.CodEstatus)<>'' then
+  AgregarMensaje('Estatus UUID '+RTFinkok.CodEstatus)
+ Else
+  Begin
+   if Trim(RTFinkok.Folios[0].EstatusUUID)<>'' then    AgregarMensaje('Estatus UUID '+RTFinkok.Folios[0].EstatusUUID);
+   if Trim(RTFinkok.Folios[0].UUID)<>'' then    AgregarMensaje('UUID '+RTFinkok.Folios[0].UUID);
+   if Trim(RTFinkok.Acuse)<>'' then     AgregarMensaje('Acuse '+RTFinkok.Acuse);
+   if Trim(RTFinkok.Fecha)<>'' then     AgregarMensaje('Fecha '+RTFinkok.Fecha);
+   if Trim(RTFinkok.RfcEmisor)<>'' Then AgregarMensaje('RFC Emisor '+RTFinkok.RfcEmisor);
+  End;
+ UUID.Free;
 end;
 
 function TdmCFDI.CrearPDF(pFileNameXML, pFileNamePDF: string): Boolean;
@@ -371,9 +448,25 @@ begin
   FBitacora := Value;
 end;
 
+procedure TdmCFDI.SetCertificadoPkcs12Base64(const Value: string);
+begin
+  FCertificadoPkcs12Base64 := Value;
+end;
+
 procedure TdmCFDI.SetFDPass(const Value: string);
 begin
   FFDPass := Value;
+end;
+
+procedure TdmCFDI.SetFDPFXFile(const Value: string);
+begin
+  FFDPFXFile := Value;
+  CertificadoPkcs12Base64:= LeerArchivoTexto(Value);
+end;
+
+procedure TdmCFDI.SetFDPFXPass(const Value: string);
+begin
+  FFDPFXPass := Value;
 end;
 
 procedure TdmCFDI.SetFDUser(const Value: string);

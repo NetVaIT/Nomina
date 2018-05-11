@@ -158,7 +158,94 @@ object dmCFDI: TdmCFDI
         Precision = 10
         Value = Null
       end>
-    Left = 96
-    Top = 176
+    Left = 56
+    Top = 24
+  end
+  object adocUpdCFDILogCancelar: TADOCommand
+    CommandText = 
+      'DECLARE @IdCFDILog int;'#13#10'SELECT @IdCFDILog = IdCFDILog FROM CFDI' +
+      'Log WHERE TFD2UUID = :UUID;'#13#10'UPDATE CFDILog'#13#10'SET TFD2OperacionEx' +
+      'itosa = :TFD2OperacionExitosa'#13#10',TFD2Estado = '#39'Cancelado'#39#13#10',TFD2M' +
+      'ensajeError = NULL'#13#10',TFD2MensajeErrorDetallado = NULL'#13#10',TFD2XMLA' +
+      'cuse = :TFD2XMLAcuse'#13#10'WHERE IdCFDILog = @IdCFDILog; '#13#10
+    Connection = frmMain.ADOConnection
+    Parameters = <
+      item
+        Name = 'UUID'
+        Attributes = [paNullable]
+        DataType = ftString
+        NumericScale = 255
+        Precision = 255
+        Size = 36
+        Value = Null
+      end
+      item
+        Name = 'TFD2OperacionExitosa'
+        Attributes = [paNullable]
+        DataType = ftBoolean
+        NumericScale = 255
+        Precision = 255
+        Size = 2
+        Value = Null
+      end
+      item
+        Name = 'TFD2XMLAcuse'
+        Attributes = [paNullable, paLong]
+        DataType = ftWideString
+        NumericScale = 255
+        Precision = 255
+        Size = 1073741823
+        Value = Null
+      end>
+    Left = 56
+    Top = 80
+  end
+  object adocUpdCFDILogCancelarError: TADOCommand
+    CommandText = 
+      'DECLARE @IdCFDILog int;'#13#10'SELECT @IdCFDILog = IdCFDILog FROM CFDI' +
+      'Log WHERE TFD2UUID = :UUID;'#13#10'UPDATE CFDILog'#13#10'SET TFD2MensajeErro' +
+      'r = :TFD2MensajeError'#13#10',TFD2MensajeErrorDetallado = :TFD2Mensaje' +
+      'ErrorDetallado'#13#10',TFD2OperacionExitosa = :TFD2OperacionExitosa'#13#10'W' +
+      'HERE IdCFDILog = @IdCFDILog; '#13#10
+    Connection = frmMain.ADOConnection
+    Parameters = <
+      item
+        Name = 'UUID'
+        Attributes = [paNullable]
+        DataType = ftString
+        NumericScale = 255
+        Precision = 255
+        Size = 36
+        Value = Null
+      end
+      item
+        Name = 'TFD2MensajeError'
+        Attributes = [paNullable]
+        DataType = ftString
+        NumericScale = 255
+        Precision = 255
+        Size = 255
+        Value = Null
+      end
+      item
+        Name = 'TFD2MensajeErrorDetallado'
+        Attributes = [paNullable]
+        DataType = ftString
+        NumericScale = 255
+        Precision = 255
+        Size = 255
+        Value = Null
+      end
+      item
+        Name = 'TFD2OperacionExitosa'
+        Attributes = [paNullable]
+        DataType = ftBoolean
+        NumericScale = 255
+        Precision = 255
+        Size = 2
+        Value = Null
+      end>
+    Left = 56
+    Top = 136
   end
 end

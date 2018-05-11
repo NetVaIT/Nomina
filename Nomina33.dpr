@@ -23,7 +23,11 @@ uses
   DirectoriosDM in 'Nomina33\DirectoriosDM.pas' {dmDirectorios: TDataModule},
   DirectoriosFrm in 'Nomina33\DirectoriosFrm.pas' {frmDirectorios},
   IntervaDM in 'Nomina33\IntervaDM.pas' {dmInterva: TDataModule},
-  DataTypeCast in 'Nomina33\DataTypeCast.pas';
+  DataTypeCast in 'Nomina33\DataTypeCast.pas',
+  WSFinkokCancelDemo in 'WSTimbrado\WSFinkokCancelDemo.pas',
+  WSFinkokStampDemo in 'WSTimbrado\WSFinkokStampDemo.pas',
+  WSFinkokCancel in 'WSTimbrado\WSFinkokCancel.pas',
+  WSFinkokStamp in 'WSTimbrado\WSFinkokStamp.pas';
 
 {$R *.res}
 

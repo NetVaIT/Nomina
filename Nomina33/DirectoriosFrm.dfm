@@ -136,21 +136,6 @@ object frmDirectorios: TfrmDirectorios
         TabOrder = 10
         Width = 121
       end
-      object edtUUID: TcxTextEdit
-        Left = 577
-        Top = 35
-        TabOrder = 11
-        Text = '520B9EF0-4B8B-484D-9B4A-FDF7D575DEEF'
-        Width = 169
-      end
-      object btnCancelar: TcxButton
-        Left = 752
-        Top = 33
-        Width = 75
-        Height = 25
-        Caption = 'Cancelar'
-        TabOrder = 12
-      end
     end
     object cxPageControl1: TcxPageControl
       Left = 0
@@ -236,6 +221,10 @@ object frmDirectorios: TfrmDirectorios
       object cxtsSalida: TcxTabSheet
         Caption = 'XML'
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object cxslvOutbox: TcxShellListView
           Left = 0
           Top = 0
@@ -263,6 +252,10 @@ object frmDirectorios: TfrmDirectorios
       object cxtsProcess: TcxTabSheet
         Caption = 'XML FD'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object cxslvProcess: TcxShellListView
           Left = 0
           Top = 0
@@ -285,6 +278,32 @@ object frmDirectorios: TfrmDirectorios
           TabOrder = 1
           Visible = False
           Width = 121
+        end
+      end
+      object cxTabSheet1: TcxTabSheet
+        Caption = 'Cancelar'
+        ImageIndex = 3
+        object edtUUID: TcxTextEdit
+          Left = 12
+          Top = 19
+          TabOrder = 0
+          Width = 332
+        end
+        object btnCancelar: TcxButton
+          Left = 350
+          Top = 19
+          Width = 75
+          Height = 25
+          Caption = 'Cancelar'
+          TabOrder = 1
+        end
+        object btnCancelarMarcados: TcxButton
+          Left = 144
+          Top = 104
+          Width = 129
+          Height = 25
+          Caption = 'Cancelar marcados'
+          TabOrder = 2
         end
       end
     end

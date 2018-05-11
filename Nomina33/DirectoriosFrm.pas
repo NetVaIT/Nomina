@@ -56,8 +56,10 @@ type
     btnTimbrar: TcxButton;
     btnCrearPDF: TcxButton;
     cbFiltrar: TcxCheckBox;
+    cxTabSheet1: TcxTabSheet;
     edtUUID: TcxTextEdit;
     btnCancelar: TcxButton;
+    btnCancelarMarcados: TcxButton;
   private
     { Private declarations }
     FProcessDirectory: string;
@@ -72,6 +74,7 @@ type
     FactCrearPDF: TBasicAction;
     FactFDConsultarCreditos: TBasicAction;
     FactCancelar: TBasicAction;
+    FactCancelarMarcados: TBasicAction;
     procedure SetErrorDirectory(const Value: string);
     procedure SetInboxDirectory(const Value: string);
     procedure SetOutboxDirectory(const Value: string);
@@ -92,6 +95,7 @@ type
     procedure SetactCancelar(const Value: TBasicAction);
     function GetUUID: string;
     procedure SetUUID(const Value: string);
+    procedure SetactCancelarMarcados(const Value: TBasicAction);
   public
     { Public declarations }
     property Mes: Integer read GetMes write SetMes;
@@ -109,6 +113,7 @@ type
     property actFDObtener: TBasicAction read FactFDObtener write SetactFDObtener;
     property actFDConsultarCreditos: TBasicAction read FactFDConsultarCreditos write SetactFDConsultarCreditos;
     property actCancelar: TBasicAction read FactCancelar write SetactCancelar;
+    property actCancelarMarcados: TBasicAction read FactCancelarMarcados write SetactCancelarMarcados;
     property UUID: string read GetUUID write SetUUID;
   end;
 
@@ -142,6 +147,12 @@ procedure TfrmDirectorios.SetactCancelar(const Value: TBasicAction);
 begin
   FactCancelar := Value;
   btnCancelar.Action := Value;
+end;
+
+procedure TfrmDirectorios.SetactCancelarMarcados(const Value: TBasicAction);
+begin
+  FactCancelarMarcados := Value;
+  btnCancelarMarcados.Action := Value;
 end;
 
 procedure TfrmDirectorios.SetactCrearINI(const Value: TBasicAction);

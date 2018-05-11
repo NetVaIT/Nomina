@@ -34,6 +34,12 @@ type
     actFDConsultarCreditos: TAction;
     adoqryPDFXMLNombre: TStringField;
     actCancelar: TAction;
+    adoqCancelar: TADOQuery;
+    adoqCancelarCount: TADOQuery;
+    adoqCancelarIdCFDILog: TAutoIncField;
+    adoqCancelarTFD2UUID: TStringField;
+    adoqCancelarCountCUENTA: TIntegerField;
+    actCancelarMarcados: TAction;
     procedure DataModuleCreate(Sender: TObject);
     procedure actCrearINIExecute(Sender: TObject);
     procedure actCrearXMLExecute(Sender: TObject);
@@ -44,6 +50,7 @@ type
     procedure actCrearPDFExecute(Sender: TObject);
     procedure actFDConsultarCreditosExecute(Sender: TObject);
     procedure actCancelarExecute(Sender: TObject);
+    procedure actCancelarMarcadosExecute(Sender: TObject);
   private
     { Private declarations }
     FModulo: Integer;
@@ -58,6 +65,7 @@ type
     FDirPDF: String;
     procedure FDObtenerPDF(pAnio, pMes: Integer; pFiltrar: Boolean);
     procedure CrearPDF(pAnio, pMes: Integer; pFiltrar: Boolean);
+    procedure CancelarMarcados;
     procedure ValidarDirectorios;
     procedure DirectoriosActualizar;
   public
@@ -85,9 +93,12 @@ uses _Utils, MainFrm, COBAEMDM, IntervaDM;
 
 procedure TdmDirectorios.actCancelarExecute(Sender: TObject);
 begin
-  ValidarDirectorios;
   dmCFDI.Cancelar(frmDirectorios.UUID);
-  DirectoriosActualizar;
+end;
+
+procedure TdmDirectorios.actCancelarMarcadosExecute(Sender: TObject);
+begin
+  CancelarMarcados;
 end;
 
 procedure TdmDirectorios.actCrearINIExecute(Sender: TObject);
@@ -213,6 +224,34 @@ begin
   FDObtenerPDF(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar);
 end;
 
+procedure TdmDirectorios.CancelarMarcados;
+var
+  vCount: Integer;
+  vCountTotal: Integer;
+begin
+  vCount := 0;
+  adoqCancelarCount.Close;
+  adoqCancelarCount.Open;
+  vCountTotal:= adoqCancelarCountCUENTA.Value;
+  adoqCancelarCount.Close;
+
+  adoqCancelar.Close;
+  adoqCancelar.Open;
+  try
+    while not adoqCancelar.Eof do
+    begin
+      dmCFDI.Cancelar(adoqCancelarTFD2UUID.AsString);
+      Inc(vCount);
+      ShowProgress(vCount,vCountTotal);
+      adoqCancelar.Next;
+    end;
+  finally
+    adoqCancelar.Close;
+  end;
+  ShowProgress(0, 0);
+  ShowMessage('Cancelacion terminado');
+end;
+
 procedure TdmDirectorios.CrearPDF(pAnio, pMes: Integer; pFiltrar: Boolean);
 var
   vCount: Integer;
@@ -292,6 +331,7 @@ begin
   frmDirectorios.actFDObtenerPDF := actFDOBtenerPDF;
   frmDirectorios.actFDObtener := actFDObtener;
   frmDirectorios.actCancelar := actCancelar;
+  frmDirectorios.actCancelarMarcados := actCancelarMarcados;
   dmCFDI := TdmCFDI.Create(Self);
   dmCFDI.Bitacora := frmDirectorios.mBitacora;
   case FModulo of
@@ -315,9 +355,12 @@ begin
       dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000409583489.cer';
       dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_CBE830914QZ0_20180219_175953.key';
       dmCFDI.FCertificado.LlavePrivada.Clave := 'TESO3303';
+      dmCFDI.FCertificado.RFCAlQuePertenece := 'CBE830914QZ0';
       dmCFDI.PAC := pacFoliosDigitales;
       dmCFDI.FDUser:= 'CBE830914QZ0';
       dmCFDI.FDPass:= 'sOeU$uBBm7c@';
+      dmCFDI.FDPFXFile:= '.\Certificados\CBE830914QZ0.pem';
+      dmCFDI.FDPFXPass:= 'TESO3303';
     end;
     3: begin
       dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000303379961.cer';

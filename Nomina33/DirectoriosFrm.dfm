@@ -32,7 +32,7 @@ object frmDirectorios: TfrmDirectorios
       BevelOuter = bvNone
       TabOrder = 0
       object Label2: TLabel
-        Left = 96
+        Left = 120
         Top = 11
         Width = 23
         Height = 13
@@ -95,7 +95,7 @@ object frmDirectorios: TfrmDirectorios
         TabOrder = 5
       end
       object edtAnio: TcxSpinEdit
-        Left = 120
+        Left = 144
         Top = 8
         Properties.MaxValue = 2050.000000000000000000
         Properties.MinValue = 2000.000000000000000000
@@ -106,11 +106,11 @@ object frmDirectorios: TfrmDirectorios
       object edtmes: TcxSpinEdit
         Left = 40
         Top = 8
-        Properties.MaxValue = 14.000000000000000000
+        Properties.AssignedValues.MaxValue = True
         Properties.MinValue = 1.000000000000000000
         TabOrder = 0
         Value = 1
-        Width = 50
+        Width = 74
       end
       object btnTimbrar: TcxButton
         Left = 336
@@ -129,7 +129,7 @@ object frmDirectorios: TfrmDirectorios
         TabOrder = 4
       end
       object cbFiltrar: TcxCheckBox
-        Left = 200
+        Left = 224
         Top = 5
         Caption = 'Filtrar'
         State = cbsChecked
@@ -221,10 +221,6 @@ object frmDirectorios: TfrmDirectorios
       object cxtsSalida: TcxTabSheet
         Caption = 'XML'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object cxslvOutbox: TcxShellListView
           Left = 0
           Top = 0
@@ -252,10 +248,6 @@ object frmDirectorios: TfrmDirectorios
       object cxtsProcess: TcxTabSheet
         Caption = 'XML FD'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object cxslvProcess: TcxShellListView
           Left = 0
           Top = 0

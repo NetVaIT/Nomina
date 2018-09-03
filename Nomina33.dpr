@@ -4,9 +4,9 @@ uses
   Vcl.Forms,
   _ProgressForm in 'Standard\_ProgressForm.pas' {_frmProgress},
   _Utils in 'Standard\_Utils.pas',
-  FacturaTipos in 'tfacturaelectronica\FacturaTipos.pas',
-  Facturacion.GeneradorSello in 'tfacturaelectronica20\Facturacion.GeneradorSello.pas',
   Facturacion.Comprobante in 'tfacturaelectronica20\Versiones\Facturacion.Comprobante.pas',
+  Facturacion.GeneradorSello in 'tfacturaelectronica20\Facturacion.GeneradorSello.pas',
+  Facturacion.GeneradorCadenaOriginal in 'tfacturaelectronica20\Facturacion.GeneradorCadenaOriginal.pas',
   Facturacion.OpenSSL in 'tfacturaelectronica20\Facturacion.OpenSSL.pas',
   libeay32 in 'tfacturaelectronica20\OpenSSL\libeay32.pas',
   LibEay32Plus in 'tfacturaelectronica20\OpenSSL\LibEay32Plus.pas',
@@ -27,7 +27,10 @@ uses
   WSFinkokCancelDemo in 'WSTimbrado\WSFinkokCancelDemo.pas',
   WSFinkokStampDemo in 'WSTimbrado\WSFinkokStampDemo.pas',
   WSFinkokCancel in 'WSTimbrado\WSFinkokCancel.pas',
-  WSFinkokStamp in 'WSTimbrado\WSFinkokStamp.pas';
+  WSFinkokStamp in 'WSTimbrado\WSFinkokStamp.pas',
+  XMLtoPDFNominaDmod in 'XMLToPDF\XMLtoPDFNominaDmod.pas' {dmXMLtoPDFNomina: TDataModule},
+  XMLtoPDFCFDI32Dmod in 'XMLToPDF\XMLtoPDFCFDI32Dmod.pas' {dmXMLtoPDFCFDI32: TDataModule},
+  CFDIUtils in 'tfacturaelectronica20\CFDIUtils.pas';
 
 {$R *.res}
 

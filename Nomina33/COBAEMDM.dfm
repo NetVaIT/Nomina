@@ -16,9 +16,13 @@ object dmCOBAEM: TdmCOBAEM
       end>
     SQL.Strings = (
       
-        'SELECT ID_CFDI, TOTAL_PERCEPCIONES + TOTAL_OTROS_PAGOS AS Subtot' +
-        'al, TOTAL_DEDUCCIONES AS Descuento, TOTAL_LIQUIDO AS Total, RECE' +
-        'PTOR_NOMBRE, RECEPTOR_RFC, '
+        'SELECT CFDI.ID_CFDI, CASE WHEN ID_CFDI_ANTERIOR IS NOT NULL THEN' +
+        ' '#39'04'#39' ELSE NULL END AS TipoRelacion, CFDI_ANT.TFD2UUID AS CfdiRe' +
+        'lacionado1,'
+      
+        'TOTAL_PERCEPCIONES + TOTAL_OTROS_PAGOS AS Subtotal, TOTAL_DEDUCC' +
+        'IONES AS Descuento, TOTAL_LIQUIDO AS Total, RECEPTOR_NOMBRE, REC' +
+        'EPTOR_RFC, '
       
         'TOTAL_PERCEPCIONES + TOTAL_OTROS_PAGOS AS ConceptoValorUnitario,' +
         ' TOTAL_PERCEPCIONES + TOTAL_OTROS_PAGOS AS ConceptoImporte, TOTA' +
@@ -39,14 +43,13 @@ object dmCOBAEM: TdmCOBAEM
         'TOTAL_OTRAS_DEDUCCIONES, TOTAL_IMPUESTOS_RETENIDOS, CT, FILIACIO' +
         'N, SUBSIDIO_CAUSADO, TOTAL_LIQUIDO, REGISTRO_PATRONAL'
       'FROM CFDI'
+      
+        'LEFT OUTER JOIN CFDILog AS CFDI_ANT ON CFDI.ID_CFDI_ANTERIOR = C' +
+        'FDI_ANT.ID_CFDI'
       'WHERE Estatus = :Estatus'
-      'ORDER BY RECEPTOR_RFC, ID_CFDI')
+      'ORDER BY RECEPTOR_RFC, CFDI.ID_CFDI')
     Left = 56
     Top = 32
-    object adoqryCFDIID_CFDI: TAutoIncField
-      FieldName = 'ID_CFDI'
-      ReadOnly = True
-    end
     object adoqryCFDISubtotal: TFloatField
       FieldName = 'Subtotal'
       ReadOnly = True
@@ -202,6 +205,19 @@ object dmCOBAEM: TdmCOBAEM
       FieldName = 'REGISTRO_PATRONAL'
       Size = 255
     end
+    object adoqryCFDITipoRelacion: TStringField
+      FieldName = 'TipoRelacion'
+      ReadOnly = True
+      Size = 2
+    end
+    object adoqryCFDICfdiRelacionado1: TStringField
+      FieldName = 'CfdiRelacionado1'
+      Size = 36
+    end
+    object adoqryCFDIID_CFDI: TLargeintField
+      FieldName = 'ID_CFDI'
+      ReadOnly = True
+    end
   end
   object adoqryPercepciones: TADOQuery
     Connection = frmMain.ADOConnection
@@ -210,19 +226,21 @@ object dmCOBAEM: TdmCOBAEM
       item
         Name = 'ID_CFDI'
         Attributes = [paSigned, paNullable]
-        DataType = ftInteger
-        Precision = 10
-        Size = 4
+        DataType = ftLargeint
+        Precision = 19
+        Size = 8
         Value = Null
       end>
     SQL.Strings = (
       
-        'SELECT ID_CONCEPTO, TIPO, CLAVE, CLAVE_PLAZA + '#39' '#39' + CONCEPTO AS' +
-        ' CONCEPTO, IMPORTE, IMPORTE_EXENTO'
+        'SELECT ID_CONCEPTO, TIPO, CLAVE, CASE WHEN CLAVE_PLAZA IS NULL T' +
+        'HEN CONCEPTO ELSE CLAVE_PLAZA + '#39' '#39' + CONCEPTO END AS CONCEPTO, ' +
+        'IMPORTE, IMPORTE_EXENTO'
       'FROM CONCEPTOS'
       'WHERE TIPO_CONCEPTO = '#39'P'#39
       'AND ID_CFDI = :ID_CFDI'
-      'ORDER BY CLAVE_PLAZA')
+      'ORDER BY CLAVE_PLAZA'
+      '')
     Left = 56
     Top = 112
     object adoqryPercepcionesID_CONCEPTO: TAutoIncField
@@ -256,19 +274,21 @@ object dmCOBAEM: TdmCOBAEM
       item
         Name = 'ID_CFDI'
         Attributes = [paSigned, paNullable]
-        DataType = ftInteger
-        Precision = 10
-        Size = 4
+        DataType = ftLargeint
+        Precision = 19
+        Size = 8
         Value = Null
       end>
     SQL.Strings = (
       
-        'SELECT ID_CONCEPTO, TIPO, CLAVE, CLAVE_PLAZA + '#39' '#39' + CONCEPTO AS' +
-        ' CONCEPTO, IMPORTE, IMPORTE_EXENTO'
+        'SELECT ID_CONCEPTO, TIPO, CLAVE, CASE WHEN CLAVE_PLAZA IS NULL T' +
+        'HEN CONCEPTO ELSE CLAVE_PLAZA + '#39' '#39' + CONCEPTO END AS CONCEPTO, ' +
+        'IMPORTE, IMPORTE_EXENTO'
       'FROM CONCEPTOS'
       'WHERE TIPO_CONCEPTO = '#39'D'#39
       'AND ID_CFDI = :ID_CFDI'
-      'ORDER BY CLAVE_PLAZA')
+      'ORDER BY CLAVE_PLAZA'
+      '')
     Left = 176
     Top = 112
     object adoqryDeduccionesID_CONCEPTO: TAutoIncField
@@ -324,19 +344,21 @@ object dmCOBAEM: TdmCOBAEM
       item
         Name = 'ID_CFDI'
         Attributes = [paSigned, paNullable]
-        DataType = ftInteger
-        Precision = 10
-        Size = 4
+        DataType = ftLargeint
+        Precision = 19
+        Size = 8
         Value = Null
       end>
     SQL.Strings = (
       
-        'SELECT ID_CONCEPTO, TIPO, CLAVE, CLAVE_PLAZA + '#39' '#39' + CONCEPTO AS' +
-        ' CONCEPTO, IMPORTE, IMPORTE_EXENTO'
+        'SELECT ID_CONCEPTO, TIPO, CLAVE, CASE WHEN CLAVE_PLAZA IS NULL T' +
+        'HEN CONCEPTO ELSE CLAVE_PLAZA + '#39' '#39' + CONCEPTO END AS CONCEPTO, ' +
+        'IMPORTE, IMPORTE_EXENTO'
       'FROM CONCEPTOS'
       'WHERE TIPO_CONCEPTO = '#39'O'#39
       'AND ID_CFDI = :ID_CFDI'
-      'ORDER BY CLAVE_PLAZA')
+      'ORDER BY CLAVE_PLAZA'
+      '')
     Left = 56
     Top = 176
     object adoqOtrosPagosID_CONCEPTO: TAutoIncField
@@ -361,6 +383,43 @@ object dmCOBAEM: TdmCOBAEM
     end
     object adoqOtrosPagosIMPORTE_EXENTO: TFloatField
       FieldName = 'IMPORTE_EXENTO'
+    end
+  end
+  object adoqHorasExtra: TADOQuery
+    Connection = frmMain.ADOConnection
+    CursorType = ctStatic
+    Parameters = <
+      item
+        Name = 'ID_CONCEPTO'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end>
+    SQL.Strings = (
+      'SELECT * FROM v_HORAS_EXTRAS '
+      'WHERE ID_CONCEPTO = :ID_CONCEPTO')
+    Left = 184
+    Top = 192
+    object adoqHorasExtraID_CONCEPTO: TIntegerField
+      FieldName = 'ID_CONCEPTO'
+    end
+    object adoqHorasExtraTipo: TStringField
+      FieldName = 'Tipo'
+      ReadOnly = True
+      Size = 2
+    end
+    object adoqHorasExtraDias: TFloatField
+      FieldName = 'Dias'
+    end
+    object adoqHorasExtraHorasExtra: TFloatField
+      FieldName = 'HorasExtra'
+      ReadOnly = True
+    end
+    object adoqHorasExtraImporte: TFloatField
+      FieldName = 'Importe'
+      ReadOnly = True
     end
   end
 end

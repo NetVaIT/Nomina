@@ -21,8 +21,8 @@ object dmInterva: TdmInterva
       
         'N.TipoNomina, N.FechaPago, N.FechaInicialPago, N.FechaFinalPago,' +
         ' N.NumDiasPagados, N.TotalPercepciones, N.TotalDeducciones, N.To' +
-        'talOtrosPagos, '#39'IP'#39' AS OrigenRecurso, 0.0 AS MontoRecursoPropio,' +
-        ' N.RegistroPatronal, '
+        'talOtrosPagos, N.OrigenRecurso, N.MontoRecursoPropio, N.Registro' +
+        'Patronal, '
       
         'N.CURP AS ReceptorCURP, N.NumSeguridadSocial, N.FechaInicioRelLa' +
         'boral, N.Antiguedad, N.TipoContrato, N.Sindicalizado, N.TipoJorn' +
@@ -36,7 +36,8 @@ object dmInterva: TdmInterva
       'N.TotalImpuestosRetenidos'
       'FROM CFDCFDI AS CFDI '
       'INNER JOIN CFDINOMINAS AS N ON CFDI.ID = N.IDCFDI'
-      'WHERE CFDI.statusproceso = 0')
+      'WHERE CFDI.statusproceso = 0'
+      'ORDER BY ReceptorRFC, IDCFDI')
     Left = 56
     Top = 24
     object adoqryCFDIIDCFDI: TLargeintField

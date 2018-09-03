@@ -162,9 +162,9 @@ begin
     3: begin
       dmInterva := TdmInterva.Create(Self);
       try
-        dmInterva.FCertificado.Ruta := '.\Certificados\00001000000303379961.cer';
-        dmInterva.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_SERVICIOS_DE_SALUD_SSS960912HW9_20140319_120422.key';
-        dmInterva.FCertificado.LlavePrivada.Clave := '96091200CSDNOM190314';
+        dmInterva.FCertificado.Ruta := '.\Certificados\SSS960912HW9_20180307_124415s.cer';
+        dmInterva.FCertificado.LlavePrivada.Ruta := '.\Certificados\SSS960912HW9_20180307_124415.key';
+        dmInterva.FCertificado.LlavePrivada.Clave := '96091200CSDNOM18';
         dmInterva.FCertificado.RFCAlQuePertenece := 'SSS960912HW9';
         dmInterva.LugarExpedicion := '78380';
         dmInterva.EmisorRFC := 'SSS960912HW9';
@@ -174,6 +174,40 @@ begin
         dmInterva.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
       finally
         dmInterva.Free;
+      end;
+    end;
+    4: begin
+      dmCOBAEM := TdmCOBAEM.Create(Self);
+      try
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\00001000000307555908.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_CAP980611AR5_20150709_135222.key';
+        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'CAP980611AR5';
+        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'CAP980611AR5';
+        dmCOBAEM.LugarExpedicion := '58280';
+        dmCOBAEM.EmisorRFC := 'CAP980611AR5';
+        dmCOBAEM.EmisorNombre := 'COMITE DE ADQUISICIONES DEL PODER EJECUTIVO';
+        dmCOBAEM.EmisorRegimenFiscal := '603';
+        dmCOBAEM.RegistroPatronal := 'C891039110';
+        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmCOBAEM.Free;
+      end;
+    end;
+    5: begin
+      dmCOBAEM := TdmCOBAEM.Create(Self);
+      try
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.key';
+        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'jumapam88';
+        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'JMA880101MB2';
+        dmCOBAEM.LugarExpedicion := '82000';
+        dmCOBAEM.EmisorRFC := 'JMA880101MB2';
+        dmCOBAEM.EmisorNombre := 'JUNTA MUNICIPAL DE AGUA POTABLE Y ALCANTARILLADO DE MAZATLAN, SINALOA';
+        dmCOBAEM.EmisorRegimenFiscal := '603';
+        dmCOBAEM.RegistroPatronal := '23053863108';
+        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmCOBAEM.Free;
       end;
     end;
 
@@ -363,12 +397,33 @@ begin
       dmCFDI.FDPFXPass:= 'TESO3303';
     end;
     3: begin
-      dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000303379961.cer';
-      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_SERVICIOS_DE_SALUD_SSS960912HW9_20140319_120422.key';
-      dmCFDI.FCertificado.LlavePrivada.Clave := '96091200CSDNOM190314';
+      dmCFDI.FCertificado.Ruta := '.\Certificados\SSS960912HW9_20180307_124415s.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\SSS960912HW9_20180307_124415.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := '96091200CSDNOM18';
       dmCFDI.PAC := pacFoliosDigitales;
       dmCFDI.FDUser:= 'SSS960912HW9';
       dmCFDI.FDPass:= 'v@AVJzGsS=';
+    end;
+    4: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000307555908.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_CAP980611AR5_20150709_135222.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'CAP980611AR5';
+      dmCFDI.PAC := pacFinkok;
+      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+      dmCFDI.FDPass:= 'BPS@sociados1';
+    end;
+    5: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'jumapam88';
+      dmCFDI.FCertificado.RFCAlQuePertenece := 'JMA880101MB2';
+      dmCFDI.PAC := pacFoliosDigitales;
+//      dmCFDI.FDUser:= 'BRA140225GN1';
+//      dmCFDI.FDPass:= '@2si6my%';
+      dmCFDI.FDUser:= 'JMA880101MB2';
+      dmCFDI.FDPass:= '@2si6myFf%';
+      dmCFDI.FDPFXFile:= '.\Certificados\JMA880101MB2.pem';
+      dmCFDI.FDPFXPass:= 'jumapam88';
     end;
 
   end;

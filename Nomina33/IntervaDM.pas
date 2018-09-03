@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB, System.IniFiles,
   System.StrUtils,
-  FacturaTipos;
+  CFDIUtils;
 
 const
   cBitacora = 'C:\Temp\bitacora de proceso.txt';
@@ -149,6 +149,7 @@ var
   vIncapacidad: string;
   vCountHorasExtra: Integer;
   vHorasExtra: string;
+  vTipoContrato: string;
 
   function PreparaCadena(Origen, Justifica, Relleno: string; Longitud: integer): String;
   var
@@ -194,6 +195,7 @@ begin
     while not adoqryCFDI.Eof do
     begin
       ID := adoqryCFDIReceptorRFC.AsString + '_' + FloatToStr(adoqryCFDIIDCFDI.Value);
+      vTipoContrato := PreparaCadena(adoqryCFDITipoContrato.AsString,'D','0',2);
   FormatSettings.DateSeparator:= '-';
       DateTimeToString(vFechaPago, 'yyyy/mm/dd', adoqryCFDIFechaPago.Value);
       DateTimeToString(vPagoDesde, 'yyyy/mm/dd', adoqryCFDIFechaInicialPago.Value);
@@ -227,8 +229,11 @@ begin
         Ini.WriteString('Comprobante', 'MetodoPago', 'PUE');
         Ini.WriteString('Comprobante', 'LugarExpedicion', LugarExpedicion);
 //        Ini.WriteString('Comprobante', 'Confirmacion', );
-//        Ini.WriteString('Comprobante', 'TipoRelacion', adoqryCFDITipoRelacion.AsString);
-//        Ini.WriteString('Comprobante', 'CfdiRelacionado1', adoqryCFDICfdiRelacionado1.AsString);
+        if not adoqryCFDITipoRelacion.IsNull then
+        begin
+          Ini.WriteString('Comprobante', 'TipoRelacion', adoqryCFDITipoRelacion.AsString);
+          Ini.WriteString('Comprobante', 'CfdiRelacionado1', adoqryCFDICfdiRelacionado1.AsString);
+        end;
 //        Ini.WriteString('Comprobante', 'CfdiRelacionado2', );
 //        Ini.WriteString('Comprobante', 'CfdiRelacionado3', );
         //[Emisor]
@@ -269,7 +274,8 @@ begin
           Ini.WriteString('Nomina', 'TotalOtrosPagos', FormatFloat(cCFDI_ImporteMXN,adoqryCFDITotalOtrosPagos.AsFloat));
         //[nomEmisor]
 //        Ini.WriteString('nomEmisor', 'CURP', adoqryNominanomEmisorCURP.AsString);
-        Ini.WriteString('nomEmisor', 'RegistroPatronal', RegistroPatronal);
+        if vTipoContrato <> '09' then
+          Ini.WriteString('nomEmisor', 'RegistroPatronal', adoqryCFDIRegistroPatronal.AsString);
 //        Ini.WriteString('nomEmisor', 'RfcPatronOrigen', adoqryNominanomEmisorRfcPatronOrigen.AsString);
         {$IFDEF DEBUG}
 
@@ -280,22 +286,30 @@ begin
         {$ENDIF}
         //[nomReceptor]
         Ini.WriteString('nomReceptor', 'CURP', adoqryCFDIReceptorCURP.AsString);
-        Ini.WriteString('nomReceptor', 'NumSeguridadSocial', adoqryCFDINumSeguridadSocial.AsString);
-        Ini.WriteString('nomReceptor', 'FechaInicioRelLaboral', vFechaInicioRelLaboral);
-        Ini.WriteString('nomReceptor', 'Antigedad', adoqryCFDIAntiguedad.AsString);
-        Ini.WriteString('nomReceptor', 'TipoContrato', PreparaCadena(adoqryCFDITipoContrato.AsString,'D','0',2));
+        if vTipoContrato <> '09' then
+        begin
+          Ini.WriteString('nomReceptor', 'NumSeguridadSocial', adoqryCFDINumSeguridadSocial.AsString);
+          Ini.WriteString('nomReceptor', 'FechaInicioRelLaboral', vFechaInicioRelLaboral);
+          Ini.WriteString('nomReceptor', 'Antigedad', adoqryCFDIAntiguedad.AsString);
+        end;
+        Ini.WriteString('nomReceptor', 'TipoContrato', vTipoContrato);
         Ini.WriteString('nomReceptor', 'Sindicalizado', adoqryCFDISindicalizado.AsString);
-        Ini.WriteString('nomReceptor', 'TipoJornada', PreparaCadena(adoqryCFDITipoJornada.AsString,'D','0',2));
+        if vTipoContrato <> '09' then
+          Ini.WriteString('nomReceptor', 'TipoJornada', PreparaCadena(adoqryCFDITipoJornada.AsString,'D','0',2));
         Ini.WriteString('nomReceptor', 'TipoRegimen', PreparaCadena(adoqryCFDITipoRegimen.AsString,'D','0',2));
-        Ini.WriteString('nomReceptor', 'NumEmpleado', adoqryCFDINumEmpleado.Value);
+        Ini.WriteString('nomReceptor', 'NumEmpleado', adoqryCFDINumEmpleado.AsString);
         Ini.WriteString('nomReceptor', 'Departamento', Remplazar(adoqryCFDIDepartamento.AsString));
         Ini.WriteString('nomReceptor', 'Puesto', Remplazar(adoqryCFDIPuesto.AsString));
-        Ini.WriteString('nomReceptor', 'RiesgoPuesto', adoqryCFDIRiesgoPuesto.AsString);
+        if vTipoContrato <> '09' then
+          Ini.WriteString('nomReceptor', 'RiesgoPuesto', adoqryCFDIRiesgoPuesto.AsString);
         Ini.WriteString('nomReceptor', 'PeriodicidadPago', PreparaCadena(adoqryCFDIPeriodicidadPago.AsString,'D','0',2));
 //        Ini.WriteString('nomReceptor', 'Banco', adoqryNominanomEmisorBanco.AsString);
 //        Ini.WriteString('nomReceptor', 'CuentaBancaria', adoqryNominanomEmisorCuentaBancaria.AsString);
-        Ini.WriteString('nomReceptor', 'SalarioBaseCotApor', FormatFloat(cCFDI_ImporteMXN,adoqryCFDISalarioBaseCotApor.AsFloat));
-        Ini.WriteString('nomReceptor', 'SalarioDiarioIntegrado', FormatFloat(cCFDI_ImporteMXN,adoqryCFDISalarioDiarioIntegrado.AsFloat));
+        if vTipoContrato <> '09' then
+        begin
+          Ini.WriteString('nomReceptor', 'SalarioBaseCotApor', FormatFloat(cCFDI_ImporteMXN,adoqryCFDISalarioBaseCotApor.AsFloat));
+          Ini.WriteString('nomReceptor', 'SalarioDiarioIntegrado', FormatFloat(cCFDI_ImporteMXN,adoqryCFDISalarioDiarioIntegrado.AsFloat));
+        end;
         Ini.WriteString('nomReceptor', 'ClaveEntFed', adoqryCFDIClaveEntFed.AsString);
         //[nomSubcontratacion1]
         //RfcLabora=XAXX010101000

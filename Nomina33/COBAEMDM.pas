@@ -5,15 +5,17 @@ interface
 uses
   System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB, System.IniFiles,
   System.StrUtils,
-  FacturaTipos;
+  CFDIUtils;
 
 const
   cBitacora = 'C:\Temp\bitacora de proceso.txt';
   cPercepciones = 'nomPercepcion';
   cDeducciones = 'nomDeduccion';
   cOtrosPagos = 'nomOtrosPagos';
+  cHorasExtra = 'HorasExtra';
 //  cFormatFloat = '0.00####';
   cCFDI_ImporteMXN = '0.00';
+  cCFDI_NumDiasPagados = '0.000';
 
 type
   TdmCOBAEM = class(TDataModule)
@@ -22,7 +24,6 @@ type
     adoqryDeducciones: TADOQuery;
     adoqryNominaCount: TADOQuery;
     adoqryNominaCountCUENTA: TIntegerField;
-    adoqryCFDIID_CFDI: TAutoIncField;
     adoqryCFDISubtotal: TFloatField;
     adoqryCFDIDescuento: TFloatField;
     adoqryCFDITotal: TFloatField;
@@ -86,6 +87,15 @@ type
     adoqOtrosPagosCONCEPTO: TWideStringField;
     adoqOtrosPagosIMPORTE: TFloatField;
     adoqOtrosPagosIMPORTE_EXENTO: TFloatField;
+    adoqHorasExtra: TADOQuery;
+    adoqHorasExtraID_CONCEPTO: TIntegerField;
+    adoqHorasExtraTipo: TStringField;
+    adoqHorasExtraDias: TFloatField;
+    adoqHorasExtraHorasExtra: TFloatField;
+    adoqHorasExtraImporte: TFloatField;
+    adoqryCFDITipoRelacion: TStringField;
+    adoqryCFDICfdiRelacionado1: TStringField;
+    adoqryCFDIID_CFDI: TLargeintField;
   private
     { Private declarations }
     FEmisorNombre: string;
@@ -137,6 +147,8 @@ var
   vConceptos: string;
   vCountPercepciones: Integer;
   vPercepciones: string;
+  vCountHorasExtra: Integer;
+  vHorasExtra: string;
   vCountDeducciones: Integer;
   vDeducciones: string;
   vCountOtrosPagos: Integer;
@@ -224,6 +236,14 @@ begin
         Ini.WriteString('Comprobante', 'TipoDeComprobante', 'N');
         Ini.WriteString('Comprobante', 'MetodoPago', 'PUE');
         Ini.WriteString('Comprobante', 'LugarExpedicion', LugarExpedicion);
+//        Ini.WriteString('Comprobante', 'Confirmacion', );
+        if not adoqryCFDITipoRelacion.IsNull then
+        begin
+          Ini.WriteString('Comprobante', 'TipoRelacion', adoqryCFDITipoRelacion.AsString);
+          Ini.WriteString('Comprobante', 'CfdiRelacionado1', adoqryCFDICfdiRelacionado1.AsString);
+        end;
+//        Ini.WriteString('Comprobante', 'CfdiRelacionado2', );
+//        Ini.WriteString('Comprobante', 'CfdiRelacionado3', );
         //[Emisor]
         {$IFDEF DEBUG}
           Ini.WriteString('Emisor', 'Rfc', 'TES030201001');
@@ -253,7 +273,7 @@ begin
         Ini.WriteString('Nomina', 'FechaPago', vFechaPago);
         Ini.WriteString('Nomina', 'FechaInicialPago', vPagoDesde);
         Ini.WriteString('Nomina', 'FechaFinalPago', vPagoHasta);
-        Ini.WriteString('Nomina', 'NumDiasPagados', adoqryCFDIDIAS_PAGADOS.AsString);
+        Ini.WriteString('Nomina', 'NumDiasPagados', FormatFloat(cCFDI_NumDiasPagados,adoqryCFDIDIAS_PAGADOS.Value));
         if (adoqryCFDITOTAL_PERCEPCIONES.Value <> 0) then
           Ini.WriteString('Nomina', 'TotalPercepciones', FormatFloat(cCFDI_ImporteMXN,adoqryCFDITOTAL_PERCEPCIONES.Value));
         if (adoqryCFDITOTAL_DEDUCCIONES.Value <> 0) then
@@ -316,6 +336,25 @@ begin
             Ini.WriteString(vPercepciones, 'Concepto', Remplazar(adoqryPercepcionesCONCEPTO.AsString));
             Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN, adoqryPercepcionesIMPORTE.value));
             Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN, adoqryPercepcionesIMPORTE_EXENTO.Value));
+//            // HorasExtra
+//            vCountHorasExtra := 0;
+//            adoqHorasExtra.Close;
+//            adoqHorasExtra.Parameters.ParamByName('ID_CONCEPTO').Value := adoqryPercepcionesID_CONCEPTO.Value;
+//            adoqHorasExtra.Open;
+//            try
+//              while not adoqHorasExtra.Eof do
+//              begin
+//                Inc(vCountHorasExtra);
+//                vHorasExtra := cHorasExtra + IntToStr(vCountHorasExtra);
+//                Ini.WriteString(vPercepciones, vHorasExtra+'Dias', adoqHorasExtraDias.AsString);
+//                Ini.WriteString(vPercepciones, vHorasExtra+'TipoHoras', adoqHorasExtraTipo.AsString);
+//                Ini.WriteString(vPercepciones, vHorasExtra+'HorasExtra', adoqHorasExtraHorasExtra.AsString);
+//                Ini.WriteString(vPercepciones, vHorasExtra+'ImportePagado', FormatFloat(cCFDI_ImporteMXN, adoqHorasExtraImporte.Value));
+//                adoqHorasExtra.Next;
+//              end;
+//            finally
+//              adoqHorasExtra.Close;
+//            end;
             adoqryPercepciones.Next;
           end;
         finally
@@ -359,7 +398,8 @@ begin
             Ini.WriteString(vOtrosPagos, 'Clave', adoqOtrosPagosCLAVE.AsString);
             Ini.WriteString(vOtrosPagos, 'Concepto', Remplazar(adoqOtrosPagosCONCEPTO.AsString));
             Ini.WriteString(vOtrosPagos, 'Importe', FormatFloat(cCFDI_ImporteMXN, adoqOtrosPagosIMPORTE.Value));
-            Ini.WriteString(vOtrosPagos, 'SubsidioCausado', FormatFloat(cCFDI_ImporteMXN, adoqryCFDISUBSIDIO_CAUSADO.Value));
+            if adoqOtrosPagosTIPO.AsString = '002' then
+              Ini.WriteString(vOtrosPagos, 'SubsidioCausado', FormatFloat(cCFDI_ImporteMXN, adoqryCFDISUBSIDIO_CAUSADO.Value));
 //            SaldoAFavor=
 //            Ao=
 //            RemanenteSalFav=
@@ -385,25 +425,6 @@ begin
 //          end;
 //        finally
 //          adoqryIncapacidades.Close;
-//        end;
-//        //[nomHorasExtra1]
-//        vCountHorasExtra := 0;
-//        adoqryHorasExtra.Close;
-//        adoqryHorasExtra.Parameters.ParamByName('IdCFDINomina').Value := adoqryCFDIIDCFDINomina.Value;
-//        adoqryHorasExtra.Open;
-//        try
-//          while not adoqryHorasExtra.Eof do
-//          begin
-//            Inc(vCountHorasExtra);
-//            vHorasExtra := cHorasExtra + IntToStr(vCountHorasExtra);
-//            Ini.WriteString(vHorasExtra, 'Dias', adoqryHorasExtraDias.AsString);
-//            Ini.WriteString(vHorasExtra, 'TipoHoras', adoqryHorasExtraTipoHoras.AsString);
-//            Ini.WriteString(vHorasExtra, 'HorasExtra', adoqryHorasExtraHorasExtra.AsString);
-//            Ini.WriteString(vHorasExtra, 'ImportePagado', FormatBcd(cFormatFloat, adoqryHorasExtraImportePagado.Value));
-//            adoqryHorasExtra.Next;
-//          end;
-//        finally
-//          adoqryHorasExtra.Close;
 //        end;
       finally
         Ini.Free;

@@ -96,9 +96,9 @@
             <Form>_frmProgress</Form>
         </DCCReference>
         <DCCReference Include="Standard\_Utils.pas"/>
-        <DCCReference Include="tfacturaelectronica\FacturaTipos.pas"/>
-        <DCCReference Include="tfacturaelectronica20\Facturacion.GeneradorSello.pas"/>
         <DCCReference Include="tfacturaelectronica20\Versiones\Facturacion.Comprobante.pas"/>
+        <DCCReference Include="tfacturaelectronica20\Facturacion.GeneradorSello.pas"/>
+        <DCCReference Include="tfacturaelectronica20\Facturacion.GeneradorCadenaOriginal.pas"/>
         <DCCReference Include="tfacturaelectronica20\Facturacion.OpenSSL.pas"/>
         <DCCReference Include="tfacturaelectronica20\OpenSSL\libeay32.pas"/>
         <DCCReference Include="tfacturaelectronica20\OpenSSL\LibEay32Plus.pas"/>
@@ -150,6 +150,17 @@
         <DCCReference Include="WSTimbrado\WSFinkokStampDemo.pas"/>
         <DCCReference Include="WSTimbrado\WSFinkokCancel.pas"/>
         <DCCReference Include="WSTimbrado\WSFinkokStamp.pas"/>
+        <DCCReference Include="XMLToPDF\XMLtoPDFNominaDmod.pas">
+            <Form>dmXMLtoPDFNomina</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="XMLToPDF\XMLtoPDFCFDI32Dmod.pas">
+            <Form>dmXMLtoPDFCFDI32</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="tfacturaelectronica20\CFDIUtils.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

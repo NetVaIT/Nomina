@@ -690,6 +690,19 @@ var
       stream.Free;
     end;
   end;
+  function EncodeFile(const FileName: string): AnsiString;
+  var
+    LStream: TMemoryStream;
+  begin
+    LStream := TMemoryStream.Create;
+    try
+      LStream.LoadFromFile(Filename);
+      Result := EncodeBase64(LStream.Memory, LStream.Size);
+    finally
+      LStream.Free;
+    end;
+  end;
+
 begin
   Result:= False;
   WSTFD := GetIWSCFDI33(true, '', nil);

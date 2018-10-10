@@ -418,8 +418,10 @@ begin
       dmCFDI.FCertificado.LlavePrivada.Clave := 'jumapam88';
       dmCFDI.FCertificado.RFCAlQuePertenece := 'JMA880101MB2';
       dmCFDI.PAC := pacFoliosDigitales;
+      // Credenciales de los primeros 50000 timbres
 //      dmCFDI.FDUser:= 'BRA140225GN1';
 //      dmCFDI.FDPass:= '@2si6my%';
+      // Credenciales del segundo paquete
       dmCFDI.FDUser:= 'JMA880101MB2';
       dmCFDI.FDPass:= '@2si6myFf%';
       dmCFDI.FDPFXFile:= '.\Certificados\JMA880101MB2.pem';

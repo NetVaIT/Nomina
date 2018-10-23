@@ -142,23 +142,6 @@ begin
 //        dmCOBAEM.Free;
 //      end;
 //    end;
-    2: begin
-      dmCOBAEM := TdmCOBAEM.Create(Self);
-      try
-        dmCOBAEM.FCertificado.Ruta := '.\Certificados\00001000000409583489.cer';
-        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_CBE830914QZ0_20180219_175953.key';
-        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'TESO3303';
-        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'CBE830914QZ0';
-        dmCOBAEM.LugarExpedicion := '58170';
-        dmCOBAEM.EmisorRFC := 'CBE830914QZ0';
-        dmCOBAEM.EmisorNombre := 'COLEGIO DE BACHILLERES DEL ESTADO DE MICHOACAN';
-        dmCOBAEM.EmisorRegimenFiscal := '603';
-        dmCOBAEM.RegistroPatronal := '07016053';
-        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
-      finally
-        dmCOBAEM.Free;
-      end;
-    end;
     3: begin
       dmInterva := TdmInterva.Create(Self);
       try
@@ -176,7 +159,42 @@ begin
         dmInterva.Free;
       end;
     end;
-    4: begin
+    5: begin
+      dmCOBAEM := TdmCOBAEM.Create(Self);
+      try
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.key';
+        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'jumapam88';
+        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'JMA880101MB2';
+        dmCOBAEM.LugarExpedicion := '82000';
+        dmCOBAEM.EmisorRFC := 'JMA880101MB2';
+        dmCOBAEM.EmisorNombre := 'JUNTA MUNICIPAL DE AGUA POTABLE Y ALCANTARILLADO DE MAZATLAN, SINALOA';
+        dmCOBAEM.EmisorRegimenFiscal := '603';
+        dmCOBAEM.RegistroPatronal := '23053863108';
+        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmCOBAEM.Free;
+      end;
+    end;
+    // BPS
+    10: begin
+      dmCOBAEM := TdmCOBAEM.Create(Self);
+      try
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\00001000000409583489.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_CBE830914QZ0_20180219_175953.key';
+        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'TESO3303';
+        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'CBE830914QZ0';
+        dmCOBAEM.LugarExpedicion := '58170';
+        dmCOBAEM.EmisorRFC := 'CBE830914QZ0';
+        dmCOBAEM.EmisorNombre := 'COLEGIO DE BACHILLERES DEL ESTADO DE MICHOACAN';
+        dmCOBAEM.EmisorRegimenFiscal := '603';
+        dmCOBAEM.RegistroPatronal := '07016053';
+        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmCOBAEM.Free;
+      end;
+    end;
+    11: begin
       dmCOBAEM := TdmCOBAEM.Create(Self);
       try
         dmCOBAEM.FCertificado.Ruta := '.\Certificados\00001000000307555908.cer';
@@ -193,18 +211,18 @@ begin
         dmCOBAEM.Free;
       end;
     end;
-    5: begin
+    12: begin
       dmCOBAEM := TdmCOBAEM.Create(Self);
       try
-        dmCOBAEM.FCertificado.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.cer';
-        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.key';
-        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'jumapam88';
-        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'JMA880101MB2';
-        dmCOBAEM.LugarExpedicion := '82000';
-        dmCOBAEM.EmisorRFC := 'JMA880101MB2';
-        dmCOBAEM.EmisorNombre := 'JUNTA MUNICIPAL DE AGUA POTABLE Y ALCANTARILLADO DE MAZATLAN, SINALOA';
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.key';
+        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'Pesca6819';
+        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'CPE980406816';
+        dmCOBAEM.LugarExpedicion := '58290';
+        dmCOBAEM.EmisorRFC := 'CPE980406816';
+        dmCOBAEM.EmisorNombre := 'COMISION DE PESCA DEL ESTADO DE MICHOACAN';
         dmCOBAEM.EmisorRegimenFiscal := '603';
-        dmCOBAEM.RegistroPatronal := '23053863108';
+        dmCOBAEM.RegistroPatronal := 'C891039110-0';
         dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
       finally
         dmCOBAEM.Free;
@@ -385,17 +403,6 @@ begin
 //      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
 //      dmCFDI.FDPass:= 'BPS@sociados1';
     end;
-    2: begin
-      dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000409583489.cer';
-      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_CBE830914QZ0_20180219_175953.key';
-      dmCFDI.FCertificado.LlavePrivada.Clave := 'TESO3303';
-      dmCFDI.FCertificado.RFCAlQuePertenece := 'CBE830914QZ0';
-      dmCFDI.PAC := pacFoliosDigitales;
-      dmCFDI.FDUser:= 'CBE830914QZ0';
-      dmCFDI.FDPass:= 'sOeU$uBBm7c@';
-      dmCFDI.FDPFXFile:= '.\Certificados\CBE830914QZ0.pem';
-      dmCFDI.FDPFXPass:= 'TESO3303';
-    end;
     3: begin
       dmCFDI.FCertificado.Ruta := '.\Certificados\SSS960912HW9_20180307_124415s.cer';
       dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\SSS960912HW9_20180307_124415.key';
@@ -403,14 +410,6 @@ begin
       dmCFDI.PAC := pacFoliosDigitales;
       dmCFDI.FDUser:= 'SSS960912HW9';
       dmCFDI.FDPass:= 'v@AVJzGsS=';
-    end;
-    4: begin
-      dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000307555908.cer';
-      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_CAP980611AR5_20150709_135222.key';
-      dmCFDI.FCertificado.LlavePrivada.Clave := 'CAP980611AR5';
-      dmCFDI.PAC := pacFinkok;
-      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
-      dmCFDI.FDPass:= 'BPS@sociados1';
     end;
     5: begin
       dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.cer';
@@ -426,6 +425,34 @@ begin
       dmCFDI.FDPass:= '@2si6myFf%';
       dmCFDI.FDPFXFile:= '.\Certificados\JMA880101MB2.pem';
       dmCFDI.FDPFXPass:= 'jumapam88';
+    end;
+    // BPS
+    10: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000409583489.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_CBE830914QZ0_20180219_175953.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'TESO3303';
+      dmCFDI.FCertificado.RFCAlQuePertenece := 'CBE830914QZ0';
+      dmCFDI.PAC := pacFoliosDigitales;
+      dmCFDI.FDUser:= 'CBE830914QZ0';
+      dmCFDI.FDPass:= 'sOeU$uBBm7c@';
+      dmCFDI.FDPFXFile:= '.\Certificados\CBE830914QZ0.pem';
+      dmCFDI.FDPFXPass:= 'TESO3303';
+    end;
+    11: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000307555908.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_CAP980611AR5_20150709_135222.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'CAP980611AR5';
+      dmCFDI.PAC := pacFinkok;
+      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+      dmCFDI.FDPass:= 'BPS@sociados1';
+    end;
+    12: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'Pesca6819';
+      dmCFDI.PAC := pacFinkok;
+      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+      dmCFDI.FDPass:= 'BPS@sociados1';
     end;
 
   end;

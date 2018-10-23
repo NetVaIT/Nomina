@@ -95,7 +95,7 @@ type
     adoqHorasExtraImporte: TFloatField;
     adoqryCFDITipoRelacion: TStringField;
     adoqryCFDICfdiRelacionado1: TStringField;
-    adoqryCFDIID_CFDI: TLargeintField;
+    adoqryCFDIID_CFDI: TAutoIncField;
   private
     { Private declarations }
     FEmisorNombre: string;

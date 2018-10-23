@@ -214,7 +214,7 @@ object dmCOBAEM: TdmCOBAEM
       FieldName = 'CfdiRelacionado1'
       Size = 36
     end
-    object adoqryCFDIID_CFDI: TLargeintField
+    object adoqryCFDIID_CFDI: TAutoIncField
       FieldName = 'ID_CFDI'
       ReadOnly = True
     end

@@ -228,6 +228,23 @@ begin
         dmCOBAEM.Free;
       end;
     end;
+    13: begin
+      dmCOBAEM := TdmCOBAEM.Create(Self);
+      try
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\00001000000405966542.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_AST840426RQ9_20170417_135654.key';
+        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'teca2016';
+        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'AST840426RQ9';
+        dmCOBAEM.LugarExpedicion := '58920';
+        dmCOBAEM.EmisorRFC := 'AST840426RQ9';
+        dmCOBAEM.EmisorNombre := 'ALMACENES, SERVICIOS Y TRANSPORTES EXTRAORDINARIOS A COMUNIDADES AGROPECUARIAS DEL ESTADO DE MICHOACAN S.A. DE C.V.';
+        dmCOBAEM.EmisorRegimenFiscal := '603';
+        dmCOBAEM.RegistroPatronal := 'C891039110-0';
+        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmCOBAEM.Free;
+      end;
+    end;
 
   end;
   DirectoriosActualizar;
@@ -450,6 +467,14 @@ begin
       dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.cer';
       dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_Matriz_CPE980406816_20170223_165621.key';
       dmCFDI.FCertificado.LlavePrivada.Clave := 'Pesca6819';
+      dmCFDI.PAC := pacFinkok;
+      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+      dmCFDI.FDPass:= 'BPS@sociados1';
+    end;
+    13: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000405966542.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_AST840426RQ9_20170417_135654.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'teca2016';
       dmCFDI.PAC := pacFinkok;
       dmCFDI.FDUser:= 'bps.finkok@gmail.com';
       dmCFDI.FDPass:= 'BPS@sociados1';

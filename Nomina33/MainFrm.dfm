@@ -78,6 +78,11 @@ object frmMain: TfrmMain
           Caption = 'COMPESCA'
           OnClick = COBAEM1Click
         end
+        object ASTECA1: TMenuItem
+          Tag = 13
+          Caption = 'ASTECA'
+          OnClick = COBAEM1Click
+        end
       end
       object ABAX1: TMenuItem
         Caption = 'ABAX'

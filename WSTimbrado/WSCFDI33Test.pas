@@ -9,7 +9,7 @@
 //  >Import : http://www.foliosdigitalespac.com/WSTimbrado33Test/WSCFDI33.svc?xsd=xsd1
 // Encoding : utf-8
 // Version  : 1.0
-// (08/12/2017 11:00:36 a. m. - - $Rev: 56641 $)
+// (20/12/2018 05:13:45 p. m. - - $Rev: 56641 $)
 // ************************************************************************ //
 
 unit WSCFDI33Test;
@@ -35,57 +35,223 @@ type
   // indicate incorrect WSDL documents that failed to declare or import a schema type.
   // ************************************************************************ //
   // !:int             - "http://www.w3.org/2001/XMLSchema"[Gbl]
-  // !:string          - "http://www.w3.org/2001/XMLSchema"[Gbl]
   // !:boolean         - "http://www.w3.org/2001/XMLSchema"[Gbl]
+  // !:string          - "http://www.w3.org/2001/XMLSchema"[Gbl]
   // !:dateTime        - "http://www.w3.org/2001/XMLSchema"[Gbl]
+  // !:decimal         - "http://www.w3.org/2001/XMLSchema"[Gbl]
 
-  DetalleCancelacion2  = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
-  RespuestaTFD332      = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
-  RespuestaCreditos2   = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
-  RespuestaEstatusCancelacionAsincrona2 = class;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
-  RespuestaCancelacionAsincrona2 = class;       { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
-  RespuestaCancelacion2 = class;                { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
-  DetallesPaqueteCreditos2 = class;             { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
-  Timbre332            = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
-  RespuestaCreditos    = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
-  RespuestaEstatusCancelacionAsincrona = class;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
-  RespuestaCancelacionAsincrona = class;        { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
-  DetallesPaqueteCreditos = class;              { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
-  RegistroTimbre2      = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
-  RegistroTimbre       = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  RespuestaBase2       = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  RespuestaPeticionesPendientes2 = class;       { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  UUIDProcesarRespuesta2 = class;               { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  FolioRespuesta2      = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  RespuestaValidacionRFC2 = class;              { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
   RespuestaReporte2    = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  RespuestaTFD332      = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  Timbre332            = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  RespuestaAceptacionRechazo2 = class;          { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  RegistroTimbre2      = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  DetallesPaqueteCreditos2 = class;             { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  RespuestaEstatusCancelacionAsincrona2 = class;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  RespuestaCreditos2   = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  RespuestaCancelacion2 = class;                { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  RespuestaCancelacionAsincrona2 = class;       { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  DetalleCancelacion2  = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  RespuestaValidacionRFC = class;               { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  RespuestaPeticionesPendientes = class;        { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  RespuestaBase        = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  DetallesPaqueteCreditos = class;              { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
   RespuestaReporte     = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
-  RespuestaTFD33       = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  RegistroTimbre       = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  UUIDProcesarRespuesta = class;                { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  RespuestaAceptacionRechazo = class;           { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  FolioRespuesta       = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  RespuestaCreditos    = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  RespuestaRelacionados2 = class;               { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  RespuestaRelacionados = class;                { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  Relacionados2        = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  Relacionados         = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  DetalleCFDICancelacion2 = class;              { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  DetalleCFDICancelacion = class;               { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  UUID2                = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  UUID                 = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
   DetalleCancelacion   = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
-  RespuestaCancelacion = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  RespuestaCancelacionAsincrona = class;        { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  RespuestaEstatusCancelacionAsincrona = class;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  RespuestaTFD33       = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
   Timbre33             = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
+  RespuestaCancelacion = class;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblElm] }
 
+  ArrayOfRegistroTimbre = array of RegistroTimbre2;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  ArrayOfFolioRespuesta = array of FolioRespuesta2;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  ArrayOfUUIDProcesarRespuesta = array of UUIDProcesarRespuesta2;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
   ArrayOfDetallesPaqueteCreditos = array of DetallesPaqueteCreditos2;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
-  ArrayOfDetalleCancelacion = array of DetalleCancelacion2;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+  ArrayOfstring = array of string;              { "http://schemas.microsoft.com/2003/10/Serialization/Arrays"[GblCplx] }
 
 
   // ************************************************************************ //
-  // XML       : DetalleCancelacion, global, <complexType>
+  // XML       : RespuestaBase, global, <complexType>
   // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
   // ************************************************************************ //
-  DetalleCancelacion2 = class(TRemotable)
+  RespuestaBase2 = class(TRemotable)
   private
-    FCodigoResultado: string;
-    FCodigoResultado_Specified: boolean;
-    FMensajeResultado: string;
-    FMensajeResultado_Specified: boolean;
+    FCodigoRespuesta: string;
+    FCodigoRespuesta_Specified: boolean;
+    FMensajeError: string;
+    FMensajeError_Specified: boolean;
+    FMensajeErrorDetallado: string;
+    FMensajeErrorDetallado_Specified: boolean;
+    FOperacionExitosa: Boolean;
+    FOperacionExitosa_Specified: boolean;
+    procedure SetCodigoRespuesta(Index: Integer; const Astring: string);
+    function  CodigoRespuesta_Specified(Index: Integer): boolean;
+    procedure SetMensajeError(Index: Integer; const Astring: string);
+    function  MensajeError_Specified(Index: Integer): boolean;
+    procedure SetMensajeErrorDetallado(Index: Integer; const Astring: string);
+    function  MensajeErrorDetallado_Specified(Index: Integer): boolean;
+    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+    function  OperacionExitosa_Specified(Index: Integer): boolean;
+  published
+    property CodigoRespuesta:       string   Index (IS_OPTN or IS_NLBL) read FCodigoRespuesta write SetCodigoRespuesta stored CodigoRespuesta_Specified;
+    property MensajeError:          string   Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
+    property MensajeErrorDetallado: string   Index (IS_OPTN or IS_NLBL) read FMensajeErrorDetallado write SetMensajeErrorDetallado stored MensajeErrorDetallado_Specified;
+    property OperacionExitosa:      Boolean  Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaPeticionesPendientes, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaPeticionesPendientes2 = class(RespuestaBase2)
+  private
+    FUUIDs: ArrayOfstring;
+    FUUIDs_Specified: boolean;
+    procedure SetUUIDs(Index: Integer; const AArrayOfstring: ArrayOfstring);
+    function  UUIDs_Specified(Index: Integer): boolean;
+  published
+    property UUIDs: ArrayOfstring  Index (IS_OPTN or IS_NLBL) read FUUIDs write SetUUIDs stored UUIDs_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : UUIDProcesarRespuesta, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  UUIDProcesarRespuesta2 = class(TRemotable)
+  private
+    FAceptar: Boolean;
+    FAceptar_Specified: boolean;
     FUUID: string;
     FUUID_Specified: boolean;
-    procedure SetCodigoResultado(Index: Integer; const Astring: string);
-    function  CodigoResultado_Specified(Index: Integer): boolean;
-    procedure SetMensajeResultado(Index: Integer; const Astring: string);
-    function  MensajeResultado_Specified(Index: Integer): boolean;
+    procedure SetAceptar(Index: Integer; const ABoolean: Boolean);
+    function  Aceptar_Specified(Index: Integer): boolean;
     procedure SetUUID(Index: Integer; const Astring: string);
     function  UUID_Specified(Index: Integer): boolean;
   published
-    property CodigoResultado:  string  Index (IS_OPTN or IS_NLBL) read FCodigoResultado write SetCodigoResultado stored CodigoResultado_Specified;
-    property MensajeResultado: string  Index (IS_OPTN or IS_NLBL) read FMensajeResultado write SetMensajeResultado stored MensajeResultado_Specified;
-    property UUID:             string  Index (IS_OPTN or IS_NLBL) read FUUID write SetUUID stored UUID_Specified;
+    property Aceptar: Boolean  Index (IS_OPTN) read FAceptar write SetAceptar stored Aceptar_Specified;
+    property UUID:    string   Index (IS_OPTN or IS_NLBL) read FUUID write SetUUID stored UUID_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : FolioRespuesta, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  FolioRespuesta2 = class(TRemotable)
+  private
+    FEstatusUUID: string;
+    FEstatusUUID_Specified: boolean;
+    FRespuesta: string;
+    FRespuesta_Specified: boolean;
+    FUUID: string;
+    FUUID_Specified: boolean;
+    procedure SetEstatusUUID(Index: Integer; const Astring: string);
+    function  EstatusUUID_Specified(Index: Integer): boolean;
+    procedure SetRespuesta(Index: Integer; const Astring: string);
+    function  Respuesta_Specified(Index: Integer): boolean;
+    procedure SetUUID(Index: Integer; const Astring: string);
+    function  UUID_Specified(Index: Integer): boolean;
+  published
+    property EstatusUUID: string  Index (IS_OPTN or IS_NLBL) read FEstatusUUID write SetEstatusUUID stored EstatusUUID_Specified;
+    property Respuesta:   string  Index (IS_OPTN or IS_NLBL) read FRespuesta write SetRespuesta stored Respuesta_Specified;
+    property UUID:        string  Index (IS_OPTN or IS_NLBL) read FUUID write SetUUID stored UUID_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaValidacionRFC, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaValidacionRFC2 = class(TRemotable)
+  private
+    FCancelado: Boolean;
+    FCancelado_Specified: boolean;
+    FMensajeError: string;
+    FMensajeError_Specified: boolean;
+    FRFC: string;
+    FRFC_Specified: boolean;
+    FRFCLocalizado: Boolean;
+    FRFCLocalizado_Specified: boolean;
+    FSubcontratacion: Boolean;
+    FSubcontratacion_Specified: boolean;
+    FUnidadSNCF: Boolean;
+    FUnidadSNCF_Specified: boolean;
+    procedure SetCancelado(Index: Integer; const ABoolean: Boolean);
+    function  Cancelado_Specified(Index: Integer): boolean;
+    procedure SetMensajeError(Index: Integer; const Astring: string);
+    function  MensajeError_Specified(Index: Integer): boolean;
+    procedure SetRFC(Index: Integer; const Astring: string);
+    function  RFC_Specified(Index: Integer): boolean;
+    procedure SetRFCLocalizado(Index: Integer; const ABoolean: Boolean);
+    function  RFCLocalizado_Specified(Index: Integer): boolean;
+    procedure SetSubcontratacion(Index: Integer; const ABoolean: Boolean);
+    function  Subcontratacion_Specified(Index: Integer): boolean;
+    procedure SetUnidadSNCF(Index: Integer; const ABoolean: Boolean);
+    function  UnidadSNCF_Specified(Index: Integer): boolean;
+  published
+    property Cancelado:       Boolean  Index (IS_OPTN) read FCancelado write SetCancelado stored Cancelado_Specified;
+    property MensajeError:    string   Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
+    property RFC:             string   Index (IS_OPTN or IS_NLBL) read FRFC write SetRFC stored RFC_Specified;
+    property RFCLocalizado:   Boolean  Index (IS_OPTN) read FRFCLocalizado write SetRFCLocalizado stored RFCLocalizado_Specified;
+    property Subcontratacion: Boolean  Index (IS_OPTN) read FSubcontratacion write SetSubcontratacion stored Subcontratacion_Specified;
+    property UnidadSNCF:      Boolean  Index (IS_OPTN) read FUnidadSNCF write SetUnidadSNCF stored UnidadSNCF_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaReporte, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaReporte2 = class(TRemotable)
+  private
+    FListaComprobantes: ArrayOfRegistroTimbre;
+    FListaComprobantes_Specified: boolean;
+    FMensajeError: string;
+    FMensajeError_Specified: boolean;
+    FOperacionExitosa: Boolean;
+    FOperacionExitosa_Specified: boolean;
+    FTotalComprobantesPeriodo: Integer;
+    FTotalComprobantesPeriodo_Specified: boolean;
+    procedure SetListaComprobantes(Index: Integer; const AArrayOfRegistroTimbre: ArrayOfRegistroTimbre);
+    function  ListaComprobantes_Specified(Index: Integer): boolean;
+    procedure SetMensajeError(Index: Integer; const Astring: string);
+    function  MensajeError_Specified(Index: Integer): boolean;
+    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+    function  OperacionExitosa_Specified(Index: Integer): boolean;
+    procedure SetTotalComprobantesPeriodo(Index: Integer; const AInteger: Integer);
+    function  TotalComprobantesPeriodo_Specified(Index: Integer): boolean;
+  public
+    destructor Destroy; override;
+  published
+    property ListaComprobantes:        ArrayOfRegistroTimbre  Index (IS_OPTN or IS_NLBL) read FListaComprobantes write SetListaComprobantes stored ListaComprobantes_Specified;
+    property MensajeError:             string                 Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
+    property OperacionExitosa:         Boolean                Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
+    property TotalComprobantesPeriodo: Integer                Index (IS_OPTN) read FTotalComprobantesPeriodo write SetTotalComprobantesPeriodo stored TotalComprobantesPeriodo_Specified;
   end;
 
 
@@ -149,136 +315,120 @@ type
 
 
   // ************************************************************************ //
-  // XML       : RespuestaCreditos, global, <complexType>
+  // XML       : Timbre33, global, <complexType>
   // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
   // ************************************************************************ //
-  RespuestaCreditos2 = class(TRemotable)
+  Timbre332 = class(TRemotable)
   private
-    FMensajeError: string;
-    FMensajeError_Specified: boolean;
-    FOperacionExitosa: Boolean;
-    FOperacionExitosa_Specified: boolean;
-    FPaquetes: ArrayOfDetallesPaqueteCreditos;
-    FPaquetes_Specified: boolean;
-    procedure SetMensajeError(Index: Integer; const Astring: string);
-    function  MensajeError_Specified(Index: Integer): boolean;
-    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
-    function  OperacionExitosa_Specified(Index: Integer): boolean;
-    procedure SetPaquetes(Index: Integer; const AArrayOfDetallesPaqueteCreditos: ArrayOfDetallesPaqueteCreditos);
-    function  Paquetes_Specified(Index: Integer): boolean;
+    FEstado: string;
+    FEstado_Specified: boolean;
+    FFechaTimbrado: TXSDateTime;
+    FFechaTimbrado_Specified: boolean;
+    FNumeroCertificadoSAT: string;
+    FNumeroCertificadoSAT_Specified: boolean;
+    FSelloCFD: string;
+    FSelloCFD_Specified: boolean;
+    FSelloSAT: string;
+    FSelloSAT_Specified: boolean;
+    FUUID: string;
+    FUUID_Specified: boolean;
+    procedure SetEstado(Index: Integer; const Astring: string);
+    function  Estado_Specified(Index: Integer): boolean;
+    procedure SetFechaTimbrado(Index: Integer; const ATXSDateTime: TXSDateTime);
+    function  FechaTimbrado_Specified(Index: Integer): boolean;
+    procedure SetNumeroCertificadoSAT(Index: Integer; const Astring: string);
+    function  NumeroCertificadoSAT_Specified(Index: Integer): boolean;
+    procedure SetSelloCFD(Index: Integer; const Astring: string);
+    function  SelloCFD_Specified(Index: Integer): boolean;
+    procedure SetSelloSAT(Index: Integer; const Astring: string);
+    function  SelloSAT_Specified(Index: Integer): boolean;
+    procedure SetUUID(Index: Integer; const Astring: string);
+    function  UUID_Specified(Index: Integer): boolean;
   public
     destructor Destroy; override;
   published
-    property MensajeError:     string                          Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
-    property OperacionExitosa: Boolean                         Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
-    property Paquetes:         ArrayOfDetallesPaqueteCreditos  Index (IS_OPTN or IS_NLBL) read FPaquetes write SetPaquetes stored Paquetes_Specified;
+    property Estado:               string       Index (IS_OPTN or IS_NLBL) read FEstado write SetEstado stored Estado_Specified;
+    property FechaTimbrado:        TXSDateTime  Index (IS_OPTN) read FFechaTimbrado write SetFechaTimbrado stored FechaTimbrado_Specified;
+    property NumeroCertificadoSAT: string       Index (IS_OPTN or IS_NLBL) read FNumeroCertificadoSAT write SetNumeroCertificadoSAT stored NumeroCertificadoSAT_Specified;
+    property SelloCFD:             string       Index (IS_OPTN or IS_NLBL) read FSelloCFD write SetSelloCFD stored SelloCFD_Specified;
+    property SelloSAT:             string       Index (IS_OPTN or IS_NLBL) read FSelloSAT write SetSelloSAT stored SelloSAT_Specified;
+    property UUID:                 string       Index (IS_OPTN or IS_NLBL) read FUUID write SetUUID stored UUID_Specified;
   end;
 
 
 
   // ************************************************************************ //
-  // XML       : RespuestaEstatusCancelacionAsincrona, global, <complexType>
+  // XML       : RespuestaAceptacionRechazo, global, <complexType>
   // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
   // ************************************************************************ //
-  RespuestaEstatusCancelacionAsincrona2 = class(TRemotable)
+  RespuestaAceptacionRechazo2 = class(RespuestaBase2)
   private
-    FEstatus: string;
-    FEstatus_Specified: boolean;
-    FMensajeError: string;
-    FMensajeError_Specified: boolean;
-    FOperacionExitosa: Boolean;
-    FOperacionExitosa_Specified: boolean;
-    FReferencia: string;
-    FReferencia_Specified: boolean;
+    FFecha: TXSDateTime;
+    FFecha_Specified: boolean;
+    FFolios: ArrayOfFolioRespuesta;
+    FFolios_Specified: boolean;
+    FRFCReceptor: string;
+    FRFCReceptor_Specified: boolean;
     FXMLAcuse: string;
     FXMLAcuse_Specified: boolean;
-    procedure SetEstatus(Index: Integer; const Astring: string);
-    function  Estatus_Specified(Index: Integer): boolean;
-    procedure SetMensajeError(Index: Integer; const Astring: string);
-    function  MensajeError_Specified(Index: Integer): boolean;
-    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
-    function  OperacionExitosa_Specified(Index: Integer): boolean;
-    procedure SetReferencia(Index: Integer; const Astring: string);
-    function  Referencia_Specified(Index: Integer): boolean;
-    procedure SetXMLAcuse(Index: Integer; const Astring: string);
-    function  XMLAcuse_Specified(Index: Integer): boolean;
-  published
-    property Estatus:          string   Index (IS_OPTN or IS_NLBL) read FEstatus write SetEstatus stored Estatus_Specified;
-    property MensajeError:     string   Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
-    property OperacionExitosa: Boolean  Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
-    property Referencia:       string   Index (IS_OPTN or IS_NLBL) read FReferencia write SetReferencia stored Referencia_Specified;
-    property XMLAcuse:         string   Index (IS_OPTN or IS_NLBL) read FXMLAcuse write SetXMLAcuse stored XMLAcuse_Specified;
-  end;
-
-
-
-  // ************************************************************************ //
-  // XML       : RespuestaCancelacionAsincrona, global, <complexType>
-  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
-  // ************************************************************************ //
-  RespuestaCancelacionAsincrona2 = class(TRemotable)
-  private
-    FDetallesCancelacion: ArrayOfDetalleCancelacion;
-    FDetallesCancelacion_Specified: boolean;
-    FMensajeError: string;
-    FMensajeError_Specified: boolean;
-    FOperacionExitosa: Boolean;
-    FOperacionExitosa_Specified: boolean;
-    FReferencia: string;
-    FReferencia_Specified: boolean;
-    procedure SetDetallesCancelacion(Index: Integer; const AArrayOfDetalleCancelacion: ArrayOfDetalleCancelacion);
-    function  DetallesCancelacion_Specified(Index: Integer): boolean;
-    procedure SetMensajeError(Index: Integer; const Astring: string);
-    function  MensajeError_Specified(Index: Integer): boolean;
-    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
-    function  OperacionExitosa_Specified(Index: Integer): boolean;
-    procedure SetReferencia(Index: Integer; const Astring: string);
-    function  Referencia_Specified(Index: Integer): boolean;
-  public
-    destructor Destroy; override;
-  published
-    property DetallesCancelacion: ArrayOfDetalleCancelacion  Index (IS_OPTN or IS_NLBL) read FDetallesCancelacion write SetDetallesCancelacion stored DetallesCancelacion_Specified;
-    property MensajeError:        string                     Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
-    property OperacionExitosa:    Boolean                    Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
-    property Referencia:          string                     Index (IS_OPTN or IS_NLBL) read FReferencia write SetReferencia stored Referencia_Specified;
-  end;
-
-
-
-  // ************************************************************************ //
-  // XML       : RespuestaCancelacion, global, <complexType>
-  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
-  // ************************************************************************ //
-  RespuestaCancelacion2 = class(TRemotable)
-  private
-    FDetallesCancelacion: ArrayOfDetalleCancelacion;
-    FDetallesCancelacion_Specified: boolean;
-    FMensajeError: string;
-    FMensajeError_Specified: boolean;
-    FMensajeErrorDetallado: string;
-    FMensajeErrorDetallado_Specified: boolean;
-    FOperacionExitosa: Boolean;
-    FOperacionExitosa_Specified: boolean;
-    FXMLAcuse: string;
-    FXMLAcuse_Specified: boolean;
-    procedure SetDetallesCancelacion(Index: Integer; const AArrayOfDetalleCancelacion: ArrayOfDetalleCancelacion);
-    function  DetallesCancelacion_Specified(Index: Integer): boolean;
-    procedure SetMensajeError(Index: Integer; const Astring: string);
-    function  MensajeError_Specified(Index: Integer): boolean;
-    procedure SetMensajeErrorDetallado(Index: Integer; const Astring: string);
-    function  MensajeErrorDetallado_Specified(Index: Integer): boolean;
-    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
-    function  OperacionExitosa_Specified(Index: Integer): boolean;
+    procedure SetFecha(Index: Integer; const ATXSDateTime: TXSDateTime);
+    function  Fecha_Specified(Index: Integer): boolean;
+    procedure SetFolios(Index: Integer; const AArrayOfFolioRespuesta: ArrayOfFolioRespuesta);
+    function  Folios_Specified(Index: Integer): boolean;
+    procedure SetRFCReceptor(Index: Integer; const Astring: string);
+    function  RFCReceptor_Specified(Index: Integer): boolean;
     procedure SetXMLAcuse(Index: Integer; const Astring: string);
     function  XMLAcuse_Specified(Index: Integer): boolean;
   public
     destructor Destroy; override;
   published
-    property DetallesCancelacion:   ArrayOfDetalleCancelacion  Index (IS_OPTN or IS_NLBL) read FDetallesCancelacion write SetDetallesCancelacion stored DetallesCancelacion_Specified;
-    property MensajeError:          string                     Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
-    property MensajeErrorDetallado: string                     Index (IS_OPTN or IS_NLBL) read FMensajeErrorDetallado write SetMensajeErrorDetallado stored MensajeErrorDetallado_Specified;
-    property OperacionExitosa:      Boolean                    Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
-    property XMLAcuse:              string                     Index (IS_OPTN or IS_NLBL) read FXMLAcuse write SetXMLAcuse stored XMLAcuse_Specified;
+    property Fecha:       TXSDateTime            Index (IS_OPTN) read FFecha write SetFecha stored Fecha_Specified;
+    property Folios:      ArrayOfFolioRespuesta  Index (IS_OPTN or IS_NLBL) read FFolios write SetFolios stored Folios_Specified;
+    property RFCReceptor: string                 Index (IS_OPTN or IS_NLBL) read FRFCReceptor write SetRFCReceptor stored RFCReceptor_Specified;
+    property XMLAcuse:    string                 Index (IS_OPTN or IS_NLBL) read FXMLAcuse write SetXMLAcuse stored XMLAcuse_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RegistroTimbre, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RegistroTimbre2 = class(TRemotable)
+  private
+    FEstado: string;
+    FEstado_Specified: boolean;
+    FFechaTimbrado: TXSDateTime;
+    FFechaTimbrado_Specified: boolean;
+    FNoFila: Integer;
+    FNoFila_Specified: boolean;
+    FRFCEmisor: string;
+    FRFCEmisor_Specified: boolean;
+    FRFCReceptor: string;
+    FRFCReceptor_Specified: boolean;
+    FUUID: string;
+    FUUID_Specified: boolean;
+    procedure SetEstado(Index: Integer; const Astring: string);
+    function  Estado_Specified(Index: Integer): boolean;
+    procedure SetFechaTimbrado(Index: Integer; const ATXSDateTime: TXSDateTime);
+    function  FechaTimbrado_Specified(Index: Integer): boolean;
+    procedure SetNoFila(Index: Integer; const AInteger: Integer);
+    function  NoFila_Specified(Index: Integer): boolean;
+    procedure SetRFCEmisor(Index: Integer; const Astring: string);
+    function  RFCEmisor_Specified(Index: Integer): boolean;
+    procedure SetRFCReceptor(Index: Integer; const Astring: string);
+    function  RFCReceptor_Specified(Index: Integer): boolean;
+    procedure SetUUID(Index: Integer; const Astring: string);
+    function  UUID_Specified(Index: Integer): boolean;
+  public
+    destructor Destroy; override;
+  published
+    property Estado:        string       Index (IS_OPTN or IS_NLBL) read FEstado write SetEstado stored Estado_Specified;
+    property FechaTimbrado: TXSDateTime  Index (IS_OPTN) read FFechaTimbrado write SetFechaTimbrado stored FechaTimbrado_Specified;
+    property NoFila:        Integer      Index (IS_OPTN) read FNoFila write SetNoFila stored NoFila_Specified;
+    property RFCEmisor:     string       Index (IS_OPTN or IS_NLBL) read FRFCEmisor write SetRFCEmisor stored RFCEmisor_Specified;
+    property RFCReceptor:   string       Index (IS_OPTN or IS_NLBL) read FRFCReceptor write SetRFCReceptor stored RFCReceptor_Specified;
+    property UUID:          string       Index (IS_OPTN or IS_NLBL) read FUUID write SetUUID stored UUID_Specified;
   end;
 
 
@@ -337,53 +487,177 @@ type
 
 
   // ************************************************************************ //
-  // XML       : Timbre33, global, <complexType>
+  // XML       : RespuestaEstatusCancelacionAsincrona, global, <complexType>
   // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
   // ************************************************************************ //
-  Timbre332 = class(TRemotable)
+  RespuestaEstatusCancelacionAsincrona2 = class(TRemotable)
   private
-    FEstado: string;
-    FEstado_Specified: boolean;
-    FFechaTimbrado: TXSDateTime;
-    FFechaTimbrado_Specified: boolean;
-    FNumeroCertificadoSAT: string;
-    FNumeroCertificadoSAT_Specified: boolean;
-    FSelloCFD: string;
-    FSelloCFD_Specified: boolean;
-    FSelloSAT: string;
-    FSelloSAT_Specified: boolean;
-    FUUID: string;
-    FUUID_Specified: boolean;
-    procedure SetEstado(Index: Integer; const Astring: string);
-    function  Estado_Specified(Index: Integer): boolean;
-    procedure SetFechaTimbrado(Index: Integer; const ATXSDateTime: TXSDateTime);
-    function  FechaTimbrado_Specified(Index: Integer): boolean;
-    procedure SetNumeroCertificadoSAT(Index: Integer; const Astring: string);
-    function  NumeroCertificadoSAT_Specified(Index: Integer): boolean;
-    procedure SetSelloCFD(Index: Integer; const Astring: string);
-    function  SelloCFD_Specified(Index: Integer): boolean;
-    procedure SetSelloSAT(Index: Integer; const Astring: string);
-    function  SelloSAT_Specified(Index: Integer): boolean;
-    procedure SetUUID(Index: Integer; const Astring: string);
-    function  UUID_Specified(Index: Integer): boolean;
+    FEstatus: string;
+    FEstatus_Specified: boolean;
+    FMensajeError: string;
+    FMensajeError_Specified: boolean;
+    FOperacionExitosa: Boolean;
+    FOperacionExitosa_Specified: boolean;
+    FReferencia: string;
+    FReferencia_Specified: boolean;
+    FXMLAcuse: string;
+    FXMLAcuse_Specified: boolean;
+    procedure SetEstatus(Index: Integer; const Astring: string);
+    function  Estatus_Specified(Index: Integer): boolean;
+    procedure SetMensajeError(Index: Integer; const Astring: string);
+    function  MensajeError_Specified(Index: Integer): boolean;
+    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+    function  OperacionExitosa_Specified(Index: Integer): boolean;
+    procedure SetReferencia(Index: Integer; const Astring: string);
+    function  Referencia_Specified(Index: Integer): boolean;
+    procedure SetXMLAcuse(Index: Integer; const Astring: string);
+    function  XMLAcuse_Specified(Index: Integer): boolean;
+  published
+    property Estatus:          string   Index (IS_OPTN or IS_NLBL) read FEstatus write SetEstatus stored Estatus_Specified;
+    property MensajeError:     string   Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
+    property OperacionExitosa: Boolean  Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
+    property Referencia:       string   Index (IS_OPTN or IS_NLBL) read FReferencia write SetReferencia stored Referencia_Specified;
+    property XMLAcuse:         string   Index (IS_OPTN or IS_NLBL) read FXMLAcuse write SetXMLAcuse stored XMLAcuse_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaCreditos, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaCreditos2 = class(TRemotable)
+  private
+    FMensajeError: string;
+    FMensajeError_Specified: boolean;
+    FOperacionExitosa: Boolean;
+    FOperacionExitosa_Specified: boolean;
+    FPaquetes: ArrayOfDetallesPaqueteCreditos;
+    FPaquetes_Specified: boolean;
+    procedure SetMensajeError(Index: Integer; const Astring: string);
+    function  MensajeError_Specified(Index: Integer): boolean;
+    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+    function  OperacionExitosa_Specified(Index: Integer): boolean;
+    procedure SetPaquetes(Index: Integer; const AArrayOfDetallesPaqueteCreditos: ArrayOfDetallesPaqueteCreditos);
+    function  Paquetes_Specified(Index: Integer): boolean;
   public
     destructor Destroy; override;
   published
-    property Estado:               string       Index (IS_OPTN or IS_NLBL) read FEstado write SetEstado stored Estado_Specified;
-    property FechaTimbrado:        TXSDateTime  Index (IS_OPTN) read FFechaTimbrado write SetFechaTimbrado stored FechaTimbrado_Specified;
-    property NumeroCertificadoSAT: string       Index (IS_OPTN or IS_NLBL) read FNumeroCertificadoSAT write SetNumeroCertificadoSAT stored NumeroCertificadoSAT_Specified;
-    property SelloCFD:             string       Index (IS_OPTN or IS_NLBL) read FSelloCFD write SetSelloCFD stored SelloCFD_Specified;
-    property SelloSAT:             string       Index (IS_OPTN or IS_NLBL) read FSelloSAT write SetSelloSAT stored SelloSAT_Specified;
-    property UUID:                 string       Index (IS_OPTN or IS_NLBL) read FUUID write SetUUID stored UUID_Specified;
+    property MensajeError:     string                          Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
+    property OperacionExitosa: Boolean                         Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
+    property Paquetes:         ArrayOfDetallesPaqueteCreditos  Index (IS_OPTN or IS_NLBL) read FPaquetes write SetPaquetes stored Paquetes_Specified;
+  end;
+
+  ArrayOfDetalleCancelacion = array of DetalleCancelacion2;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaCancelacion, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaCancelacion2 = class(TRemotable)
+  private
+    FDetallesCancelacion: ArrayOfDetalleCancelacion;
+    FDetallesCancelacion_Specified: boolean;
+    FMensajeError: string;
+    FMensajeError_Specified: boolean;
+    FMensajeErrorDetallado: string;
+    FMensajeErrorDetallado_Specified: boolean;
+    FOperacionExitosa: Boolean;
+    FOperacionExitosa_Specified: boolean;
+    FXMLAcuse: string;
+    FXMLAcuse_Specified: boolean;
+    procedure SetDetallesCancelacion(Index: Integer; const AArrayOfDetalleCancelacion: ArrayOfDetalleCancelacion);
+    function  DetallesCancelacion_Specified(Index: Integer): boolean;
+    procedure SetMensajeError(Index: Integer; const Astring: string);
+    function  MensajeError_Specified(Index: Integer): boolean;
+    procedure SetMensajeErrorDetallado(Index: Integer; const Astring: string);
+    function  MensajeErrorDetallado_Specified(Index: Integer): boolean;
+    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+    function  OperacionExitosa_Specified(Index: Integer): boolean;
+    procedure SetXMLAcuse(Index: Integer; const Astring: string);
+    function  XMLAcuse_Specified(Index: Integer): boolean;
+  public
+    destructor Destroy; override;
+  published
+    property DetallesCancelacion:   ArrayOfDetalleCancelacion  Index (IS_OPTN or IS_NLBL) read FDetallesCancelacion write SetDetallesCancelacion stored DetallesCancelacion_Specified;
+    property MensajeError:          string                     Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
+    property MensajeErrorDetallado: string                     Index (IS_OPTN or IS_NLBL) read FMensajeErrorDetallado write SetMensajeErrorDetallado stored MensajeErrorDetallado_Specified;
+    property OperacionExitosa:      Boolean                    Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
+    property XMLAcuse:              string                     Index (IS_OPTN or IS_NLBL) read FXMLAcuse write SetXMLAcuse stored XMLAcuse_Specified;
   end;
 
 
 
   // ************************************************************************ //
-  // XML       : RespuestaCreditos, global, <element>
+  // XML       : RespuestaCancelacionAsincrona, global, <complexType>
   // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
   // ************************************************************************ //
-  RespuestaCreditos = class(RespuestaCreditos2)
+  RespuestaCancelacionAsincrona2 = class(TRemotable)
+  private
+    FDetallesCancelacion: ArrayOfDetalleCancelacion;
+    FDetallesCancelacion_Specified: boolean;
+    FMensajeError: string;
+    FMensajeError_Specified: boolean;
+    FOperacionExitosa: Boolean;
+    FOperacionExitosa_Specified: boolean;
+    FReferencia: string;
+    FReferencia_Specified: boolean;
+    procedure SetDetallesCancelacion(Index: Integer; const AArrayOfDetalleCancelacion: ArrayOfDetalleCancelacion);
+    function  DetallesCancelacion_Specified(Index: Integer): boolean;
+    procedure SetMensajeError(Index: Integer; const Astring: string);
+    function  MensajeError_Specified(Index: Integer): boolean;
+    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+    function  OperacionExitosa_Specified(Index: Integer): boolean;
+    procedure SetReferencia(Index: Integer; const Astring: string);
+    function  Referencia_Specified(Index: Integer): boolean;
+  public
+    destructor Destroy; override;
+  published
+    property DetallesCancelacion: ArrayOfDetalleCancelacion  Index (IS_OPTN or IS_NLBL) read FDetallesCancelacion write SetDetallesCancelacion stored DetallesCancelacion_Specified;
+    property MensajeError:        string                     Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
+    property OperacionExitosa:    Boolean                    Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
+    property Referencia:          string                     Index (IS_OPTN or IS_NLBL) read FReferencia write SetReferencia stored Referencia_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : DetalleCancelacion, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  DetalleCancelacion2 = class(TRemotable)
+  private
+    FCodigoResultado: string;
+    FCodigoResultado_Specified: boolean;
+    FEsCancelable: string;
+    FEsCancelable_Specified: boolean;
+    FMensajeResultado: string;
+    FMensajeResultado_Specified: boolean;
+    FUUID: string;
+    FUUID_Specified: boolean;
+    procedure SetCodigoResultado(Index: Integer; const Astring: string);
+    function  CodigoResultado_Specified(Index: Integer): boolean;
+    procedure SetEsCancelable(Index: Integer; const Astring: string);
+    function  EsCancelable_Specified(Index: Integer): boolean;
+    procedure SetMensajeResultado(Index: Integer; const Astring: string);
+    function  MensajeResultado_Specified(Index: Integer): boolean;
+    procedure SetUUID(Index: Integer; const Astring: string);
+    function  UUID_Specified(Index: Integer): boolean;
+  published
+    property CodigoResultado:  string  Index (IS_OPTN or IS_NLBL) read FCodigoResultado write SetCodigoResultado stored CodigoResultado_Specified;
+    property EsCancelable:     string  Index (IS_OPTN or IS_NLBL) read FEsCancelable write SetEsCancelable stored EsCancelable_Specified;
+    property MensajeResultado: string  Index (IS_OPTN or IS_NLBL) read FMensajeResultado write SetMensajeResultado stored MensajeResultado_Specified;
+    property UUID:             string  Index (IS_OPTN or IS_NLBL) read FUUID write SetUUID stored UUID_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaValidacionRFC, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaValidacionRFC = class(RespuestaValidacionRFC2)
   private
   published
   end;
@@ -391,10 +665,10 @@ type
 
 
   // ************************************************************************ //
-  // XML       : RespuestaEstatusCancelacionAsincrona, global, <element>
+  // XML       : RespuestaPeticionesPendientes, global, <element>
   // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
   // ************************************************************************ //
-  RespuestaEstatusCancelacionAsincrona = class(RespuestaEstatusCancelacionAsincrona2)
+  RespuestaPeticionesPendientes = class(RespuestaPeticionesPendientes2)
   private
   published
   end;
@@ -402,10 +676,10 @@ type
 
 
   // ************************************************************************ //
-  // XML       : RespuestaCancelacionAsincrona, global, <element>
+  // XML       : RespuestaBase, global, <element>
   // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
   // ************************************************************************ //
-  RespuestaCancelacionAsincrona = class(RespuestaCancelacionAsincrona2)
+  RespuestaBase = class(RespuestaBase2)
   private
   published
   end;
@@ -419,95 +693,6 @@ type
   DetallesPaqueteCreditos = class(DetallesPaqueteCreditos2)
   private
   published
-  end;
-
-  ArrayOfstring = array of string;              { "http://schemas.microsoft.com/2003/10/Serialization/Arrays"[GblCplx] }
-
-
-  // ************************************************************************ //
-  // XML       : RegistroTimbre, global, <complexType>
-  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
-  // ************************************************************************ //
-  RegistroTimbre2 = class(TRemotable)
-  private
-    FEstado: string;
-    FEstado_Specified: boolean;
-    FFechaTimbrado: TXSDateTime;
-    FFechaTimbrado_Specified: boolean;
-    FNoFila: Integer;
-    FNoFila_Specified: boolean;
-    FRFCEmisor: string;
-    FRFCEmisor_Specified: boolean;
-    FRFCReceptor: string;
-    FRFCReceptor_Specified: boolean;
-    FUUID: string;
-    FUUID_Specified: boolean;
-    procedure SetEstado(Index: Integer; const Astring: string);
-    function  Estado_Specified(Index: Integer): boolean;
-    procedure SetFechaTimbrado(Index: Integer; const ATXSDateTime: TXSDateTime);
-    function  FechaTimbrado_Specified(Index: Integer): boolean;
-    procedure SetNoFila(Index: Integer; const AInteger: Integer);
-    function  NoFila_Specified(Index: Integer): boolean;
-    procedure SetRFCEmisor(Index: Integer; const Astring: string);
-    function  RFCEmisor_Specified(Index: Integer): boolean;
-    procedure SetRFCReceptor(Index: Integer; const Astring: string);
-    function  RFCReceptor_Specified(Index: Integer): boolean;
-    procedure SetUUID(Index: Integer; const Astring: string);
-    function  UUID_Specified(Index: Integer): boolean;
-  public
-    destructor Destroy; override;
-  published
-    property Estado:        string       Index (IS_OPTN or IS_NLBL) read FEstado write SetEstado stored Estado_Specified;
-    property FechaTimbrado: TXSDateTime  Index (IS_OPTN) read FFechaTimbrado write SetFechaTimbrado stored FechaTimbrado_Specified;
-    property NoFila:        Integer      Index (IS_OPTN) read FNoFila write SetNoFila stored NoFila_Specified;
-    property RFCEmisor:     string       Index (IS_OPTN or IS_NLBL) read FRFCEmisor write SetRFCEmisor stored RFCEmisor_Specified;
-    property RFCReceptor:   string       Index (IS_OPTN or IS_NLBL) read FRFCReceptor write SetRFCReceptor stored RFCReceptor_Specified;
-    property UUID:          string       Index (IS_OPTN or IS_NLBL) read FUUID write SetUUID stored UUID_Specified;
-  end;
-
-
-
-  // ************************************************************************ //
-  // XML       : RegistroTimbre, global, <element>
-  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
-  // ************************************************************************ //
-  RegistroTimbre = class(RegistroTimbre2)
-  private
-  published
-  end;
-
-  ArrayOfRegistroTimbre = array of RegistroTimbre2;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
-
-
-  // ************************************************************************ //
-  // XML       : RespuestaReporte, global, <complexType>
-  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
-  // ************************************************************************ //
-  RespuestaReporte2 = class(TRemotable)
-  private
-    FListaComprobantes: ArrayOfRegistroTimbre;
-    FListaComprobantes_Specified: boolean;
-    FMensajeError: string;
-    FMensajeError_Specified: boolean;
-    FOperacionExitosa: Boolean;
-    FOperacionExitosa_Specified: boolean;
-    FTotalComprobantesPeriodo: Integer;
-    FTotalComprobantesPeriodo_Specified: boolean;
-    procedure SetListaComprobantes(Index: Integer; const AArrayOfRegistroTimbre: ArrayOfRegistroTimbre);
-    function  ListaComprobantes_Specified(Index: Integer): boolean;
-    procedure SetMensajeError(Index: Integer; const Astring: string);
-    function  MensajeError_Specified(Index: Integer): boolean;
-    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
-    function  OperacionExitosa_Specified(Index: Integer): boolean;
-    procedure SetTotalComprobantesPeriodo(Index: Integer; const AInteger: Integer);
-    function  TotalComprobantesPeriodo_Specified(Index: Integer): boolean;
-  public
-    destructor Destroy; override;
-  published
-    property ListaComprobantes:        ArrayOfRegistroTimbre  Index (IS_OPTN or IS_NLBL) read FListaComprobantes write SetListaComprobantes stored ListaComprobantes_Specified;
-    property MensajeError:             string                 Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
-    property OperacionExitosa:         Boolean                Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
-    property TotalComprobantesPeriodo: Integer                Index (IS_OPTN) read FTotalComprobantesPeriodo write SetTotalComprobantesPeriodo stored TotalComprobantesPeriodo_Specified;
   end;
 
 
@@ -524,10 +709,220 @@ type
 
 
   // ************************************************************************ //
-  // XML       : RespuestaTFD33, global, <element>
+  // XML       : RegistroTimbre, global, <element>
   // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
   // ************************************************************************ //
-  RespuestaTFD33 = class(RespuestaTFD332)
+  RegistroTimbre = class(RegistroTimbre2)
+  private
+  published
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : UUIDProcesarRespuesta, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  UUIDProcesarRespuesta = class(UUIDProcesarRespuesta2)
+  private
+  published
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaAceptacionRechazo, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaAceptacionRechazo = class(RespuestaAceptacionRechazo2)
+  private
+  published
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : FolioRespuesta, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  FolioRespuesta = class(FolioRespuesta2)
+  private
+  published
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaCreditos, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaCreditos = class(RespuestaCreditos2)
+  private
+  published
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaRelacionados, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaRelacionados2 = class(TRemotable)
+  private
+    FMensajeError: string;
+    FMensajeError_Specified: boolean;
+    FOperacionExitosa: Boolean;
+    FOperacionExitosa_Specified: boolean;
+    FRelacionados: Relacionados2;
+    FRelacionados_Specified: boolean;
+    procedure SetMensajeError(Index: Integer; const Astring: string);
+    function  MensajeError_Specified(Index: Integer): boolean;
+    procedure SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+    function  OperacionExitosa_Specified(Index: Integer): boolean;
+    procedure SetRelacionados(Index: Integer; const ARelacionados2: Relacionados2);
+    function  Relacionados_Specified(Index: Integer): boolean;
+  public
+    destructor Destroy; override;
+  published
+    property MensajeError:     string         Index (IS_OPTN or IS_NLBL) read FMensajeError write SetMensajeError stored MensajeError_Specified;
+    property OperacionExitosa: Boolean        Index (IS_OPTN) read FOperacionExitosa write SetOperacionExitosa stored OperacionExitosa_Specified;
+    property Relacionados:     Relacionados2  Index (IS_OPTN or IS_NLBL) read FRelacionados write SetRelacionados stored Relacionados_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaRelacionados, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaRelacionados = class(RespuestaRelacionados2)
+  private
+  published
+  end;
+
+  ArrayOfUUID = array of UUID2;                 { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+
+
+  // ************************************************************************ //
+  // XML       : Relacionados, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  Relacionados2 = class(TRemotable)
+  private
+    FResultado: string;
+    FResultado_Specified: boolean;
+    FUuidConsultado: string;
+    FUuidConsultado_Specified: boolean;
+    FUuidsRelacionadosHijos: ArrayOfUUID;
+    FUuidsRelacionadosHijos_Specified: boolean;
+    FUuidsRelacionadosPadres: ArrayOfUUID;
+    FUuidsRelacionadosPadres_Specified: boolean;
+    procedure SetResultado(Index: Integer; const Astring: string);
+    function  Resultado_Specified(Index: Integer): boolean;
+    procedure SetUuidConsultado(Index: Integer; const Astring: string);
+    function  UuidConsultado_Specified(Index: Integer): boolean;
+    procedure SetUuidsRelacionadosHijos(Index: Integer; const AArrayOfUUID: ArrayOfUUID);
+    function  UuidsRelacionadosHijos_Specified(Index: Integer): boolean;
+    procedure SetUuidsRelacionadosPadres(Index: Integer; const AArrayOfUUID: ArrayOfUUID);
+    function  UuidsRelacionadosPadres_Specified(Index: Integer): boolean;
+  public
+    destructor Destroy; override;
+  published
+    property Resultado:               string       Index (IS_OPTN or IS_NLBL) read FResultado write SetResultado stored Resultado_Specified;
+    property UuidConsultado:          string       Index (IS_OPTN or IS_NLBL) read FUuidConsultado write SetUuidConsultado stored UuidConsultado_Specified;
+    property UuidsRelacionadosHijos:  ArrayOfUUID  Index (IS_OPTN or IS_NLBL) read FUuidsRelacionadosHijos write SetUuidsRelacionadosHijos stored UuidsRelacionadosHijos_Specified;
+    property UuidsRelacionadosPadres: ArrayOfUUID  Index (IS_OPTN or IS_NLBL) read FUuidsRelacionadosPadres write SetUuidsRelacionadosPadres stored UuidsRelacionadosPadres_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : Relacionados, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  Relacionados = class(Relacionados2)
+  private
+  published
+  end;
+
+  ArrayOfDetalleCFDICancelacion = array of DetalleCFDICancelacion2;   { "http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"[GblCplx] }
+
+
+  // ************************************************************************ //
+  // XML       : DetalleCFDICancelacion, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  DetalleCFDICancelacion2 = class(TRemotable)
+  private
+    FEsCancelable: string;
+    FEsCancelable_Specified: boolean;
+    FRFCReceptor: string;
+    FRFCReceptor_Specified: boolean;
+    FTotal: TXSDecimal;
+    FTotal_Specified: boolean;
+    FUUID: string;
+    FUUID_Specified: boolean;
+    procedure SetEsCancelable(Index: Integer; const Astring: string);
+    function  EsCancelable_Specified(Index: Integer): boolean;
+    procedure SetRFCReceptor(Index: Integer; const Astring: string);
+    function  RFCReceptor_Specified(Index: Integer): boolean;
+    procedure SetTotal(Index: Integer; const ATXSDecimal: TXSDecimal);
+    function  Total_Specified(Index: Integer): boolean;
+    procedure SetUUID(Index: Integer; const Astring: string);
+    function  UUID_Specified(Index: Integer): boolean;
+  public
+    destructor Destroy; override;
+  published
+    property EsCancelable: string      Index (IS_OPTN or IS_NLBL) read FEsCancelable write SetEsCancelable stored EsCancelable_Specified;
+    property RFCReceptor:  string      Index (IS_OPTN or IS_NLBL) read FRFCReceptor write SetRFCReceptor stored RFCReceptor_Specified;
+    property Total:        TXSDecimal  Index (IS_OPTN) read FTotal write SetTotal stored Total_Specified;
+    property UUID:         string      Index (IS_OPTN or IS_NLBL) read FUUID write SetUUID stored UUID_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : DetalleCFDICancelacion, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  DetalleCFDICancelacion = class(DetalleCFDICancelacion2)
+  private
+  published
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : UUID, global, <complexType>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  UUID2 = class(TRemotable)
+  private
+    FRfcEmisor: string;
+    FRfcEmisor_Specified: boolean;
+    FRfcReceptor: string;
+    FRfcReceptor_Specified: boolean;
+    FUuid: string;
+    FUuid_Specified: boolean;
+    procedure SetRfcEmisor(Index: Integer; const Astring: string);
+    function  RfcEmisor_Specified(Index: Integer): boolean;
+    procedure SetRfcReceptor(Index: Integer; const Astring: string);
+    function  RfcReceptor_Specified(Index: Integer): boolean;
+    procedure SetUuid(Index: Integer; const Astring: string);
+    function  Uuid_Specified(Index: Integer): boolean;
+  published
+    property RfcEmisor:   string  Index (IS_OPTN or IS_NLBL) read FRfcEmisor write SetRfcEmisor stored RfcEmisor_Specified;
+    property RfcReceptor: string  Index (IS_OPTN or IS_NLBL) read FRfcReceptor write SetRfcReceptor stored RfcReceptor_Specified;
+    property Uuid:        string  Index (IS_OPTN or IS_NLBL) read FUuid write SetUuid stored Uuid_Specified;
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : UUID, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  UUID = class(UUID2)
   private
   published
   end;
@@ -546,10 +941,32 @@ type
 
 
   // ************************************************************************ //
-  // XML       : RespuestaCancelacion, global, <element>
+  // XML       : RespuestaCancelacionAsincrona, global, <element>
   // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
   // ************************************************************************ //
-  RespuestaCancelacion = class(RespuestaCancelacion2)
+  RespuestaCancelacionAsincrona = class(RespuestaCancelacionAsincrona2)
+  private
+  published
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaEstatusCancelacionAsincrona, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaEstatusCancelacionAsincrona = class(RespuestaEstatusCancelacionAsincrona2)
+  private
+  published
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaTFD33, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaTFD33 = class(RespuestaTFD332)
   private
   published
   end;
@@ -561,6 +978,17 @@ type
   // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
   // ************************************************************************ //
   Timbre33 = class(Timbre332)
+  private
+  published
+  end;
+
+
+
+  // ************************************************************************ //
+  // XML       : RespuestaCancelacion, global, <element>
+  // Namespace : http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios
+  // ************************************************************************ //
+  RespuestaCancelacion = class(RespuestaCancelacion2)
   private
   published
   end;
@@ -591,8 +1019,17 @@ type
     function  CambiarPassword(const usuario: string; const passwordActual: string; const passwordNuevo: string): RespuestaTFD332; stdcall;
     function  ConsultarComplementoTimbre(const usuario: string; const password: string; const uUID: string): RespuestaTFD332; stdcall;
     function  ConsultarTimbrePorReferencia(const usuario: string; const password: string; const referencia: string): RespuestaTFD332; stdcall;
+    function  ConsultarTimbrePorSello(const usuario: string; const password: string; const sello: string): RespuestaTFD332; stdcall;
     function  ConsultarCreditos(const usuario: string; const password: string): RespuestaCreditos2; stdcall;
     function  ConsultarComprobantes(const usuario: string; const password: string; const fechaInicial: TXSDateTime; const fechaFinal: TXSDateTime; const filaInicial: Integer): RespuestaReporte2; stdcall;
+    function  ValidarRFC(const usuario: string; const password: string; const rfc: string): RespuestaValidacionRFC2; stdcall;
+    function  ObtenerPeticionesPendientesCancelacion(const usuario: string; const password: string; const rFCReceptor: string): RespuestaPeticionesPendientes2; stdcall;
+    function  ProcesarAceptacionRechazo(const usuario: string; const password: string; const rFCReceptor: string; const uUIDs: ArrayOfUUIDProcesarRespuesta; const clavePrivada_Base64: string; const passwordClavePrivada: string
+                                        ): RespuestaAceptacionRechazo2; stdcall;
+    function  CancelarCFDIConValidacion(const usuario: string; const password: string; const rFCEmisor: string; const listaCFDI: ArrayOfDetalleCFDICancelacion; const clavePrivada_Base64: string; const passwordClavePrivada: string
+                                        ): RespuestaCancelacion2; stdcall;
+    function  ConsultarComprobantesRelacionados(const usuario: string; const password: string; const UUID: string; const RFCReceptor: string; const pfxReceptorBase64: string; const passwdPfx: string
+                                                ): RespuestaRelacionados2; stdcall;
   end;
 
 function GetIWSCFDI33(UseWSDL: Boolean=System.False; Addr: string=''; HTTPRIO: THTTPRIO = nil): IWSCFDI33;
@@ -638,37 +1075,234 @@ begin
 end;
 
 
-procedure DetalleCancelacion2.SetCodigoResultado(Index: Integer; const Astring: string);
+procedure RespuestaBase2.SetCodigoRespuesta(Index: Integer; const Astring: string);
 begin
-  FCodigoResultado := Astring;
-  FCodigoResultado_Specified := True;
+  FCodigoRespuesta := Astring;
+  FCodigoRespuesta_Specified := True;
 end;
 
-function DetalleCancelacion2.CodigoResultado_Specified(Index: Integer): boolean;
+function RespuestaBase2.CodigoRespuesta_Specified(Index: Integer): boolean;
 begin
-  Result := FCodigoResultado_Specified;
+  Result := FCodigoRespuesta_Specified;
 end;
 
-procedure DetalleCancelacion2.SetMensajeResultado(Index: Integer; const Astring: string);
+procedure RespuestaBase2.SetMensajeError(Index: Integer; const Astring: string);
 begin
-  FMensajeResultado := Astring;
-  FMensajeResultado_Specified := True;
+  FMensajeError := Astring;
+  FMensajeError_Specified := True;
 end;
 
-function DetalleCancelacion2.MensajeResultado_Specified(Index: Integer): boolean;
+function RespuestaBase2.MensajeError_Specified(Index: Integer): boolean;
 begin
-  Result := FMensajeResultado_Specified;
+  Result := FMensajeError_Specified;
 end;
 
-procedure DetalleCancelacion2.SetUUID(Index: Integer; const Astring: string);
+procedure RespuestaBase2.SetMensajeErrorDetallado(Index: Integer; const Astring: string);
+begin
+  FMensajeErrorDetallado := Astring;
+  FMensajeErrorDetallado_Specified := True;
+end;
+
+function RespuestaBase2.MensajeErrorDetallado_Specified(Index: Integer): boolean;
+begin
+  Result := FMensajeErrorDetallado_Specified;
+end;
+
+procedure RespuestaBase2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+begin
+  FOperacionExitosa := ABoolean;
+  FOperacionExitosa_Specified := True;
+end;
+
+function RespuestaBase2.OperacionExitosa_Specified(Index: Integer): boolean;
+begin
+  Result := FOperacionExitosa_Specified;
+end;
+
+procedure RespuestaPeticionesPendientes2.SetUUIDs(Index: Integer; const AArrayOfstring: ArrayOfstring);
+begin
+  FUUIDs := AArrayOfstring;
+  FUUIDs_Specified := True;
+end;
+
+function RespuestaPeticionesPendientes2.UUIDs_Specified(Index: Integer): boolean;
+begin
+  Result := FUUIDs_Specified;
+end;
+
+procedure UUIDProcesarRespuesta2.SetAceptar(Index: Integer; const ABoolean: Boolean);
+begin
+  FAceptar := ABoolean;
+  FAceptar_Specified := True;
+end;
+
+function UUIDProcesarRespuesta2.Aceptar_Specified(Index: Integer): boolean;
+begin
+  Result := FAceptar_Specified;
+end;
+
+procedure UUIDProcesarRespuesta2.SetUUID(Index: Integer; const Astring: string);
 begin
   FUUID := Astring;
   FUUID_Specified := True;
 end;
 
-function DetalleCancelacion2.UUID_Specified(Index: Integer): boolean;
+function UUIDProcesarRespuesta2.UUID_Specified(Index: Integer): boolean;
 begin
   Result := FUUID_Specified;
+end;
+
+procedure FolioRespuesta2.SetEstatusUUID(Index: Integer; const Astring: string);
+begin
+  FEstatusUUID := Astring;
+  FEstatusUUID_Specified := True;
+end;
+
+function FolioRespuesta2.EstatusUUID_Specified(Index: Integer): boolean;
+begin
+  Result := FEstatusUUID_Specified;
+end;
+
+procedure FolioRespuesta2.SetRespuesta(Index: Integer; const Astring: string);
+begin
+  FRespuesta := Astring;
+  FRespuesta_Specified := True;
+end;
+
+function FolioRespuesta2.Respuesta_Specified(Index: Integer): boolean;
+begin
+  Result := FRespuesta_Specified;
+end;
+
+procedure FolioRespuesta2.SetUUID(Index: Integer; const Astring: string);
+begin
+  FUUID := Astring;
+  FUUID_Specified := True;
+end;
+
+function FolioRespuesta2.UUID_Specified(Index: Integer): boolean;
+begin
+  Result := FUUID_Specified;
+end;
+
+procedure RespuestaValidacionRFC2.SetCancelado(Index: Integer; const ABoolean: Boolean);
+begin
+  FCancelado := ABoolean;
+  FCancelado_Specified := True;
+end;
+
+function RespuestaValidacionRFC2.Cancelado_Specified(Index: Integer): boolean;
+begin
+  Result := FCancelado_Specified;
+end;
+
+procedure RespuestaValidacionRFC2.SetMensajeError(Index: Integer; const Astring: string);
+begin
+  FMensajeError := Astring;
+  FMensajeError_Specified := True;
+end;
+
+function RespuestaValidacionRFC2.MensajeError_Specified(Index: Integer): boolean;
+begin
+  Result := FMensajeError_Specified;
+end;
+
+procedure RespuestaValidacionRFC2.SetRFC(Index: Integer; const Astring: string);
+begin
+  FRFC := Astring;
+  FRFC_Specified := True;
+end;
+
+function RespuestaValidacionRFC2.RFC_Specified(Index: Integer): boolean;
+begin
+  Result := FRFC_Specified;
+end;
+
+procedure RespuestaValidacionRFC2.SetRFCLocalizado(Index: Integer; const ABoolean: Boolean);
+begin
+  FRFCLocalizado := ABoolean;
+  FRFCLocalizado_Specified := True;
+end;
+
+function RespuestaValidacionRFC2.RFCLocalizado_Specified(Index: Integer): boolean;
+begin
+  Result := FRFCLocalizado_Specified;
+end;
+
+procedure RespuestaValidacionRFC2.SetSubcontratacion(Index: Integer; const ABoolean: Boolean);
+begin
+  FSubcontratacion := ABoolean;
+  FSubcontratacion_Specified := True;
+end;
+
+function RespuestaValidacionRFC2.Subcontratacion_Specified(Index: Integer): boolean;
+begin
+  Result := FSubcontratacion_Specified;
+end;
+
+procedure RespuestaValidacionRFC2.SetUnidadSNCF(Index: Integer; const ABoolean: Boolean);
+begin
+  FUnidadSNCF := ABoolean;
+  FUnidadSNCF_Specified := True;
+end;
+
+function RespuestaValidacionRFC2.UnidadSNCF_Specified(Index: Integer): boolean;
+begin
+  Result := FUnidadSNCF_Specified;
+end;
+
+destructor RespuestaReporte2.Destroy;
+var
+  I: Integer;
+begin
+  for I := 0 to System.Length(FListaComprobantes)-1 do
+    SysUtils.FreeAndNil(FListaComprobantes[I]);
+  System.SetLength(FListaComprobantes, 0);
+  inherited Destroy;
+end;
+
+procedure RespuestaReporte2.SetListaComprobantes(Index: Integer; const AArrayOfRegistroTimbre: ArrayOfRegistroTimbre);
+begin
+  FListaComprobantes := AArrayOfRegistroTimbre;
+  FListaComprobantes_Specified := True;
+end;
+
+function RespuestaReporte2.ListaComprobantes_Specified(Index: Integer): boolean;
+begin
+  Result := FListaComprobantes_Specified;
+end;
+
+procedure RespuestaReporte2.SetMensajeError(Index: Integer; const Astring: string);
+begin
+  FMensajeError := Astring;
+  FMensajeError_Specified := True;
+end;
+
+function RespuestaReporte2.MensajeError_Specified(Index: Integer): boolean;
+begin
+  Result := FMensajeError_Specified;
+end;
+
+procedure RespuestaReporte2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+begin
+  FOperacionExitosa := ABoolean;
+  FOperacionExitosa_Specified := True;
+end;
+
+function RespuestaReporte2.OperacionExitosa_Specified(Index: Integer): boolean;
+begin
+  Result := FOperacionExitosa_Specified;
+end;
+
+procedure RespuestaReporte2.SetTotalComprobantesPeriodo(Index: Integer; const AInteger: Integer);
+begin
+  FTotalComprobantesPeriodo := AInteger;
+  FTotalComprobantesPeriodo_Specified := True;
+end;
+
+function RespuestaReporte2.TotalComprobantesPeriodo_Specified(Index: Integer): boolean;
+begin
+  Result := FTotalComprobantesPeriodo_Specified;
 end;
 
 destructor RespuestaTFD332.Destroy;
@@ -776,221 +1410,203 @@ begin
   Result := FXMLResultado_Specified;
 end;
 
-destructor RespuestaCreditos2.Destroy;
-var
-  I: Integer;
+destructor Timbre332.Destroy;
 begin
-  for I := 0 to System.Length(FPaquetes)-1 do
-    SysUtils.FreeAndNil(FPaquetes[I]);
-  System.SetLength(FPaquetes, 0);
+  SysUtils.FreeAndNil(FFechaTimbrado);
   inherited Destroy;
 end;
 
-procedure RespuestaCreditos2.SetMensajeError(Index: Integer; const Astring: string);
+procedure Timbre332.SetEstado(Index: Integer; const Astring: string);
 begin
-  FMensajeError := Astring;
-  FMensajeError_Specified := True;
+  FEstado := Astring;
+  FEstado_Specified := True;
 end;
 
-function RespuestaCreditos2.MensajeError_Specified(Index: Integer): boolean;
+function Timbre332.Estado_Specified(Index: Integer): boolean;
 begin
-  Result := FMensajeError_Specified;
+  Result := FEstado_Specified;
 end;
 
-procedure RespuestaCreditos2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+procedure Timbre332.SetFechaTimbrado(Index: Integer; const ATXSDateTime: TXSDateTime);
 begin
-  FOperacionExitosa := ABoolean;
-  FOperacionExitosa_Specified := True;
+  FFechaTimbrado := ATXSDateTime;
+  FFechaTimbrado_Specified := True;
 end;
 
-function RespuestaCreditos2.OperacionExitosa_Specified(Index: Integer): boolean;
+function Timbre332.FechaTimbrado_Specified(Index: Integer): boolean;
 begin
-  Result := FOperacionExitosa_Specified;
+  Result := FFechaTimbrado_Specified;
 end;
 
-procedure RespuestaCreditos2.SetPaquetes(Index: Integer; const AArrayOfDetallesPaqueteCreditos: ArrayOfDetallesPaqueteCreditos);
+procedure Timbre332.SetNumeroCertificadoSAT(Index: Integer; const Astring: string);
 begin
-  FPaquetes := AArrayOfDetallesPaqueteCreditos;
-  FPaquetes_Specified := True;
+  FNumeroCertificadoSAT := Astring;
+  FNumeroCertificadoSAT_Specified := True;
 end;
 
-function RespuestaCreditos2.Paquetes_Specified(Index: Integer): boolean;
+function Timbre332.NumeroCertificadoSAT_Specified(Index: Integer): boolean;
 begin
-  Result := FPaquetes_Specified;
+  Result := FNumeroCertificadoSAT_Specified;
 end;
 
-procedure RespuestaEstatusCancelacionAsincrona2.SetEstatus(Index: Integer; const Astring: string);
+procedure Timbre332.SetSelloCFD(Index: Integer; const Astring: string);
 begin
-  FEstatus := Astring;
-  FEstatus_Specified := True;
+  FSelloCFD := Astring;
+  FSelloCFD_Specified := True;
 end;
 
-function RespuestaEstatusCancelacionAsincrona2.Estatus_Specified(Index: Integer): boolean;
+function Timbre332.SelloCFD_Specified(Index: Integer): boolean;
 begin
-  Result := FEstatus_Specified;
+  Result := FSelloCFD_Specified;
 end;
 
-procedure RespuestaEstatusCancelacionAsincrona2.SetMensajeError(Index: Integer; const Astring: string);
+procedure Timbre332.SetSelloSAT(Index: Integer; const Astring: string);
 begin
-  FMensajeError := Astring;
-  FMensajeError_Specified := True;
+  FSelloSAT := Astring;
+  FSelloSAT_Specified := True;
 end;
 
-function RespuestaEstatusCancelacionAsincrona2.MensajeError_Specified(Index: Integer): boolean;
+function Timbre332.SelloSAT_Specified(Index: Integer): boolean;
 begin
-  Result := FMensajeError_Specified;
+  Result := FSelloSAT_Specified;
 end;
 
-procedure RespuestaEstatusCancelacionAsincrona2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+procedure Timbre332.SetUUID(Index: Integer; const Astring: string);
 begin
-  FOperacionExitosa := ABoolean;
-  FOperacionExitosa_Specified := True;
+  FUUID := Astring;
+  FUUID_Specified := True;
 end;
 
-function RespuestaEstatusCancelacionAsincrona2.OperacionExitosa_Specified(Index: Integer): boolean;
+function Timbre332.UUID_Specified(Index: Integer): boolean;
 begin
-  Result := FOperacionExitosa_Specified;
+  Result := FUUID_Specified;
 end;
 
-procedure RespuestaEstatusCancelacionAsincrona2.SetReferencia(Index: Integer; const Astring: string);
+destructor RespuestaAceptacionRechazo2.Destroy;
+var
+  I: Integer;
 begin
-  FReferencia := Astring;
-  FReferencia_Specified := True;
+  for I := 0 to System.Length(FFolios)-1 do
+    SysUtils.FreeAndNil(FFolios[I]);
+  System.SetLength(FFolios, 0);
+  SysUtils.FreeAndNil(FFecha);
+  inherited Destroy;
 end;
 
-function RespuestaEstatusCancelacionAsincrona2.Referencia_Specified(Index: Integer): boolean;
+procedure RespuestaAceptacionRechazo2.SetFecha(Index: Integer; const ATXSDateTime: TXSDateTime);
 begin
-  Result := FReferencia_Specified;
+  FFecha := ATXSDateTime;
+  FFecha_Specified := True;
 end;
 
-procedure RespuestaEstatusCancelacionAsincrona2.SetXMLAcuse(Index: Integer; const Astring: string);
+function RespuestaAceptacionRechazo2.Fecha_Specified(Index: Integer): boolean;
+begin
+  Result := FFecha_Specified;
+end;
+
+procedure RespuestaAceptacionRechazo2.SetFolios(Index: Integer; const AArrayOfFolioRespuesta: ArrayOfFolioRespuesta);
+begin
+  FFolios := AArrayOfFolioRespuesta;
+  FFolios_Specified := True;
+end;
+
+function RespuestaAceptacionRechazo2.Folios_Specified(Index: Integer): boolean;
+begin
+  Result := FFolios_Specified;
+end;
+
+procedure RespuestaAceptacionRechazo2.SetRFCReceptor(Index: Integer; const Astring: string);
+begin
+  FRFCReceptor := Astring;
+  FRFCReceptor_Specified := True;
+end;
+
+function RespuestaAceptacionRechazo2.RFCReceptor_Specified(Index: Integer): boolean;
+begin
+  Result := FRFCReceptor_Specified;
+end;
+
+procedure RespuestaAceptacionRechazo2.SetXMLAcuse(Index: Integer; const Astring: string);
 begin
   FXMLAcuse := Astring;
   FXMLAcuse_Specified := True;
 end;
 
-function RespuestaEstatusCancelacionAsincrona2.XMLAcuse_Specified(Index: Integer): boolean;
+function RespuestaAceptacionRechazo2.XMLAcuse_Specified(Index: Integer): boolean;
 begin
   Result := FXMLAcuse_Specified;
 end;
 
-destructor RespuestaCancelacionAsincrona2.Destroy;
-var
-  I: Integer;
+destructor RegistroTimbre2.Destroy;
 begin
-  for I := 0 to System.Length(FDetallesCancelacion)-1 do
-    SysUtils.FreeAndNil(FDetallesCancelacion[I]);
-  System.SetLength(FDetallesCancelacion, 0);
+  SysUtils.FreeAndNil(FFechaTimbrado);
   inherited Destroy;
 end;
 
-procedure RespuestaCancelacionAsincrona2.SetDetallesCancelacion(Index: Integer; const AArrayOfDetalleCancelacion: ArrayOfDetalleCancelacion);
+procedure RegistroTimbre2.SetEstado(Index: Integer; const Astring: string);
 begin
-  FDetallesCancelacion := AArrayOfDetalleCancelacion;
-  FDetallesCancelacion_Specified := True;
+  FEstado := Astring;
+  FEstado_Specified := True;
 end;
 
-function RespuestaCancelacionAsincrona2.DetallesCancelacion_Specified(Index: Integer): boolean;
+function RegistroTimbre2.Estado_Specified(Index: Integer): boolean;
 begin
-  Result := FDetallesCancelacion_Specified;
+  Result := FEstado_Specified;
 end;
 
-procedure RespuestaCancelacionAsincrona2.SetMensajeError(Index: Integer; const Astring: string);
+procedure RegistroTimbre2.SetFechaTimbrado(Index: Integer; const ATXSDateTime: TXSDateTime);
 begin
-  FMensajeError := Astring;
-  FMensajeError_Specified := True;
+  FFechaTimbrado := ATXSDateTime;
+  FFechaTimbrado_Specified := True;
 end;
 
-function RespuestaCancelacionAsincrona2.MensajeError_Specified(Index: Integer): boolean;
+function RegistroTimbre2.FechaTimbrado_Specified(Index: Integer): boolean;
 begin
-  Result := FMensajeError_Specified;
+  Result := FFechaTimbrado_Specified;
 end;
 
-procedure RespuestaCancelacionAsincrona2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+procedure RegistroTimbre2.SetNoFila(Index: Integer; const AInteger: Integer);
 begin
-  FOperacionExitosa := ABoolean;
-  FOperacionExitosa_Specified := True;
+  FNoFila := AInteger;
+  FNoFila_Specified := True;
 end;
 
-function RespuestaCancelacionAsincrona2.OperacionExitosa_Specified(Index: Integer): boolean;
+function RegistroTimbre2.NoFila_Specified(Index: Integer): boolean;
 begin
-  Result := FOperacionExitosa_Specified;
+  Result := FNoFila_Specified;
 end;
 
-procedure RespuestaCancelacionAsincrona2.SetReferencia(Index: Integer; const Astring: string);
+procedure RegistroTimbre2.SetRFCEmisor(Index: Integer; const Astring: string);
 begin
-  FReferencia := Astring;
-  FReferencia_Specified := True;
+  FRFCEmisor := Astring;
+  FRFCEmisor_Specified := True;
 end;
 
-function RespuestaCancelacionAsincrona2.Referencia_Specified(Index: Integer): boolean;
+function RegistroTimbre2.RFCEmisor_Specified(Index: Integer): boolean;
 begin
-  Result := FReferencia_Specified;
+  Result := FRFCEmisor_Specified;
 end;
 
-destructor RespuestaCancelacion2.Destroy;
-var
-  I: Integer;
+procedure RegistroTimbre2.SetRFCReceptor(Index: Integer; const Astring: string);
 begin
-  for I := 0 to System.Length(FDetallesCancelacion)-1 do
-    SysUtils.FreeAndNil(FDetallesCancelacion[I]);
-  System.SetLength(FDetallesCancelacion, 0);
-  inherited Destroy;
+  FRFCReceptor := Astring;
+  FRFCReceptor_Specified := True;
 end;
 
-procedure RespuestaCancelacion2.SetDetallesCancelacion(Index: Integer; const AArrayOfDetalleCancelacion: ArrayOfDetalleCancelacion);
+function RegistroTimbre2.RFCReceptor_Specified(Index: Integer): boolean;
 begin
-  FDetallesCancelacion := AArrayOfDetalleCancelacion;
-  FDetallesCancelacion_Specified := True;
+  Result := FRFCReceptor_Specified;
 end;
 
-function RespuestaCancelacion2.DetallesCancelacion_Specified(Index: Integer): boolean;
+procedure RegistroTimbre2.SetUUID(Index: Integer; const Astring: string);
 begin
-  Result := FDetallesCancelacion_Specified;
+  FUUID := Astring;
+  FUUID_Specified := True;
 end;
 
-procedure RespuestaCancelacion2.SetMensajeError(Index: Integer; const Astring: string);
+function RegistroTimbre2.UUID_Specified(Index: Integer): boolean;
 begin
-  FMensajeError := Astring;
-  FMensajeError_Specified := True;
-end;
-
-function RespuestaCancelacion2.MensajeError_Specified(Index: Integer): boolean;
-begin
-  Result := FMensajeError_Specified;
-end;
-
-procedure RespuestaCancelacion2.SetMensajeErrorDetallado(Index: Integer; const Astring: string);
-begin
-  FMensajeErrorDetallado := Astring;
-  FMensajeErrorDetallado_Specified := True;
-end;
-
-function RespuestaCancelacion2.MensajeErrorDetallado_Specified(Index: Integer): boolean;
-begin
-  Result := FMensajeErrorDetallado_Specified;
-end;
-
-procedure RespuestaCancelacion2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
-begin
-  FOperacionExitosa := ABoolean;
-  FOperacionExitosa_Specified := True;
-end;
-
-function RespuestaCancelacion2.OperacionExitosa_Specified(Index: Integer): boolean;
-begin
-  Result := FOperacionExitosa_Specified;
-end;
-
-procedure RespuestaCancelacion2.SetXMLAcuse(Index: Integer; const Astring: string);
-begin
-  FXMLAcuse := Astring;
-  FXMLAcuse_Specified := True;
-end;
-
-function RespuestaCancelacion2.XMLAcuse_Specified(Index: Integer): boolean;
-begin
-  Result := FXMLAcuse_Specified;
+  Result := FUUID_Specified;
 end;
 
 destructor DetallesPaqueteCreditos2.Destroy;
@@ -1088,202 +1704,444 @@ begin
   Result := FVigente_Specified;
 end;
 
-destructor Timbre332.Destroy;
+procedure RespuestaEstatusCancelacionAsincrona2.SetEstatus(Index: Integer; const Astring: string);
 begin
-  SysUtils.FreeAndNil(FFechaTimbrado);
-  inherited Destroy;
+  FEstatus := Astring;
+  FEstatus_Specified := True;
 end;
 
-procedure Timbre332.SetEstado(Index: Integer; const Astring: string);
+function RespuestaEstatusCancelacionAsincrona2.Estatus_Specified(Index: Integer): boolean;
 begin
-  FEstado := Astring;
-  FEstado_Specified := True;
+  Result := FEstatus_Specified;
 end;
 
-function Timbre332.Estado_Specified(Index: Integer): boolean;
-begin
-  Result := FEstado_Specified;
-end;
-
-procedure Timbre332.SetFechaTimbrado(Index: Integer; const ATXSDateTime: TXSDateTime);
-begin
-  FFechaTimbrado := ATXSDateTime;
-  FFechaTimbrado_Specified := True;
-end;
-
-function Timbre332.FechaTimbrado_Specified(Index: Integer): boolean;
-begin
-  Result := FFechaTimbrado_Specified;
-end;
-
-procedure Timbre332.SetNumeroCertificadoSAT(Index: Integer; const Astring: string);
-begin
-  FNumeroCertificadoSAT := Astring;
-  FNumeroCertificadoSAT_Specified := True;
-end;
-
-function Timbre332.NumeroCertificadoSAT_Specified(Index: Integer): boolean;
-begin
-  Result := FNumeroCertificadoSAT_Specified;
-end;
-
-procedure Timbre332.SetSelloCFD(Index: Integer; const Astring: string);
-begin
-  FSelloCFD := Astring;
-  FSelloCFD_Specified := True;
-end;
-
-function Timbre332.SelloCFD_Specified(Index: Integer): boolean;
-begin
-  Result := FSelloCFD_Specified;
-end;
-
-procedure Timbre332.SetSelloSAT(Index: Integer; const Astring: string);
-begin
-  FSelloSAT := Astring;
-  FSelloSAT_Specified := True;
-end;
-
-function Timbre332.SelloSAT_Specified(Index: Integer): boolean;
-begin
-  Result := FSelloSAT_Specified;
-end;
-
-procedure Timbre332.SetUUID(Index: Integer; const Astring: string);
-begin
-  FUUID := Astring;
-  FUUID_Specified := True;
-end;
-
-function Timbre332.UUID_Specified(Index: Integer): boolean;
-begin
-  Result := FUUID_Specified;
-end;
-
-destructor RegistroTimbre2.Destroy;
-begin
-  SysUtils.FreeAndNil(FFechaTimbrado);
-  inherited Destroy;
-end;
-
-procedure RegistroTimbre2.SetEstado(Index: Integer; const Astring: string);
-begin
-  FEstado := Astring;
-  FEstado_Specified := True;
-end;
-
-function RegistroTimbre2.Estado_Specified(Index: Integer): boolean;
-begin
-  Result := FEstado_Specified;
-end;
-
-procedure RegistroTimbre2.SetFechaTimbrado(Index: Integer; const ATXSDateTime: TXSDateTime);
-begin
-  FFechaTimbrado := ATXSDateTime;
-  FFechaTimbrado_Specified := True;
-end;
-
-function RegistroTimbre2.FechaTimbrado_Specified(Index: Integer): boolean;
-begin
-  Result := FFechaTimbrado_Specified;
-end;
-
-procedure RegistroTimbre2.SetNoFila(Index: Integer; const AInteger: Integer);
-begin
-  FNoFila := AInteger;
-  FNoFila_Specified := True;
-end;
-
-function RegistroTimbre2.NoFila_Specified(Index: Integer): boolean;
-begin
-  Result := FNoFila_Specified;
-end;
-
-procedure RegistroTimbre2.SetRFCEmisor(Index: Integer; const Astring: string);
-begin
-  FRFCEmisor := Astring;
-  FRFCEmisor_Specified := True;
-end;
-
-function RegistroTimbre2.RFCEmisor_Specified(Index: Integer): boolean;
-begin
-  Result := FRFCEmisor_Specified;
-end;
-
-procedure RegistroTimbre2.SetRFCReceptor(Index: Integer; const Astring: string);
-begin
-  FRFCReceptor := Astring;
-  FRFCReceptor_Specified := True;
-end;
-
-function RegistroTimbre2.RFCReceptor_Specified(Index: Integer): boolean;
-begin
-  Result := FRFCReceptor_Specified;
-end;
-
-procedure RegistroTimbre2.SetUUID(Index: Integer; const Astring: string);
-begin
-  FUUID := Astring;
-  FUUID_Specified := True;
-end;
-
-function RegistroTimbre2.UUID_Specified(Index: Integer): boolean;
-begin
-  Result := FUUID_Specified;
-end;
-
-destructor RespuestaReporte2.Destroy;
-var
-  I: Integer;
-begin
-  for I := 0 to System.Length(FListaComprobantes)-1 do
-    SysUtils.FreeAndNil(FListaComprobantes[I]);
-  System.SetLength(FListaComprobantes, 0);
-  inherited Destroy;
-end;
-
-procedure RespuestaReporte2.SetListaComprobantes(Index: Integer; const AArrayOfRegistroTimbre: ArrayOfRegistroTimbre);
-begin
-  FListaComprobantes := AArrayOfRegistroTimbre;
-  FListaComprobantes_Specified := True;
-end;
-
-function RespuestaReporte2.ListaComprobantes_Specified(Index: Integer): boolean;
-begin
-  Result := FListaComprobantes_Specified;
-end;
-
-procedure RespuestaReporte2.SetMensajeError(Index: Integer; const Astring: string);
+procedure RespuestaEstatusCancelacionAsincrona2.SetMensajeError(Index: Integer; const Astring: string);
 begin
   FMensajeError := Astring;
   FMensajeError_Specified := True;
 end;
 
-function RespuestaReporte2.MensajeError_Specified(Index: Integer): boolean;
+function RespuestaEstatusCancelacionAsincrona2.MensajeError_Specified(Index: Integer): boolean;
 begin
   Result := FMensajeError_Specified;
 end;
 
-procedure RespuestaReporte2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+procedure RespuestaEstatusCancelacionAsincrona2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
 begin
   FOperacionExitosa := ABoolean;
   FOperacionExitosa_Specified := True;
 end;
 
-function RespuestaReporte2.OperacionExitosa_Specified(Index: Integer): boolean;
+function RespuestaEstatusCancelacionAsincrona2.OperacionExitosa_Specified(Index: Integer): boolean;
 begin
   Result := FOperacionExitosa_Specified;
 end;
 
-procedure RespuestaReporte2.SetTotalComprobantesPeriodo(Index: Integer; const AInteger: Integer);
+procedure RespuestaEstatusCancelacionAsincrona2.SetReferencia(Index: Integer; const Astring: string);
 begin
-  FTotalComprobantesPeriodo := AInteger;
-  FTotalComprobantesPeriodo_Specified := True;
+  FReferencia := Astring;
+  FReferencia_Specified := True;
 end;
 
-function RespuestaReporte2.TotalComprobantesPeriodo_Specified(Index: Integer): boolean;
+function RespuestaEstatusCancelacionAsincrona2.Referencia_Specified(Index: Integer): boolean;
 begin
-  Result := FTotalComprobantesPeriodo_Specified;
+  Result := FReferencia_Specified;
+end;
+
+procedure RespuestaEstatusCancelacionAsincrona2.SetXMLAcuse(Index: Integer; const Astring: string);
+begin
+  FXMLAcuse := Astring;
+  FXMLAcuse_Specified := True;
+end;
+
+function RespuestaEstatusCancelacionAsincrona2.XMLAcuse_Specified(Index: Integer): boolean;
+begin
+  Result := FXMLAcuse_Specified;
+end;
+
+destructor RespuestaCreditos2.Destroy;
+var
+  I: Integer;
+begin
+  for I := 0 to System.Length(FPaquetes)-1 do
+    SysUtils.FreeAndNil(FPaquetes[I]);
+  System.SetLength(FPaquetes, 0);
+  inherited Destroy;
+end;
+
+procedure RespuestaCreditos2.SetMensajeError(Index: Integer; const Astring: string);
+begin
+  FMensajeError := Astring;
+  FMensajeError_Specified := True;
+end;
+
+function RespuestaCreditos2.MensajeError_Specified(Index: Integer): boolean;
+begin
+  Result := FMensajeError_Specified;
+end;
+
+procedure RespuestaCreditos2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+begin
+  FOperacionExitosa := ABoolean;
+  FOperacionExitosa_Specified := True;
+end;
+
+function RespuestaCreditos2.OperacionExitosa_Specified(Index: Integer): boolean;
+begin
+  Result := FOperacionExitosa_Specified;
+end;
+
+procedure RespuestaCreditos2.SetPaquetes(Index: Integer; const AArrayOfDetallesPaqueteCreditos: ArrayOfDetallesPaqueteCreditos);
+begin
+  FPaquetes := AArrayOfDetallesPaqueteCreditos;
+  FPaquetes_Specified := True;
+end;
+
+function RespuestaCreditos2.Paquetes_Specified(Index: Integer): boolean;
+begin
+  Result := FPaquetes_Specified;
+end;
+
+destructor RespuestaCancelacion2.Destroy;
+var
+  I: Integer;
+begin
+  for I := 0 to System.Length(FDetallesCancelacion)-1 do
+    SysUtils.FreeAndNil(FDetallesCancelacion[I]);
+  System.SetLength(FDetallesCancelacion, 0);
+  inherited Destroy;
+end;
+
+procedure RespuestaCancelacion2.SetDetallesCancelacion(Index: Integer; const AArrayOfDetalleCancelacion: ArrayOfDetalleCancelacion);
+begin
+  FDetallesCancelacion := AArrayOfDetalleCancelacion;
+  FDetallesCancelacion_Specified := True;
+end;
+
+function RespuestaCancelacion2.DetallesCancelacion_Specified(Index: Integer): boolean;
+begin
+  Result := FDetallesCancelacion_Specified;
+end;
+
+procedure RespuestaCancelacion2.SetMensajeError(Index: Integer; const Astring: string);
+begin
+  FMensajeError := Astring;
+  FMensajeError_Specified := True;
+end;
+
+function RespuestaCancelacion2.MensajeError_Specified(Index: Integer): boolean;
+begin
+  Result := FMensajeError_Specified;
+end;
+
+procedure RespuestaCancelacion2.SetMensajeErrorDetallado(Index: Integer; const Astring: string);
+begin
+  FMensajeErrorDetallado := Astring;
+  FMensajeErrorDetallado_Specified := True;
+end;
+
+function RespuestaCancelacion2.MensajeErrorDetallado_Specified(Index: Integer): boolean;
+begin
+  Result := FMensajeErrorDetallado_Specified;
+end;
+
+procedure RespuestaCancelacion2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+begin
+  FOperacionExitosa := ABoolean;
+  FOperacionExitosa_Specified := True;
+end;
+
+function RespuestaCancelacion2.OperacionExitosa_Specified(Index: Integer): boolean;
+begin
+  Result := FOperacionExitosa_Specified;
+end;
+
+procedure RespuestaCancelacion2.SetXMLAcuse(Index: Integer; const Astring: string);
+begin
+  FXMLAcuse := Astring;
+  FXMLAcuse_Specified := True;
+end;
+
+function RespuestaCancelacion2.XMLAcuse_Specified(Index: Integer): boolean;
+begin
+  Result := FXMLAcuse_Specified;
+end;
+
+destructor RespuestaCancelacionAsincrona2.Destroy;
+var
+  I: Integer;
+begin
+  for I := 0 to System.Length(FDetallesCancelacion)-1 do
+    SysUtils.FreeAndNil(FDetallesCancelacion[I]);
+  System.SetLength(FDetallesCancelacion, 0);
+  inherited Destroy;
+end;
+
+procedure RespuestaCancelacionAsincrona2.SetDetallesCancelacion(Index: Integer; const AArrayOfDetalleCancelacion: ArrayOfDetalleCancelacion);
+begin
+  FDetallesCancelacion := AArrayOfDetalleCancelacion;
+  FDetallesCancelacion_Specified := True;
+end;
+
+function RespuestaCancelacionAsincrona2.DetallesCancelacion_Specified(Index: Integer): boolean;
+begin
+  Result := FDetallesCancelacion_Specified;
+end;
+
+procedure RespuestaCancelacionAsincrona2.SetMensajeError(Index: Integer; const Astring: string);
+begin
+  FMensajeError := Astring;
+  FMensajeError_Specified := True;
+end;
+
+function RespuestaCancelacionAsincrona2.MensajeError_Specified(Index: Integer): boolean;
+begin
+  Result := FMensajeError_Specified;
+end;
+
+procedure RespuestaCancelacionAsincrona2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+begin
+  FOperacionExitosa := ABoolean;
+  FOperacionExitosa_Specified := True;
+end;
+
+function RespuestaCancelacionAsincrona2.OperacionExitosa_Specified(Index: Integer): boolean;
+begin
+  Result := FOperacionExitosa_Specified;
+end;
+
+procedure RespuestaCancelacionAsincrona2.SetReferencia(Index: Integer; const Astring: string);
+begin
+  FReferencia := Astring;
+  FReferencia_Specified := True;
+end;
+
+function RespuestaCancelacionAsincrona2.Referencia_Specified(Index: Integer): boolean;
+begin
+  Result := FReferencia_Specified;
+end;
+
+procedure DetalleCancelacion2.SetCodigoResultado(Index: Integer; const Astring: string);
+begin
+  FCodigoResultado := Astring;
+  FCodigoResultado_Specified := True;
+end;
+
+function DetalleCancelacion2.CodigoResultado_Specified(Index: Integer): boolean;
+begin
+  Result := FCodigoResultado_Specified;
+end;
+
+procedure DetalleCancelacion2.SetEsCancelable(Index: Integer; const Astring: string);
+begin
+  FEsCancelable := Astring;
+  FEsCancelable_Specified := True;
+end;
+
+function DetalleCancelacion2.EsCancelable_Specified(Index: Integer): boolean;
+begin
+  Result := FEsCancelable_Specified;
+end;
+
+procedure DetalleCancelacion2.SetMensajeResultado(Index: Integer; const Astring: string);
+begin
+  FMensajeResultado := Astring;
+  FMensajeResultado_Specified := True;
+end;
+
+function DetalleCancelacion2.MensajeResultado_Specified(Index: Integer): boolean;
+begin
+  Result := FMensajeResultado_Specified;
+end;
+
+procedure DetalleCancelacion2.SetUUID(Index: Integer; const Astring: string);
+begin
+  FUUID := Astring;
+  FUUID_Specified := True;
+end;
+
+function DetalleCancelacion2.UUID_Specified(Index: Integer): boolean;
+begin
+  Result := FUUID_Specified;
+end;
+
+destructor RespuestaRelacionados2.Destroy;
+begin
+  SysUtils.FreeAndNil(FRelacionados);
+  inherited Destroy;
+end;
+
+procedure RespuestaRelacionados2.SetMensajeError(Index: Integer; const Astring: string);
+begin
+  FMensajeError := Astring;
+  FMensajeError_Specified := True;
+end;
+
+function RespuestaRelacionados2.MensajeError_Specified(Index: Integer): boolean;
+begin
+  Result := FMensajeError_Specified;
+end;
+
+procedure RespuestaRelacionados2.SetOperacionExitosa(Index: Integer; const ABoolean: Boolean);
+begin
+  FOperacionExitosa := ABoolean;
+  FOperacionExitosa_Specified := True;
+end;
+
+function RespuestaRelacionados2.OperacionExitosa_Specified(Index: Integer): boolean;
+begin
+  Result := FOperacionExitosa_Specified;
+end;
+
+procedure RespuestaRelacionados2.SetRelacionados(Index: Integer; const ARelacionados2: Relacionados2);
+begin
+  FRelacionados := ARelacionados2;
+  FRelacionados_Specified := True;
+end;
+
+function RespuestaRelacionados2.Relacionados_Specified(Index: Integer): boolean;
+begin
+  Result := FRelacionados_Specified;
+end;
+
+destructor Relacionados2.Destroy;
+var
+  I: Integer;
+begin
+  for I := 0 to System.Length(FUuidsRelacionadosHijos)-1 do
+    SysUtils.FreeAndNil(FUuidsRelacionadosHijos[I]);
+  System.SetLength(FUuidsRelacionadosHijos, 0);
+  for I := 0 to System.Length(FUuidsRelacionadosPadres)-1 do
+    SysUtils.FreeAndNil(FUuidsRelacionadosPadres[I]);
+  System.SetLength(FUuidsRelacionadosPadres, 0);
+  inherited Destroy;
+end;
+
+procedure Relacionados2.SetResultado(Index: Integer; const Astring: string);
+begin
+  FResultado := Astring;
+  FResultado_Specified := True;
+end;
+
+function Relacionados2.Resultado_Specified(Index: Integer): boolean;
+begin
+  Result := FResultado_Specified;
+end;
+
+procedure Relacionados2.SetUuidConsultado(Index: Integer; const Astring: string);
+begin
+  FUuidConsultado := Astring;
+  FUuidConsultado_Specified := True;
+end;
+
+function Relacionados2.UuidConsultado_Specified(Index: Integer): boolean;
+begin
+  Result := FUuidConsultado_Specified;
+end;
+
+procedure Relacionados2.SetUuidsRelacionadosHijos(Index: Integer; const AArrayOfUUID: ArrayOfUUID);
+begin
+  FUuidsRelacionadosHijos := AArrayOfUUID;
+  FUuidsRelacionadosHijos_Specified := True;
+end;
+
+function Relacionados2.UuidsRelacionadosHijos_Specified(Index: Integer): boolean;
+begin
+  Result := FUuidsRelacionadosHijos_Specified;
+end;
+
+procedure Relacionados2.SetUuidsRelacionadosPadres(Index: Integer; const AArrayOfUUID: ArrayOfUUID);
+begin
+  FUuidsRelacionadosPadres := AArrayOfUUID;
+  FUuidsRelacionadosPadres_Specified := True;
+end;
+
+function Relacionados2.UuidsRelacionadosPadres_Specified(Index: Integer): boolean;
+begin
+  Result := FUuidsRelacionadosPadres_Specified;
+end;
+
+destructor DetalleCFDICancelacion2.Destroy;
+begin
+  SysUtils.FreeAndNil(FTotal);
+  inherited Destroy;
+end;
+
+procedure DetalleCFDICancelacion2.SetEsCancelable(Index: Integer; const Astring: string);
+begin
+  FEsCancelable := Astring;
+  FEsCancelable_Specified := True;
+end;
+
+function DetalleCFDICancelacion2.EsCancelable_Specified(Index: Integer): boolean;
+begin
+  Result := FEsCancelable_Specified;
+end;
+
+procedure DetalleCFDICancelacion2.SetRFCReceptor(Index: Integer; const Astring: string);
+begin
+  FRFCReceptor := Astring;
+  FRFCReceptor_Specified := True;
+end;
+
+function DetalleCFDICancelacion2.RFCReceptor_Specified(Index: Integer): boolean;
+begin
+  Result := FRFCReceptor_Specified;
+end;
+
+procedure DetalleCFDICancelacion2.SetTotal(Index: Integer; const ATXSDecimal: TXSDecimal);
+begin
+  FTotal := ATXSDecimal;
+  FTotal_Specified := True;
+end;
+
+function DetalleCFDICancelacion2.Total_Specified(Index: Integer): boolean;
+begin
+  Result := FTotal_Specified;
+end;
+
+procedure DetalleCFDICancelacion2.SetUUID(Index: Integer; const Astring: string);
+begin
+  FUUID := Astring;
+  FUUID_Specified := True;
+end;
+
+function DetalleCFDICancelacion2.UUID_Specified(Index: Integer): boolean;
+begin
+  Result := FUUID_Specified;
+end;
+
+procedure UUID2.SetRfcEmisor(Index: Integer; const Astring: string);
+begin
+  FRfcEmisor := Astring;
+  FRfcEmisor_Specified := True;
+end;
+
+function UUID2.RfcEmisor_Specified(Index: Integer): boolean;
+begin
+  Result := FRfcEmisor_Specified;
+end;
+
+procedure UUID2.SetRfcReceptor(Index: Integer; const Astring: string);
+begin
+  FRfcReceptor := Astring;
+  FRfcReceptor_Specified := True;
+end;
+
+function UUID2.RfcReceptor_Specified(Index: Integer): boolean;
+begin
+  Result := FRfcReceptor_Specified;
+end;
+
+procedure UUID2.SetUuid(Index: Integer; const Astring: string);
+begin
+  FUuid := Astring;
+  FUuid_Specified := True;
+end;
+
+function UUID2.Uuid_Specified(Index: Integer): boolean;
+begin
+  Result := FUuid_Specified;
 end;
 
 initialization
@@ -1417,6 +2275,17 @@ initialization
                                 '', IS_NLBL);
   InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarTimbrePorReferencia', 'ConsultarTimbrePorReferenciaResult', '',
                                 '[Namespace="http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"]', IS_NLBL);
+  { IWSCFDI33.ConsultarTimbrePorSello }
+  InvRegistry.RegisterMethodInfo(TypeInfo(IWSCFDI33), 'ConsultarTimbrePorSello', '',
+                                 '[ReturnName="ConsultarTimbrePorSelloResult"]', IS_OPTN or IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarTimbrePorSello', 'usuario', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarTimbrePorSello', 'password', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarTimbrePorSello', 'sello', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarTimbrePorSello', 'ConsultarTimbrePorSelloResult', '',
+                                '[Namespace="http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"]', IS_NLBL);
   { IWSCFDI33.ConsultarCreditos }
   InvRegistry.RegisterMethodInfo(TypeInfo(IWSCFDI33), 'ConsultarCreditos', '',
                                  '[ReturnName="ConsultarCreditosResult"]', IS_OPTN or IS_NLBL);
@@ -1435,33 +2304,134 @@ initialization
                                 '', IS_NLBL);
   InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarComprobantes', 'ConsultarComprobantesResult', '',
                                 '[Namespace="http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"]', IS_NLBL);
-  RemClassRegistry.RegisterXSInfo(TypeInfo(ArrayOfDetallesPaqueteCreditos), 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'ArrayOfDetallesPaqueteCreditos');
-  RemClassRegistry.RegisterXSInfo(TypeInfo(ArrayOfDetalleCancelacion), 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'ArrayOfDetalleCancelacion');
-  RemClassRegistry.RegisterXSClass(DetalleCancelacion2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'DetalleCancelacion2', 'DetalleCancelacion');
-  RemClassRegistry.RegisterXSClass(RespuestaTFD332, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaTFD332', 'RespuestaTFD33');
-  RemClassRegistry.RegisterXSClass(RespuestaCreditos2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCreditos2', 'RespuestaCreditos');
-  RemClassRegistry.RegisterExternalPropName(TypeInfo(RespuestaCreditos2), 'Paquetes', '[ArrayItemName="DetallesPaqueteCreditos"]');
-  RemClassRegistry.RegisterXSClass(RespuestaEstatusCancelacionAsincrona2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaEstatusCancelacionAsincrona2', 'RespuestaEstatusCancelacionAsincrona');
-  RemClassRegistry.RegisterXSClass(RespuestaCancelacionAsincrona2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCancelacionAsincrona2', 'RespuestaCancelacionAsincrona');
-  RemClassRegistry.RegisterExternalPropName(TypeInfo(RespuestaCancelacionAsincrona2), 'DetallesCancelacion', '[ArrayItemName="DetalleCancelacion"]');
-  RemClassRegistry.RegisterXSClass(RespuestaCancelacion2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCancelacion2', 'RespuestaCancelacion');
-  RemClassRegistry.RegisterExternalPropName(TypeInfo(RespuestaCancelacion2), 'DetallesCancelacion', '[ArrayItemName="DetalleCancelacion"]');
-  RemClassRegistry.RegisterXSClass(DetallesPaqueteCreditos2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'DetallesPaqueteCreditos2', 'DetallesPaqueteCreditos');
-  RemClassRegistry.RegisterXSClass(Timbre332, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'Timbre332', 'Timbre33');
-  RemClassRegistry.RegisterXSClass(RespuestaCreditos, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCreditos');
-  RemClassRegistry.RegisterXSClass(RespuestaEstatusCancelacionAsincrona, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaEstatusCancelacionAsincrona');
-  RemClassRegistry.RegisterXSClass(RespuestaCancelacionAsincrona, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCancelacionAsincrona');
-  RemClassRegistry.RegisterXSClass(DetallesPaqueteCreditos, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'DetallesPaqueteCreditos');
-  RemClassRegistry.RegisterXSInfo(TypeInfo(ArrayOfstring), 'http://schemas.microsoft.com/2003/10/Serialization/Arrays', 'ArrayOfstring');
-  RemClassRegistry.RegisterXSClass(RegistroTimbre2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RegistroTimbre2', 'RegistroTimbre');
-  RemClassRegistry.RegisterXSClass(RegistroTimbre, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RegistroTimbre');
+  { IWSCFDI33.ValidarRFC }
+  InvRegistry.RegisterMethodInfo(TypeInfo(IWSCFDI33), 'ValidarRFC', '',
+                                 '[ReturnName="ValidarRFCResult"]', IS_OPTN or IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ValidarRFC', 'usuario', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ValidarRFC', 'password', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ValidarRFC', 'rfc', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ValidarRFC', 'ValidarRFCResult', '',
+                                '[Namespace="http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"]', IS_NLBL);
+  { IWSCFDI33.ObtenerPeticionesPendientesCancelacion }
+  InvRegistry.RegisterMethodInfo(TypeInfo(IWSCFDI33), 'ObtenerPeticionesPendientesCancelacion', '',
+                                 '[ReturnName="ObtenerPeticionesPendientesCancelacionResult"]', IS_OPTN or IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ObtenerPeticionesPendientesCancelacion', 'usuario', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ObtenerPeticionesPendientesCancelacion', 'password', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ObtenerPeticionesPendientesCancelacion', 'rFCReceptor', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ObtenerPeticionesPendientesCancelacion', 'ObtenerPeticionesPendientesCancelacionResult', '',
+                                '[Namespace="http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"]', IS_NLBL);
+  { IWSCFDI33.ProcesarAceptacionRechazo }
+  InvRegistry.RegisterMethodInfo(TypeInfo(IWSCFDI33), 'ProcesarAceptacionRechazo', '',
+                                 '[ReturnName="ProcesarAceptacionRechazoResult"]', IS_OPTN or IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ProcesarAceptacionRechazo', 'usuario', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ProcesarAceptacionRechazo', 'password', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ProcesarAceptacionRechazo', 'rFCReceptor', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ProcesarAceptacionRechazo', 'uUIDs', '',
+                                '[Namespace="http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios", ArrayItemName="UUIDProcesarRespuesta"]', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ProcesarAceptacionRechazo', 'clavePrivada_Base64', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ProcesarAceptacionRechazo', 'passwordClavePrivada', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ProcesarAceptacionRechazo', 'ProcesarAceptacionRechazoResult', '',
+                                '[Namespace="http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"]', IS_NLBL);
+  { IWSCFDI33.CancelarCFDIConValidacion }
+  InvRegistry.RegisterMethodInfo(TypeInfo(IWSCFDI33), 'CancelarCFDIConValidacion', '',
+                                 '[ReturnName="CancelarCFDIConValidacionResult"]', IS_OPTN or IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'CancelarCFDIConValidacion', 'usuario', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'CancelarCFDIConValidacion', 'password', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'CancelarCFDIConValidacion', 'rFCEmisor', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'CancelarCFDIConValidacion', 'listaCFDI', '',
+                                '[Namespace="http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios", ArrayItemName="DetalleCFDICancelacion"]', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'CancelarCFDIConValidacion', 'clavePrivada_Base64', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'CancelarCFDIConValidacion', 'passwordClavePrivada', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'CancelarCFDIConValidacion', 'CancelarCFDIConValidacionResult', '',
+                                '[Namespace="http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"]', IS_NLBL);
+  { IWSCFDI33.ConsultarComprobantesRelacionados }
+  InvRegistry.RegisterMethodInfo(TypeInfo(IWSCFDI33), 'ConsultarComprobantesRelacionados', '',
+                                 '[ReturnName="ConsultarComprobantesRelacionadosResult"]', IS_OPTN or IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarComprobantesRelacionados', 'usuario', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarComprobantesRelacionados', 'password', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarComprobantesRelacionados', 'UUID', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarComprobantesRelacionados', 'RFCReceptor', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarComprobantesRelacionados', 'pfxReceptorBase64', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarComprobantesRelacionados', 'passwdPfx', '',
+                                '', IS_NLBL);
+  InvRegistry.RegisterParamInfo(TypeInfo(IWSCFDI33), 'ConsultarComprobantesRelacionados', 'ConsultarComprobantesRelacionadosResult', '',
+                                '[Namespace="http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios"]', IS_NLBL);
   RemClassRegistry.RegisterXSInfo(TypeInfo(ArrayOfRegistroTimbre), 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'ArrayOfRegistroTimbre');
+  RemClassRegistry.RegisterXSInfo(TypeInfo(ArrayOfFolioRespuesta), 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'ArrayOfFolioRespuesta');
+  RemClassRegistry.RegisterXSInfo(TypeInfo(ArrayOfUUIDProcesarRespuesta), 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'ArrayOfUUIDProcesarRespuesta');
+  RemClassRegistry.RegisterXSInfo(TypeInfo(ArrayOfDetallesPaqueteCreditos), 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'ArrayOfDetallesPaqueteCreditos');
+  RemClassRegistry.RegisterXSInfo(TypeInfo(ArrayOfstring), 'http://schemas.microsoft.com/2003/10/Serialization/Arrays', 'ArrayOfstring');
+  RemClassRegistry.RegisterXSClass(RespuestaBase2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaBase2', 'RespuestaBase');
+  RemClassRegistry.RegisterXSClass(RespuestaPeticionesPendientes2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaPeticionesPendientes2', 'RespuestaPeticionesPendientes');
+  RemClassRegistry.RegisterExternalPropName(TypeInfo(RespuestaPeticionesPendientes2), 'UUIDs', '[ArrayItemName="string"]');
+  RemClassRegistry.RegisterXSClass(UUIDProcesarRespuesta2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'UUIDProcesarRespuesta2', 'UUIDProcesarRespuesta');
+  RemClassRegistry.RegisterXSClass(FolioRespuesta2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'FolioRespuesta2', 'FolioRespuesta');
+  RemClassRegistry.RegisterXSClass(RespuestaValidacionRFC2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaValidacionRFC2', 'RespuestaValidacionRFC');
   RemClassRegistry.RegisterXSClass(RespuestaReporte2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaReporte2', 'RespuestaReporte');
   RemClassRegistry.RegisterExternalPropName(TypeInfo(RespuestaReporte2), 'ListaComprobantes', '[ArrayItemName="RegistroTimbre"]');
+  RemClassRegistry.RegisterXSClass(RespuestaTFD332, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaTFD332', 'RespuestaTFD33');
+  RemClassRegistry.RegisterXSClass(Timbre332, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'Timbre332', 'Timbre33');
+  RemClassRegistry.RegisterXSClass(RespuestaAceptacionRechazo2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaAceptacionRechazo2', 'RespuestaAceptacionRechazo');
+  RemClassRegistry.RegisterExternalPropName(TypeInfo(RespuestaAceptacionRechazo2), 'Folios', '[ArrayItemName="FolioRespuesta"]');
+  RemClassRegistry.RegisterXSClass(RegistroTimbre2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RegistroTimbre2', 'RegistroTimbre');
+  RemClassRegistry.RegisterXSClass(DetallesPaqueteCreditos2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'DetallesPaqueteCreditos2', 'DetallesPaqueteCreditos');
+  RemClassRegistry.RegisterXSClass(RespuestaEstatusCancelacionAsincrona2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaEstatusCancelacionAsincrona2', 'RespuestaEstatusCancelacionAsincrona');
+  RemClassRegistry.RegisterXSClass(RespuestaCreditos2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCreditos2', 'RespuestaCreditos');
+  RemClassRegistry.RegisterExternalPropName(TypeInfo(RespuestaCreditos2), 'Paquetes', '[ArrayItemName="DetallesPaqueteCreditos"]');
+  RemClassRegistry.RegisterXSInfo(TypeInfo(ArrayOfDetalleCancelacion), 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'ArrayOfDetalleCancelacion');
+  RemClassRegistry.RegisterXSClass(RespuestaCancelacion2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCancelacion2', 'RespuestaCancelacion');
+  RemClassRegistry.RegisterExternalPropName(TypeInfo(RespuestaCancelacion2), 'DetallesCancelacion', '[ArrayItemName="DetalleCancelacion"]');
+  RemClassRegistry.RegisterXSClass(RespuestaCancelacionAsincrona2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCancelacionAsincrona2', 'RespuestaCancelacionAsincrona');
+  RemClassRegistry.RegisterExternalPropName(TypeInfo(RespuestaCancelacionAsincrona2), 'DetallesCancelacion', '[ArrayItemName="DetalleCancelacion"]');
+  RemClassRegistry.RegisterXSClass(DetalleCancelacion2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'DetalleCancelacion2', 'DetalleCancelacion');
+  RemClassRegistry.RegisterXSClass(RespuestaValidacionRFC, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaValidacionRFC');
+  RemClassRegistry.RegisterXSClass(RespuestaPeticionesPendientes, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaPeticionesPendientes');
+  RemClassRegistry.RegisterXSClass(RespuestaBase, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaBase');
+  RemClassRegistry.RegisterXSClass(DetallesPaqueteCreditos, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'DetallesPaqueteCreditos');
   RemClassRegistry.RegisterXSClass(RespuestaReporte, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaReporte');
-  RemClassRegistry.RegisterXSClass(RespuestaTFD33, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaTFD33');
+  RemClassRegistry.RegisterXSClass(RegistroTimbre, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RegistroTimbre');
+  RemClassRegistry.RegisterXSClass(UUIDProcesarRespuesta, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'UUIDProcesarRespuesta');
+  RemClassRegistry.RegisterXSClass(RespuestaAceptacionRechazo, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaAceptacionRechazo');
+  RemClassRegistry.RegisterXSClass(FolioRespuesta, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'FolioRespuesta');
+  RemClassRegistry.RegisterXSClass(RespuestaCreditos, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCreditos');
+  RemClassRegistry.RegisterXSClass(RespuestaRelacionados2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaRelacionados2', 'RespuestaRelacionados');
+  RemClassRegistry.RegisterXSClass(RespuestaRelacionados, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaRelacionados');
+  RemClassRegistry.RegisterXSInfo(TypeInfo(ArrayOfUUID), 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'ArrayOfUUID');
+  RemClassRegistry.RegisterXSClass(Relacionados2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'Relacionados2', 'Relacionados');
+  RemClassRegistry.RegisterExternalPropName(TypeInfo(Relacionados2), 'UuidsRelacionadosHijos', '[ArrayItemName="UUID"]');
+  RemClassRegistry.RegisterExternalPropName(TypeInfo(Relacionados2), 'UuidsRelacionadosPadres', '[ArrayItemName="UUID"]');
+  RemClassRegistry.RegisterXSClass(Relacionados, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'Relacionados');
+  RemClassRegistry.RegisterXSInfo(TypeInfo(ArrayOfDetalleCFDICancelacion), 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'ArrayOfDetalleCFDICancelacion');
+  RemClassRegistry.RegisterXSClass(DetalleCFDICancelacion2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'DetalleCFDICancelacion2', 'DetalleCFDICancelacion');
+  RemClassRegistry.RegisterXSClass(DetalleCFDICancelacion, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'DetalleCFDICancelacion');
+  RemClassRegistry.RegisterXSClass(UUID2, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'UUID2', 'UUID');
+  RemClassRegistry.RegisterXSClass(UUID, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'UUID');
   RemClassRegistry.RegisterXSClass(DetalleCancelacion, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'DetalleCancelacion');
-  RemClassRegistry.RegisterXSClass(RespuestaCancelacion, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCancelacion');
+  RemClassRegistry.RegisterXSClass(RespuestaCancelacionAsincrona, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCancelacionAsincrona');
+  RemClassRegistry.RegisterXSClass(RespuestaEstatusCancelacionAsincrona, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaEstatusCancelacionAsincrona');
+  RemClassRegistry.RegisterXSClass(RespuestaTFD33, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaTFD33');
   RemClassRegistry.RegisterXSClass(Timbre33, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'Timbre33');
+  RemClassRegistry.RegisterXSClass(RespuestaCancelacion, 'http://schemas.datacontract.org/2004/07/TES.TFD.V33.Negocios', 'RespuestaCancelacion');
 
 end.

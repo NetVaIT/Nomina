@@ -282,7 +282,8 @@ begin
           Ini.WriteString('Nomina', 'TotalOtrosPagos', FormatFloat(cCFDI_ImporteMXN,adoqryCFDITOTAL_OTROS_PAGOS.Value));
         //[nomEmisor]
 //        Ini.WriteString('nomEmisor', 'CURP', adoqryNominanomEmisorCURP.AsString);
-        Ini.WriteString('nomEmisor', 'RegistroPatronal', RegistroPatronal);
+//        Ini.WriteString('nomEmisor', 'RegistroPatronal', RegistroPatronal);
+        Ini.WriteString('nomEmisor', 'RegistroPatronal', adoqryCFDIREGISTRO_PATRONAL.AsString);
 //        Ini.WriteString('nomEmisor', 'RfcPatronOrigen', adoqryNominanomEmisorRfcPatronOrigen.AsString);
         {$IFDEF DEBUG}
 
@@ -293,12 +294,17 @@ begin
         {$ENDIF}
         //[nomReceptor]
         Ini.WriteString('nomReceptor', 'CURP', adoqryCFDIRECEPTOR_CURP.AsString);
-        Ini.WriteString('nomReceptor', 'NumSeguridadSocial', adoqryCFDINSS.AsString);
-        Ini.WriteString('nomReceptor', 'FechaInicioRelLaboral', vFechaInicioRelLaboral);
-        Ini.WriteString('nomReceptor', 'Antigedad', adoqryCFDIANTIGUEDAD.AsString);
+        if not adoqryCFDINSS.IsNull then
+          Ini.WriteString('nomReceptor', 'NumSeguridadSocial', adoqryCFDINSS.AsString);
+        if not adoqryCFDIFECHA_INGRESO.IsNull then
+        begin
+          Ini.WriteString('nomReceptor', 'FechaInicioRelLaboral', vFechaInicioRelLaboral);
+          Ini.WriteString('nomReceptor', 'Antigedad', adoqryCFDIANTIGUEDAD.AsString);
+        end;
         Ini.WriteString('nomReceptor', 'TipoContrato', PreparaCadena(adoqryCFDITIPO_CONTRATO.AsString,'D','0',2));
         Ini.WriteString('nomReceptor', 'Sindicalizado', adoqryCFDISINDICALIZADO.AsString);
-        Ini.WriteString('nomReceptor', 'TipoJornada', PreparaCadena(adoqryCFDITIPO_JORNADA.AsString,'D','0',2));
+        if not adoqryCFDITIPO_JORNADA.IsNull then
+          Ini.WriteString('nomReceptor', 'TipoJornada', PreparaCadena(adoqryCFDITIPO_JORNADA.AsString,'D','0',2));
         Ini.WriteString('nomReceptor', 'TipoRegimen', PreparaCadena(adoqryCFDITIPO_REGIMEN.AsString,'D','0',2));
         Ini.WriteString('nomReceptor', 'NumEmpleado', adoqryCFDINO_EMPLEADO.Value);
         Ini.WriteString('nomReceptor', 'Departamento', Remplazar(adoqryCFDIDEPARTAMENTO.AsString));

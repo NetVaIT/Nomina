@@ -39,6 +39,7 @@ object dmDirectorios: TdmDirectorios
     end
     object actCancelar: TAction
       Caption = 'Cancelar'
+      Enabled = False
       OnExecute = actCancelarExecute
     end
     object actCancelarMarcados: TAction
@@ -181,16 +182,29 @@ object dmDirectorios: TdmDirectorios
     CursorType = ctStatic
     Parameters = <>
     SQL.Strings = (
-      'SELECT IdCFDILog, TFD2UUID FROM CFDILog'
-      'WHERE Cancelar = 1 AND TFD2Estado = '#39'Vigente'#39)
+      
+        'SELECT        CFDILog.IdCFDILog, CFDI.RECEPTOR_RFC AS RFCRecepto' +
+        'r, CFDI.TOTAL_LIQUIDO AS Total, CFDILog.TFD2UUID AS UUID'
+      'FROM            CFDILog INNER JOIN'
+      '                         CFDI ON CFDILog.ID_CFDI = CFDI.ID_CFDI'
+      
+        'WHERE        (CFDILog.Cancelar = 1) AND (CFDILog.TFD2Estado = '#39'V' +
+        'igente'#39')')
     Left = 40
     Top = 224
     object adoqCancelarIdCFDILog: TAutoIncField
       FieldName = 'IdCFDILog'
       ReadOnly = True
     end
-    object adoqCancelarTFD2UUID: TStringField
-      FieldName = 'TFD2UUID'
+    object adoqCancelarRFCReceptor: TWideStringField
+      FieldName = 'RFCReceptor'
+      Size = 15
+    end
+    object adoqCancelarTotal: TFloatField
+      FieldName = 'Total'
+    end
+    object adoqCancelarUUID: TStringField
+      FieldName = 'UUID'
       Size = 36
     end
   end
@@ -200,8 +214,11 @@ object dmDirectorios: TdmDirectorios
     Parameters = <>
     SQL.Strings = (
       'SELECT COUNT(*) AS CUENTA '
-      'FROM CFDILog'
-      'WHERE Cancelar = 1 AND TFD2Estado = '#39'Vigente'#39)
+      'FROM            CFDILog INNER JOIN'
+      '                         CFDI ON CFDILog.ID_CFDI = CFDI.ID_CFDI'
+      
+        'WHERE        (CFDILog.Cancelar = 1) AND (CFDILog.TFD2Estado = '#39'V' +
+        'igente'#39')')
     Left = 128
     Top = 224
     object adoqCancelarCountCUENTA: TIntegerField

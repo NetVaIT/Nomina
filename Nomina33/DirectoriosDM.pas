@@ -36,10 +36,12 @@ type
     actCancelar: TAction;
     adoqCancelar: TADOQuery;
     adoqCancelarCount: TADOQuery;
-    adoqCancelarIdCFDILog: TAutoIncField;
-    adoqCancelarTFD2UUID: TStringField;
     adoqCancelarCountCUENTA: TIntegerField;
     actCancelarMarcados: TAction;
+    adoqCancelarIdCFDILog: TAutoIncField;
+    adoqCancelarRFCReceptor: TWideStringField;
+    adoqCancelarTotal: TFloatField;
+    adoqCancelarUUID: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure actCrearINIExecute(Sender: TObject);
     procedure actCrearXMLExecute(Sender: TObject);
@@ -93,7 +95,7 @@ uses _Utils, MainFrm, COBAEMDM, IntervaDM;
 
 procedure TdmDirectorios.actCancelarExecute(Sender: TObject);
 begin
-  dmCFDI.Cancelar(frmDirectorios.UUID);
+//  dmCFDI.Cancelar(frmDirectorios.UUID);
 end;
 
 procedure TdmDirectorios.actCancelarMarcadosExecute(Sender: TObject);
@@ -176,6 +178,23 @@ begin
         dmCOBAEM.Free;
       end;
     end;
+    6: begin
+      dmCOBAEM := TdmCOBAEM.Create(Self);
+      try
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\00001000000404505437.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CDS_PLE530816HC1_20161208_102907.key';
+        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'HBCrhr03';
+        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'PLE530816HC1';
+        dmCOBAEM.LugarExpedicion := '21000';
+        dmCOBAEM.EmisorRFC := 'PLE530816HC1';
+        dmCOBAEM.EmisorNombre := 'Poder Legislativo del Estado de Baja California';
+        dmCOBAEM.EmisorRegimenFiscal := '603';
+        dmCOBAEM.RegistroPatronal := '10973';
+        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmCOBAEM.Free;
+      end;
+    end;
     // BPS
     10: begin
       dmCOBAEM := TdmCOBAEM.Create(Self);
@@ -245,6 +264,23 @@ begin
         dmCOBAEM.Free;
       end;
     end;
+    14: begin
+      dmCOBAEM := TdmCOBAEM.Create(Self);
+      try
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\.key';
+        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'Metalica';
+        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'PJE141120LY3';
+        dmCOBAEM.LugarExpedicion := '';
+        dmCOBAEM.EmisorRFC := 'PJE141120LY3';
+        dmCOBAEM.EmisorNombre := 'PODER JUDICIAL DEL ESTADO DE MICHOACAN';
+        dmCOBAEM.EmisorRegimenFiscal := '603';
+        dmCOBAEM.RegistroPatronal := 'C8910391100';
+        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmCOBAEM.Free;
+      end;
+    end;
 
   end;
   DirectoriosActualizar;
@@ -309,7 +345,7 @@ begin
   try
     while not adoqCancelar.Eof do
     begin
-      dmCFDI.Cancelar(adoqCancelarTFD2UUID.AsString);
+      dmCFDI.Cancelar(adoqCancelarRFCReceptor.AsString, adoqCancelarUUID.AsString, adoqCancelarTotal.AsExtended);
       Inc(vCount);
       ShowProgress(vCount,vCountTotal);
       adoqCancelar.Next;
@@ -442,6 +478,15 @@ begin
       dmCFDI.FDPass:= '@2si6myFf%';
       dmCFDI.FDPFXFile:= '.\Certificados\JMA880101MB2.pem';
       dmCFDI.FDPFXPass:= 'jumapam88';
+    end;
+    6: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000404505437.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CDS_PLE530816HC1_20161208_102907.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'HBCrhr03';
+      dmCFDI.FCertificado.RFCAlQuePertenece := 'PLE530816HC1';
+      dmCFDI.PAC := pacFoliosDigitales;
+      dmCFDI.FDUser:= 'PLE530816HC1';
+      dmCFDI.FDPass:= 'XJGwkBMUt@';
     end;
     // BPS
     10: begin

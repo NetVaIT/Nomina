@@ -6,6 +6,7 @@ uses
   System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB, Vcl.Forms,
   Vcl.Dialogs, Windows, Vcl.ComCtrls, System.Types, System.IniFiles,
   System.Variants, System.Actions, Vcl.ActnList, Soap.EncdDecd,
+  Soap.XSBuiltIns,
   CFDLibHeader, DataTypeCast,
   cxMemo,
   CFDIUtils,
@@ -37,7 +38,7 @@ type
     procedure SetPAC(const Value: TPAC);
     function Timbrar(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
     function TimbrarFD(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
-    function CancelarFD(pUUID: string): Boolean;
+    function CancelarFD(pRFCReceptor, pUUID: string; pTotal: Double): Boolean;
     function TimbrarFinkok(pAnio, pMes: Word; pFileNameXML, pFileNameXMLT: string): Boolean;
     function CancelarFinkok(pUUID: string): Boolean;
     procedure CrearPDFMasivo(pMes: Integer; pDirXML, pDirPDF: String;
@@ -58,7 +59,7 @@ type
     procedure CrearXMLTimbrar(pAnio, pMes: Word; pFiltrar: Boolean; pDirINI,
       pDirINIPr, pDirError, pDirXML, pDirXMLFD: String; pFilesINI: TListItems);
     procedure TimbrarEcodex(pDirINI: String; pFilesINI: TListItems);
-    function Cancelar(pUUID: string): Boolean;
+    function Cancelar(pRFCReceptor, pUUID: string; pTotal: Double): Boolean;
 //    function FDTimbrar(pMes: Integer; pDirXML, pDirXMLFD, pFileName: String): Boolean;
 //    procedure FDTimbrarMasivo(pMes: Integer; pDirXML, pDirXMLFD: String;
 //      pFilesXML: TListItems);
@@ -141,28 +142,34 @@ begin
     Bitacora.Lines.Add(pLinea);
 end;
 
-function TdmCFDI.Cancelar(pUUID: string): Boolean;
+function TdmCFDI.Cancelar(pRFCReceptor, pUUID: string; pTotal: Double): Boolean;
 begin
   case PAC of
-    pacFoliosDigitales: Result:= CancelarFD(pUUID);
+    pacFoliosDigitales: Result:= CancelarFD(pRFCReceptor, pUUID, pTotal);
     pacFinkok: Result := CancelarFinkok(pUUID);
     else Result := False;
   end;
 end;
 
-function TdmCFDI.CancelarFD(pUUID: string): Boolean;
+function TdmCFDI.CancelarFD(pRFCReceptor, pUUID: string; pTotal: Double): Boolean;
 var
   WSTFD: IWSCFDI33;
   RtFD: RespuestaCancelacion2;
-  listaCFDI: ArrayOfstring;
+  listaCFDI: ArrayOfDetalleCFDICancelacion;
+  CFDICancelacion2: DetalleCFDICancelacion2;
 begin
   Result := False;
   if FDUser = EmptyStr then exit;
   if FDPass = EmptyStr then exit;
   SetLength(listaCFDI, 1);
-  listaCFDI[0]:= pUUID;
+  CFDICancelacion2 := DetalleCFDICancelacion2.Create;
+  CFDICancelacion2.Total := TXSDecimal.Create;
+  CFDICancelacion2.RFCReceptor := pRFCReceptor;
+  CFDICancelacion2.Total.AsBcd := pTotal;
+  CFDICancelacion2.UUID := pUUID;
+  listaCFDI[0] := CFDICancelacion2;
   WSTFD := GetIWSCFDI33(True, '', nil);
-  RtFD := WSTFD.CancelarCFDI(FDUser, FDPass, FCertificado.RFCAlQuePertenece, listaCFDI, CertificadoPkcs12Base64, FDPFXPass);
+  RtFD := WSTFD.CancelarCFDIConValidacion(FDUser, FDPass, FCertificado.RFCAlQuePertenece, listaCFDI, CertificadoPkcs12Base64, FDPFXPass);
   // Alamecan el la bitacora el resultado
   if RtFD.OperacionExitosa then
   begin
@@ -182,6 +189,7 @@ begin
     adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
     adocUpdCFDILogCancelarError.Execute;
   end;
+  CFDICancelacion2.Free;
   Result := RtFD.OperacionExitosa;
 end;
 

@@ -8,7 +8,7 @@ object dmCOBAEM: TdmCOBAEM
     Parameters = <
       item
         Name = 'Estatus'
-        Attributes = [paSigned]
+        Attributes = [paSigned, paNullable]
         DataType = ftInteger
         Precision = 10
         Size = 4
@@ -19,6 +19,10 @@ object dmCOBAEM: TdmCOBAEM
         'SELECT CFDI.ID_CFDI, CASE WHEN ID_CFDI_ANTERIOR IS NOT NULL THEN' +
         ' '#39'04'#39' ELSE NULL END AS TipoRelacion, CFDI_ANT.TFD2UUID AS CfdiRe' +
         'lacionado1,'
+      
+        '--SELECT CFDI.ID_CFDI, CASE WHEN CFDI.UUID_ANTERIOR IS NOT NULL ' +
+        'THEN '#39'04'#39' ELSE NULL END AS TipoRelacion, CFDI.UUID_ANTERIOR AS C' +
+        'fdiRelacionado1,'
       
         'TOTAL_PERCEPCIONES + TOTAL_OTROS_PAGOS AS Subtotal, TOTAL_DEDUCC' +
         'IONES AS Descuento, TOTAL_LIQUIDO AS Total, RECEPTOR_NOMBRE, REC' +

@@ -267,11 +267,11 @@ begin
     14: begin
       dmCOBAEM := TdmCOBAEM.Create(Self);
       try
-        dmCOBAEM.FCertificado.Ruta := '.\Certificados\.cer';
-        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\.key';
-        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'Metalica';
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\CSD_PODER_JUDICAL_PJE141120LY3_20181222_134517s.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_PODER_JUDICAL_PJE141120LY3_20181222_134517.key';
+        dmCOBAEM.FCertificado.LlavePrivada.Clave := '141120LY';
         dmCOBAEM.FCertificado.RFCAlQuePertenece := 'PJE141120LY3';
-        dmCOBAEM.LugarExpedicion := '';
+        dmCOBAEM.LugarExpedicion := '58190';
         dmCOBAEM.EmisorRFC := 'PJE141120LY3';
         dmCOBAEM.EmisorNombre := 'PODER JUDICIAL DEL ESTADO DE MICHOACAN';
         dmCOBAEM.EmisorRegimenFiscal := '603';
@@ -520,6 +520,14 @@ begin
       dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000405966542.cer';
       dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_AST840426RQ9_20170417_135654.key';
       dmCFDI.FCertificado.LlavePrivada.Clave := 'teca2016';
+      dmCFDI.PAC := pacFinkok;
+      dmCFDI.FDUser:= 'bps.finkok@gmail.com';
+      dmCFDI.FDPass:= 'BPS@sociados1';
+    end;
+    14: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_PODER_JUDICAL_PJE141120LY3_20181222_134517s.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_PODER_JUDICAL_PJE141120LY3_20181222_134517.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := '141120LY';
       dmCFDI.PAC := pacFinkok;
       dmCFDI.FDUser:= 'bps.finkok@gmail.com';
       dmCFDI.FDPass:= 'BPS@sociados1';

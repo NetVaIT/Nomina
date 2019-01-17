@@ -36,10 +36,10 @@ object frmMain: TfrmMain
   object ADOConnection: TADOConnection
     ConnectionString = 
       'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True' +
-      ';User ID=sa;Initial Catalog=CFDICongresoBC;Data Source=NAS4\NOMI' +
-      'NASV12;Use Procedure for Prepare=1;Auto Translate=True;Packet Si' +
-      'ze=4096;Workstation ID=DESARROLLO3;Use Encryption for Data=False' +
-      ';Tag with column collation when possible=False'
+      ';User ID=sa;Initial Catalog=CFDIPJM;Data Source=NAS4\NOMINASV12;' +
+      'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096' +
+      ';Workstation ID=DESARROLLO3;Use Encryption for Data=False;Tag wi' +
+      'th column collation when possible=False'
     LoginPrompt = False
     Provider = 'SQLOLEDB.1'
     Left = 31

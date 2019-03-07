@@ -60,6 +60,7 @@ type
     edtUUID: TcxTextEdit;
     btnCancelar: TcxButton;
     btnCancelarMarcados: TcxButton;
+    cbDetener: TcxCheckBox;
   private
     { Private declarations }
     FProcessDirectory: string;
@@ -96,11 +97,14 @@ type
     function GetUUID: string;
     procedure SetUUID(const Value: string);
     procedure SetactCancelarMarcados(const Value: TBasicAction);
+    function GetDetenerError: Boolean;
+    procedure SetDetenerError(const Value: Boolean);
   public
     { Public declarations }
     property Mes: Integer read GetMes write SetMes;
     property Anio: Integer read GetAnio write SetAnio;
     property Filtrar: Boolean read GetFiltrar write SetFiltrar;
+    property DetenerError: Boolean read GetDetenerError write SetDetenerError;
     property InboxDirectory: string read FInboxDirectory write SetInboxDirectory;
     property OutboxDirectory: string read FOutboxDirectory write SetOutboxDirectory;
     property ProcessDirectory: string read FProcessDirectory write SetProcessDirectory;
@@ -126,6 +130,11 @@ uses DirectoriosDM;
 function TfrmDirectorios.GetAnio: Integer;
 begin
   Result:= edtAnio.Value;
+end;
+
+function TfrmDirectorios.GetDetenerError: Boolean;
+begin
+  Result := cbDetener.Checked;
 end;
 
 function TfrmDirectorios.GetFiltrar: Boolean;
@@ -200,6 +209,11 @@ end;
 procedure TfrmDirectorios.SetAnio(const Value: Integer);
 begin
   edtAnio.Value := Value;
+end;
+
+procedure TfrmDirectorios.SetDetenerError(const Value: Boolean);
+begin
+  cbDetener.Checked := Value;
 end;
 
 procedure TfrmDirectorios.SetErrorDirectory(const Value: string);

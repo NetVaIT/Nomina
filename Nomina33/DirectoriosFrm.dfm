@@ -129,12 +129,20 @@ object frmDirectorios: TfrmDirectorios
         TabOrder = 4
       end
       object cbFiltrar: TcxCheckBox
-        Left = 224
+        Left = 201
         Top = 5
         Caption = 'Filtrar'
         State = cbsChecked
         TabOrder = 10
-        Width = 121
+        Width = 53
+      end
+      object cbDetener: TcxCheckBox
+        Left = 273
+        Top = 5
+        Caption = 'Detener en error'
+        State = cbsChecked
+        TabOrder = 11
+        Width = 112
       end
     end
     object cxPageControl1: TcxPageControl
@@ -320,6 +328,11 @@ object frmDirectorios: TfrmDirectorios
   end
   object cxPropertiesStore: TcxPropertiesStore
     Components = <
+      item
+        Component = cbDetener
+        Properties.Strings = (
+          'Checked')
+      end
       item
         Component = cbFiltrar
         Properties.Strings = (

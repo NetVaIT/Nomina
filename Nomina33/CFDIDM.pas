@@ -56,8 +56,8 @@ type
     property FDPFXPass: string read FFDPFXPass write SetFDPFXPass;
     property PAC: TPAC read FPAC write SetPAC;
     procedure CrearXMLMasivo(pDirINI, pDirXML: String; pFilesINI: TListItems);
-    procedure CrearXMLTimbrar(pAnio, pMes: Word; pFiltrar: Boolean; pDirINI,
-      pDirINIPr, pDirError, pDirXML, pDirXMLFD: String; pFilesINI: TListItems);
+    procedure CrearXMLTimbrar(pAnio, pMes: Word; pFiltrar, pDetenerError: Boolean;
+      pDirINI, pDirINIPr, pDirError, pDirXML, pDirXMLFD: String; pFilesINI: TListItems);
     procedure TimbrarEcodex(pDirINI: String; pFilesINI: TListItems);
     function Cancelar(pRFCReceptor, pUUID: string; pTotal: Double): Boolean;
 //    function FDTimbrar(pMes: Integer; pDirXML, pDirXMLFD, pFileName: String): Boolean;
@@ -200,38 +200,50 @@ var
   sKey,sCer:TByteDynArray;
   AUUID:StringArray;
   UUID:UUIDS;
-//  aKey,aCer:TFileName;
+  EstatusUUID: string;
+  EstatusCancelacion: string;
 begin
   Result := False;
   if FDUser = EmptyStr then exit;
   if FDPass = EmptyStr then exit;
- UUID:=UUIDS.Create;
+  UUID:=UUIDS.Create;
 //openssl x509 -inform DER -outform PEM -in CSD010_AAA010101AAA.cer -pubkey -out CSD010_AAA010101AAA.cer.pem
 //openssl pkcs8 -inform DER -in CSD010_AAA010101AAA.key -passin pass:12345678a -out CSD010_AAA010101AAA.key.pem
 //EjecutaExterno(ExtractFilePath(Application.ExeName)+'openssl x509 -inform DER -outform PEM -in '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.cer -pubkey -out '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.cer.pem');
 //EjecutaExterno(ExtractFilePath(Application.ExeName)+'openssl pkcs8 -inform DER -in '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.key -passin pass:12345678a -out '+ExtractFilePath(Application.ExeName)+'aad990814bp7_1210261233s.key.pem');
- sCer:=FileToByteArray(FCertificado.Ruta+'.pem');
- sKey:=FileToByteArray(FCertificado.LlavePrivada.Ruta+'.pem');
- WSTFinkok := GetIWSFinkokCancel(True, '', nil);
- SetLength(AUUID, 0);
- AUUID:=WStringToArray(Trim(pUUID));
- UUID.uuids:=AUUID;
+  sCer:=FileToByteArray(FCertificado.Ruta+'.pem');
+  sKey:=FileToByteArray(FCertificado.LlavePrivada.Ruta+'.pem');
+  WSTFinkok := GetIWSFinkokCancel(True, '', nil);
+  SetLength(AUUID, 0);
+  AUUID:=WStringToArray(Trim(pUUID));
+  UUID.uuids:=AUUID;
   {$IFDEF DEBUG}
-    RTFinkok := WSTFinkok.cancel(UUID, FDUser, FDPass, FCertificado.RFCAlQuePertenece, sCer, sKey, False, EmptyStr);
+    RTFinkok := WSTFinkok.cancel(UUID, FDUser, FDPass, FCertificado.RFCAlQuePertenece, sCer, sKey, False);
   {$ELSE}
     RTFinkok := WSTFinkok.cancel(UUID, FDUser, FDPass, FCertificado.RFCAlQuePertenece, sCer, sKey, False);
   {$ENDIF}
- if Trim(RTFinkok.CodEstatus)<>'' then
-  AgregarMensaje('Estatus UUID '+RTFinkok.CodEstatus)
- Else
-  Begin
-   if Trim(RTFinkok.Folios[0].EstatusUUID)<>'' then    AgregarMensaje('Estatus UUID '+RTFinkok.Folios[0].EstatusUUID);
-   if Trim(RTFinkok.Folios[0].UUID)<>'' then    AgregarMensaje('UUID '+RTFinkok.Folios[0].UUID);
-   if Trim(RTFinkok.Acuse)<>'' then     AgregarMensaje('Acuse '+RTFinkok.Acuse);
-   if Trim(RTFinkok.Fecha)<>'' then     AgregarMensaje('Fecha '+RTFinkok.Fecha);
-   if Trim(RTFinkok.RfcEmisor)<>'' Then AgregarMensaje('RFC Emisor '+RTFinkok.RfcEmisor);
-  End;
- UUID.Free;
+  if Trim(RTFinkok.CodEstatus)=EmptyStr then
+  begin
+    EstatusUUID := RTFinkok.Folios[0].EstatusUUID;
+    EstatusCancelacion := RTFinkok.Folios[0].EstatusCancelacion;
+    if (EstatusUUID = '201') and (EstatusCancelacion = 'Cancelado sin aceptación') then
+
+    begin
+      adocUpdCFDILogCancelar.Parameters.ParamByName('UUID').Value:= pUUID;
+      adocUpdCFDILogCancelar.Parameters.ParamByName('TFD2OperacionExitosa').Value:= True;
+      adocUpdCFDILogCancelar.Parameters.ParamByName('TFD2XMLAcuse').Value:= RTFinkok.Acuse;
+      adocUpdCFDILogCancelar.Execute;
+    end
+    else
+    begin
+      adocUpdCFDILogCancelarError.Parameters.ParamByName('UUID').Value:= pUUID;
+      adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2MensajeError').Value:= EstatusUUID;
+      adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2MensajeErrorDetallado').Value:= EstatusCancelacion;
+      adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2OperacionExitosa').Value:= False;
+      adocUpdCFDILogCancelarError.Execute;
+    end;
+  end;
+  UUID.Free;
 end;
 
 function TdmCFDI.CrearPDF(pFileNameXML, pFileNamePDF: string): Boolean;
@@ -281,7 +293,7 @@ begin
   ShowMessage('Proceso terminado');
 end;
 
-procedure TdmCFDI.CrearXMLTimbrar(pAnio, pMes: Word; pFiltrar: Boolean;
+procedure TdmCFDI.CrearXMLTimbrar(pAnio, pMes: Word; pFiltrar, pDetenerError: Boolean;
   pDirINI, pDirINIPr, pDirError, pDirXML, pDirXMLFD: String; pFilesINI: TListItems);
 var
   vCountTotal, vContador: Integer;
@@ -381,8 +393,11 @@ begin
       begin
         CopyFile(PChar(vFileINI), PChar(pDirError + PathDelim + vFileNameINI), False);
         DeleteFile(PChar(vFileINI));
-        ShowMessage('Error al timbrar, ver CFDILog');
-        Break;
+        if pDetenerError then
+        begin
+          ShowMessage('Error al timbrar, ver CFDILog');
+          Break;
+        end;
       end;
 //      AgregarMensaje('Se grabo formato XML: '+ vFileName + '.XML');
 //      AgregarMensaje('Se grabo la factura en formato XML, la Cadena Original y el Sello Digital son:'+

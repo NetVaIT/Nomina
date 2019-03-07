@@ -146,9 +146,7 @@
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="Nomina33\DataTypeCast.pas"/>
-        <DCCReference Include="WSTimbrado\WSFinkokCancelDemo.pas"/>
         <DCCReference Include="WSTimbrado\WSFinkokStampDemo.pas"/>
-        <DCCReference Include="WSTimbrado\WSFinkokCancel.pas"/>
         <DCCReference Include="WSTimbrado\WSFinkokStamp.pas"/>
         <DCCReference Include="XMLToPDF\XMLtoPDFNominaDmod.pas">
             <Form>dmXMLtoPDFNomina</Form>
@@ -161,6 +159,8 @@
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="tfacturaelectronica20\CFDIUtils.pas"/>
+        <DCCReference Include="WSTimbrado\WSFinkokCancel.pas"/>
+        <DCCReference Include="WSTimbrado\WSFinkokCancelDemo.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

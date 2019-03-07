@@ -24,13 +24,13 @@ uses
   DirectoriosFrm in 'Nomina33\DirectoriosFrm.pas' {frmDirectorios},
   IntervaDM in 'Nomina33\IntervaDM.pas' {dmInterva: TDataModule},
   DataTypeCast in 'Nomina33\DataTypeCast.pas',
-  WSFinkokCancelDemo in 'WSTimbrado\WSFinkokCancelDemo.pas',
   WSFinkokStampDemo in 'WSTimbrado\WSFinkokStampDemo.pas',
-  WSFinkokCancel in 'WSTimbrado\WSFinkokCancel.pas',
   WSFinkokStamp in 'WSTimbrado\WSFinkokStamp.pas',
   XMLtoPDFNominaDmod in 'XMLToPDF\XMLtoPDFNominaDmod.pas' {dmXMLtoPDFNomina: TDataModule},
   XMLtoPDFCFDI32Dmod in 'XMLToPDF\XMLtoPDFCFDI32Dmod.pas' {dmXMLtoPDFCFDI32: TDataModule},
-  CFDIUtils in 'tfacturaelectronica20\CFDIUtils.pas';
+  CFDIUtils in 'tfacturaelectronica20\CFDIUtils.pas',
+  WSFinkokCancel in 'WSTimbrado\WSFinkokCancel.pas',
+  WSFinkokCancelDemo in 'WSTimbrado\WSFinkokCancelDemo.pas';
 
 {$R *.res}
 

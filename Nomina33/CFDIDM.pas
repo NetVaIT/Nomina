@@ -169,27 +169,31 @@ begin
   CFDICancelacion2.UUID := pUUID;
   listaCFDI[0] := CFDICancelacion2;
   WSTFD := GetIWSCFDI33(True, '', nil);
-  RtFD := WSTFD.CancelarCFDIConValidacion(FDUser, FDPass, FCertificado.RFCAlQuePertenece, listaCFDI, CertificadoPkcs12Base64, FDPFXPass);
-  // Alamecan el la bitacora el resultado
-  if RtFD.OperacionExitosa then
-  begin
-    adocUpdCFDILogCancelar.Parameters.ParamByName('UUID').Value:= pUUID;
-    adocUpdCFDILogCancelar.Parameters.ParamByName('TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
-    adocUpdCFDILogCancelar.Parameters.ParamByName('TFD2XMLAcuse').Value:= RtFD.XMLAcuse;
-  //  RtFD.DetallesCancelacion[0].CodigoResultado
-  //  RtFD.DetallesCancelacion[0].MensajeResultado
-  //  RtFD.DetallesCancelacion[0].UUID
-    adocUpdCFDILogCancelar.Execute;
-  end
-  else
-  begin
-    adocUpdCFDILogCancelarError.Parameters.ParamByName('UUID').Value:= pUUID;
-    adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2MensajeError').Value:= RtFD.MensajeError;
-    adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2MensajeErrorDetallado').Value:= RtFD.MensajeErrorDetallado;
-    adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
-    adocUpdCFDILogCancelarError.Execute;
+  try
+    RtFD := WSTFD.CancelarCFDIConValidacion(FDUser, FDPass, FCertificado.RFCAlQuePertenece, listaCFDI, CertificadoPkcs12Base64, FDPFXPass);
+    // Alamecan el la bitacora el resultado
+    if RtFD.OperacionExitosa then
+    begin
+      adocUpdCFDILogCancelar.Parameters.ParamByName('UUID').Value:= pUUID;
+      adocUpdCFDILogCancelar.Parameters.ParamByName('TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
+      adocUpdCFDILogCancelar.Parameters.ParamByName('TFD2XMLAcuse').Value:= RtFD.XMLAcuse;
+    //  RtFD.DetallesCancelacion[0].CodigoResultado
+    //  RtFD.DetallesCancelacion[0].MensajeResultado
+    //  RtFD.DetallesCancelacion[0].UUID
+      adocUpdCFDILogCancelar.Execute;
+    end
+    else
+    begin
+      adocUpdCFDILogCancelarError.Parameters.ParamByName('UUID').Value:= pUUID;
+      adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2MensajeError').Value:= RtFD.MensajeError;
+      adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2MensajeErrorDetallado').Value:= RtFD.MensajeErrorDetallado;
+      adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2OperacionExitosa').Value:= RtFD.OperacionExitosa;
+      adocUpdCFDILogCancelarError.Execute;
+    end;
+    CFDICancelacion2.Free;
+  except on E: Exception do
+    Result:= False;
   end;
-  CFDICancelacion2.Free;
   Result := RtFD.OperacionExitosa;
 end;
 
@@ -227,12 +231,12 @@ begin
     EstatusUUID := RTFinkok.Folios[0].EstatusUUID;
     EstatusCancelacion := RTFinkok.Folios[0].EstatusCancelacion;
     if (EstatusUUID = '201') and (EstatusCancelacion = 'Cancelado sin aceptación') then
-
     begin
       adocUpdCFDILogCancelar.Parameters.ParamByName('UUID').Value:= pUUID;
       adocUpdCFDILogCancelar.Parameters.ParamByName('TFD2OperacionExitosa').Value:= True;
       adocUpdCFDILogCancelar.Parameters.ParamByName('TFD2XMLAcuse').Value:= RTFinkok.Acuse;
       adocUpdCFDILogCancelar.Execute;
+      Result := True;
     end
     else
     begin
@@ -241,6 +245,7 @@ begin
       adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2MensajeErrorDetallado').Value:= EstatusCancelacion;
       adocUpdCFDILogCancelarError.Parameters.ParamByName('TFD2OperacionExitosa').Value:= False;
       adocUpdCFDILogCancelarError.Execute;
+      Result := False;
     end;
   end;
   UUID.Free;

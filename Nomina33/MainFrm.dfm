@@ -36,10 +36,10 @@ object frmMain: TfrmMain
   object ADOConnection: TADOConnection
     ConnectionString = 
       'Provider=SQLOLEDB.1;Password=as47Pw3K;Persist Security Info=True' +
-      ';User ID=sa;Initial Catalog=CFDIPJM;Data Source=NAS4\NOMINASV12;' +
-      'Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096' +
-      ';Workstation ID=DESARROLLO3;Use Encryption for Data=False;Tag wi' +
-      'th column collation when possible=False'
+      ';User ID=sa;Initial Catalog=IntervaGDL;Data Source=NAS4\NOMINASV' +
+      '12;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4' +
+      '096;Workstation ID=DESARROLLO3;Use Encryption for Data=False;Tag' +
+      ' with column collation when possible=False'
     LoginPrompt = False
     Provider = 'SQLOLEDB.1'
     Left = 31
@@ -61,8 +61,40 @@ object frmMain: TfrmMain
     end
     object Emisor1: TMenuItem
       Caption = 'Emisor'
+      object Desstra1: TMenuItem
+        Caption = 'Desstra'
+        object GDL1: TMenuItem
+          Tag = 20
+          Caption = 'GDL Honorarios'
+          OnClick = COBAEM1Click
+        end
+        object GDLXML1: TMenuItem
+          Tag = 21
+          Caption = 'GDL XML'
+          OnClick = COBAEM1Click
+        end
+      end
+      object ABAX1: TMenuItem
+        Caption = 'ABAX'
+        object SALUDSLP1: TMenuItem
+          Tag = 3
+          Caption = 'SALUD SLP'
+          OnClick = COBAEM1Click
+        end
+        object JUMAPAM1: TMenuItem
+          Tag = 5
+          Caption = 'JUMAPAM'
+          OnClick = COBAEM1Click
+        end
+        object CongresoBC1: TMenuItem
+          Tag = 6
+          Caption = 'Congreso BC'
+          OnClick = COBAEM1Click
+        end
+      end
       object BPS1: TMenuItem
         Caption = 'BPS'
+        Enabled = False
         object COBAEM1: TMenuItem
           Tag = 10
           Caption = 'COBAEM'
@@ -86,24 +118,6 @@ object frmMain: TfrmMain
         object PoderJudicial1: TMenuItem
           Tag = 14
           Caption = 'PoderJudicial'
-          OnClick = COBAEM1Click
-        end
-      end
-      object ABAX1: TMenuItem
-        Caption = 'ABAX'
-        object SALUDSLP1: TMenuItem
-          Tag = 3
-          Caption = 'SALUD SLP'
-          OnClick = COBAEM1Click
-        end
-        object JUMAPAM1: TMenuItem
-          Tag = 5
-          Caption = 'JUMAPAM'
-          OnClick = COBAEM1Click
-        end
-        object CongresoBC1: TMenuItem
-          Tag = 6
-          Caption = 'Congreso BC'
           OnClick = COBAEM1Click
         end
       end

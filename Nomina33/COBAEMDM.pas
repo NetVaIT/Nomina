@@ -13,6 +13,7 @@ const
   cDeducciones = 'nomDeduccion';
   cOtrosPagos = 'nomOtrosPagos';
   cHorasExtra = 'HorasExtra';
+  cIncapacidad = 'nomIncapacidades';
 //  cFormatFloat = '0.00####';
   cCFDI_ImporteMXN = '0.00';
   cCFDI_NumDiasPagados = '0.000';
@@ -88,14 +89,26 @@ type
     adoqOtrosPagosIMPORTE: TFloatField;
     adoqOtrosPagosIMPORTE_EXENTO: TFloatField;
     adoqHorasExtra: TADOQuery;
-    adoqHorasExtraID_CONCEPTO: TIntegerField;
-    adoqHorasExtraTipo: TStringField;
-    adoqHorasExtraDias: TFloatField;
-    adoqHorasExtraHorasExtra: TFloatField;
-    adoqHorasExtraImporte: TFloatField;
     adoqryCFDITipoRelacion: TStringField;
     adoqryCFDICfdiRelacionado1: TStringField;
-    adoqryCFDIID_CFDI: TAutoIncField;
+    adoqryIncapacidades: TADOQuery;
+    adoqHorasExtraID_CONCEPTO: TIntegerField;
+    adoqHorasExtraTipo: TStringField;
+    adoqHorasExtraDias: TIntegerField;
+    adoqHorasExtraHorasExtra: TIntegerField;
+    adoqHorasExtraImporte: TFloatField;
+    adoqryIncapacidadesID_CONCEPTO: TIntegerField;
+    adoqryIncapacidadesID_CFDI: TLargeintField;
+    adoqryIncapacidadesTipo: TWideStringField;
+    adoqryIncapacidadesDias: TIntegerField;
+    adoqryIncapacidadesImporte: TFloatField;
+    adoqryCFDIID_CFDI: TLargeintField;
+    adoqryCFDITOTAL_SEPARACION: TFloatField;
+    adoqryCFDISI_TotalPagado: TFloatField;
+    adoqryCFDISI_NumAniosServicio: TIntegerField;
+    adoqryCFDISI_UltimoSueldoMensOrd: TFloatField;
+    adoqryCFDISI_IngresoAcumulable: TFloatField;
+    adoqryCFDISI_IngresoNoAcumulable: TFloatField;
   private
     { Private declarations }
     FEmisorNombre: string;
@@ -166,10 +179,9 @@ var
   vDeducciones: string;
   vCountOtrosPagos: Integer;
   vOtrosPagos: string;
-//  vCountIncapacidad: Integer;
-//  vIncapacidad: string;
-//  vCountHorasExtra: Integer;
-//  vHorasExtra: string;
+  vCountIncapacidad: Integer;
+  vIncapacidad: string;
+  vTipoContrato: string;
 
   function PreparaCadena(Origen, Justifica, Relleno: string; Longitud: integer): String;
   var
@@ -217,6 +229,7 @@ begin
     while not adoqryCFDI.Eof do
     begin
       ID := adoqryCFDIRECEPTOR_RFC.AsString + '_' + FloatToStr(adoqryCFDIID_CFDI.Value);
+      vTipoContrato := PreparaCadena(adoqryCFDITIPO_CONTRATO.AsString,'D','0',2);
   FormatSettings.DateSeparator:= '-';
       DateTimeToString(vFechaPago, 'yyyy/mm/dd', adoqryCFDIFECHA_PAGO.Value);
       DateTimeToString(vPagoDesde, 'yyyy/mm/dd', adoqryCFDIFECHA_INICIAL_PAGO.Value);
@@ -291,12 +304,12 @@ begin
           Ini.WriteString('Nomina', 'TotalPercepciones', FormatFloat(cCFDI_ImporteMXN,adoqryCFDITOTAL_PERCEPCIONES.Value));
         if (adoqryCFDITOTAL_DEDUCCIONES.Value <> 0) then
           Ini.WriteString('Nomina', 'TotalDeducciones', FormatFloat(cCFDI_ImporteMXN,adoqryCFDITOTAL_DEDUCCIONES.Value));
-        if (adoqryCFDITOTAL_OTROS_PAGOS.Value <> 0) then
+        if (adoqryCFDITIPO_REGIMEN.AsString = '02') OR (adoqryCFDITOTAL_OTROS_PAGOS.Value <> 0) then
           Ini.WriteString('Nomina', 'TotalOtrosPagos', FormatFloat(cCFDI_ImporteMXN,adoqryCFDITOTAL_OTROS_PAGOS.Value));
         //[nomEmisor]
 //        Ini.WriteString('nomEmisor', 'CURP', adoqryNominanomEmisorCURP.AsString);
-//        Ini.WriteString('nomEmisor', 'RegistroPatronal', RegistroPatronal);
-        Ini.WriteString('nomEmisor', 'RegistroPatronal', adoqryCFDIREGISTRO_PATRONAL.AsString);
+        if vTipoContrato <> '09' then
+          Ini.WriteString('nomEmisor', 'RegistroPatronal', adoqryCFDIREGISTRO_PATRONAL.AsString);
 //        Ini.WriteString('nomEmisor', 'RfcPatronOrigen', adoqryNominanomEmisorRfcPatronOrigen.AsString);
         {$IFDEF DEBUG}
 
@@ -307,27 +320,31 @@ begin
         {$ENDIF}
         //[nomReceptor]
         Ini.WriteString('nomReceptor', 'CURP', adoqryCFDIRECEPTOR_CURP.AsString);
-        if not adoqryCFDINSS.IsNull then
-          Ini.WriteString('nomReceptor', 'NumSeguridadSocial', adoqryCFDINSS.AsString);
-        if not adoqryCFDIFECHA_INGRESO.IsNull then
+        if vTipoContrato <> '09' then
         begin
+          Ini.WriteString('nomReceptor', 'NumSeguridadSocial', adoqryCFDINSS.AsString);
           Ini.WriteString('nomReceptor', 'FechaInicioRelLaboral', vFechaInicioRelLaboral);
           Ini.WriteString('nomReceptor', 'Antigedad', adoqryCFDIANTIGUEDAD.AsString);
         end;
-        Ini.WriteString('nomReceptor', 'TipoContrato', PreparaCadena(adoqryCFDITIPO_CONTRATO.AsString,'D','0',2));
+        Ini.WriteString('nomReceptor', 'TipoContrato', vTipoContrato);
         Ini.WriteString('nomReceptor', 'Sindicalizado', adoqryCFDISINDICALIZADO.AsString);
-        if not adoqryCFDITIPO_JORNADA.IsNull then
+        if vTipoContrato <> '09' then
           Ini.WriteString('nomReceptor', 'TipoJornada', PreparaCadena(adoqryCFDITIPO_JORNADA.AsString,'D','0',2));
         Ini.WriteString('nomReceptor', 'TipoRegimen', PreparaCadena(adoqryCFDITIPO_REGIMEN.AsString,'D','0',2));
-        Ini.WriteString('nomReceptor', 'NumEmpleado', adoqryCFDINO_EMPLEADO.Value);
+        if not adoqryCFDINO_EMPLEADO.IsNull then
+          Ini.WriteString('nomReceptor', 'NumEmpleado', adoqryCFDINO_EMPLEADO.Value);
         Ini.WriteString('nomReceptor', 'Departamento', Remplazar(adoqryCFDIDEPARTAMENTO.AsString));
         Ini.WriteString('nomReceptor', 'Puesto', Remplazar(adoqryCFDIPUESTO.AsString));
-        Ini.WriteString('nomReceptor', 'RiesgoPuesto', adoqryCFDIRIESGO_PUESTO.AsString);
+        if vTipoContrato <> '09' then
+          Ini.WriteString('nomReceptor', 'RiesgoPuesto', adoqryCFDIRIESGO_PUESTO.AsString);
         Ini.WriteString('nomReceptor', 'PeriodicidadPago', PreparaCadena(adoqryCFDIPERIORICIDAD_PAGO.AsString,'D','0',2));
 //        Ini.WriteString('nomReceptor', 'Banco', adoqryNominanomEmisorBanco.AsString);
 //        Ini.WriteString('nomReceptor', 'CuentaBancaria', adoqryNominanomEmisorCuentaBancaria.AsString);
+        if vTipoContrato <> '09' then
+        begin
         Ini.WriteString('nomReceptor', 'SalarioBaseCotApor', FormatFloat(cCFDI_ImporteMXN,adoqryCFDISALARIO_BASE.Value));
         Ini.WriteString('nomReceptor', 'SalarioDiarioIntegrado', FormatFloat(cCFDI_ImporteMXN,adoqryCFDISALARIO_DIARIO_INTEGRADO.Value));
+        end;
         Ini.WriteString('nomReceptor', 'ClaveEntFed', adoqryCFDIENTIDAD_FEDERATIVA.AsString);
         //[nomSubcontratacion1]
         //RfcLabora=XAXX010101000
@@ -335,8 +352,8 @@ begin
         //[nomPercepciones1]
         if (adoqryCFDITOTAL_SUELDOS.Value <> 0) then
           Ini.WriteString('nomPercepciones', 'TotalSueldos', FormatFloat(cCFDI_ImporteMXN,adoqryCFDITOTAL_SUELDOS.Value));
-//        if (adoqryCFDITOTAL_SUELDOS.Value <> 0) then
-//          Ini.WriteString('nomPercepciones', 'TotalSeparacionIndemnizacion', FormatFloat(cCFDI_ImporteMXN,adoqryCFDITOTAL_SUELDOS.Value));
+        if (adoqryCFDITOTAL_SEPARACION.Value <> 0) then
+          Ini.WriteString('nomPercepciones', 'TotalSeparacionIndemnizacion', FormatFloat(cCFDI_ImporteMXN,adoqryCFDITOTAL_SEPARACION.Value));
 //        if (adoqryCFDITOTAL_SUELDOS.Value <> 0) then
 //          Ini.WriteString('nomPercepciones', 'TotalJubilacionPensionRetiro', FormatFloat(cCFDI_ImporteMXN,adoqryCFDITOTAL_SUELDOS.Value));
           Ini.WriteString('nomPercepciones', 'TotalGravado', FormatFloat(cCFDI_ImporteMXN,adoqryCFDITOTAL_GRAVADO.Value));
@@ -353,31 +370,53 @@ begin
             Ini.WriteString(vPercepciones, 'TipoPercepcion', adoqryPercepcionesTIPO.AsString);
             Ini.WriteString(vPercepciones, 'Clave', adoqryPercepcionesCLAVE.AsString);
             Ini.WriteString(vPercepciones, 'Concepto', Remplazar(adoqryPercepcionesCONCEPTO.AsString));
-            Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN, adoqryPercepcionesIMPORTE.value));
+            Ini.WriteString(vPercepciones, 'ImporteGravado', FormatFloat(cCFDI_ImporteMXN, adoqryPercepcionesIMPORTE.Value));
             Ini.WriteString(vPercepciones, 'ImporteExento', FormatFloat(cCFDI_ImporteMXN, adoqryPercepcionesIMPORTE_EXENTO.Value));
-//            // HorasExtra
-//            vCountHorasExtra := 0;
-//            adoqHorasExtra.Close;
-//            adoqHorasExtra.Parameters.ParamByName('ID_CONCEPTO').Value := adoqryPercepcionesID_CONCEPTO.Value;
-//            adoqHorasExtra.Open;
-//            try
-//              while not adoqHorasExtra.Eof do
-//              begin
-//                Inc(vCountHorasExtra);
-//                vHorasExtra := cHorasExtra + IntToStr(vCountHorasExtra);
-//                Ini.WriteString(vPercepciones, vHorasExtra+'Dias', adoqHorasExtraDias.AsString);
-//                Ini.WriteString(vPercepciones, vHorasExtra+'TipoHoras', adoqHorasExtraTipo.AsString);
-//                Ini.WriteString(vPercepciones, vHorasExtra+'HorasExtra', adoqHorasExtraHorasExtra.AsString);
-//                Ini.WriteString(vPercepciones, vHorasExtra+'ImportePagado', FormatFloat(cCFDI_ImporteMXN, adoqHorasExtraImporte.Value));
-//                adoqHorasExtra.Next;
-//              end;
-//            finally
-//              adoqHorasExtra.Close;
-//            end;
+            // HorasExtra
+            vCountHorasExtra := 0;
+            adoqHorasExtra.Close;
+            adoqHorasExtra.Parameters.ParamByName('ID_CONCEPTO').Value := adoqryPercepcionesID_CONCEPTO.Value;
+            adoqHorasExtra.Open;
+            try
+              while not adoqHorasExtra.Eof do
+              begin
+                Inc(vCountHorasExtra);
+                vHorasExtra := cHorasExtra + IntToStr(vCountHorasExtra);
+                Ini.WriteString(vPercepciones, vHorasExtra+'Dias', adoqHorasExtraDias.AsString);
+                Ini.WriteString(vPercepciones, vHorasExtra+'TipoHoras', adoqHorasExtraTipo.AsString);
+                Ini.WriteString(vPercepciones, vHorasExtra+'HorasExtra', adoqHorasExtraHorasExtra.AsString);
+                Ini.WriteString(vPercepciones, vHorasExtra+'ImportePagado', FormatFloat(cCFDI_ImporteMXN, adoqHorasExtraImporte.Value));
+                adoqHorasExtra.Next;
+              end;
+            finally
+              adoqHorasExtra.Close;
+            end;
             adoqryPercepciones.Next;
           end;
         finally
           adoqryPercepciones.Close;
+        end;
+//[nomJubilacionPensionRetiro]
+//TotalUnaExhibicion=
+//TotalParcialidad=
+//MontoDiario=
+//IngresoAcumulable=
+//IngresoNoAcumulable=
+
+//[nomSeparacionIndemnizacion]
+//TotalPagado=
+//NumAosServicio=
+//UltimoSueldoMensOrd=
+//IngresoAcumulable=
+//IngresoNoAcumulable=
+//            if (adoqOtrosPagosTIPO.AsString = '023') or (adoqOtrosPagosTIPO.AsString = '025') then
+        if (adoqryCFDITOTAL_SEPARACION.Value <> 0) then
+        begin
+          Ini.WriteString('nomSeparacionIndemnizacion', 'TotalPagado', FormatFloat(cCFDI_ImporteMXN, adoqryCFDISI_TotalPagado.Value));
+          Ini.WriteString('nomSeparacionIndemnizacion', 'NumAosServicio', IntToStr(adoqryCFDISI_NumAniosServicio.Value));
+          Ini.WriteString('nomSeparacionIndemnizacion', 'UltimoSueldoMensOrd', FormatFloat(cCFDI_ImporteMXN, adoqryCFDISI_UltimoSueldoMensOrd.Value));
+          Ini.WriteString('nomSeparacionIndemnizacion', 'IngresoAcumulable', FormatFloat(cCFDI_ImporteMXN, adoqryCFDISI_IngresoAcumulable.Value));
+          Ini.WriteString('nomSeparacionIndemnizacion', 'IngresoNoAcumulable', FormatFloat(cCFDI_ImporteMXN, adoqryCFDISI_IngresoNoAcumulable.Value));
         end;
         //[nomDeducciones]
         if (adoqryCFDITOTAL_OTRAS_DEDUCCIONES.Value <> 0) then
@@ -427,24 +466,24 @@ begin
         finally
           adoqOtrosPagos.Close;
         end;
-//        //[nomIncapacidad1]
-//        vCountIncapacidad := 0;
-//        adoqryIncapacidades.Close;
-//        adoqryIncapacidades.Parameters.ParamByName('IdCFDINomina').Value := adoqryCFDIIDCFDINomina.Value;
-//        adoqryIncapacidades.Open;
-//        try
-//          while not adoqryIncapacidades.Eof do
-//          begin
-//            Inc(vCountIncapacidad);
-//            vIncapacidad := cIncapacidad + IntToStr(vCountIncapacidad);
-//            Ini.WriteString(vIncapacidad, 'DiasIncapacidad', FloatToStr(adoqryIncapacidadesDiasIncapacidad.Value));
-//            Ini.WriteString(vIncapacidad, 'TipoIncapacidad', adoqryIncapacidadesTipoIncapacidad.AsString);
-//            Ini.WriteString(vIncapacidad, 'Descuento', FormatBcd(cFormatFloat, adoqryIncapacidadesDescuento.Value));
-//            adoqryIncapacidades.Next;
-//          end;
-//        finally
-//          adoqryIncapacidades.Close;
-//        end;
+        //[nomIncapacidad1]
+        vCountIncapacidad := 0;
+        adoqryIncapacidades.Close;
+        adoqryIncapacidades.Parameters.ParamByName('ID_CFDI').Value := adoqryCFDIID_CFDI.Value;
+        adoqryIncapacidades.Open;
+        try
+          while not adoqryIncapacidades.Eof do
+          begin
+            Inc(vCountIncapacidad);
+            vIncapacidad := cIncapacidad + IntToStr(vCountIncapacidad);
+            Ini.WriteString(vIncapacidad, 'DiasIncapacidad', adoqryIncapacidadesDIAS.AsString);
+            Ini.WriteString(vIncapacidad, 'TipoIncapacidad', adoqryIncapacidadesTIPO.AsString);
+            Ini.WriteString(vIncapacidad, 'ImporteMonetario', FormatFloat(cCFDI_ImporteMXN, adoqryIncapacidadesIMPORTE.Value));
+            adoqryIncapacidades.Next;
+          end;
+        finally
+          adoqryIncapacidades.Close;
+        end;
       finally
         Ini.Free;
       end;

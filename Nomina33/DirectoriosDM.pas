@@ -164,8 +164,8 @@ begin
     5: begin
       dmCOBAEM := TdmCOBAEM.Create(Self);
       try
-        dmCOBAEM.FCertificado.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.cer';
-        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.key';
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\CSD_JMA880101MB2_20190222_090915s.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_JMA880101MB2_20190222_090915.key';
         dmCOBAEM.FCertificado.LlavePrivada.Clave := 'jumapam88';
         dmCOBAEM.FCertificado.RFCAlQuePertenece := 'JMA880101MB2';
         dmCOBAEM.LugarExpedicion := '82000';
@@ -281,6 +281,40 @@ begin
         dmCOBAEM.Free;
       end;
     end;
+    20: begin
+      dmCOBAEM := TdmCOBAEM.Create(Self);
+      try
+        dmCOBAEM.FCertificado.Ruta := '.\Certificados\00001000000504513712.cer';
+        dmCOBAEM.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MGU420214FG4_20200717_100911.key';
+        dmCOBAEM.FCertificado.LlavePrivada.Clave := 'Despacho2015.';
+        dmCOBAEM.FCertificado.RFCAlQuePertenece := 'MGU420214FG4';
+        dmCOBAEM.LugarExpedicion := '44100';
+        dmCOBAEM.EmisorRFC := 'MGU420214FG4';
+        dmCOBAEM.EmisorNombre := 'MUNICIPIO DE GUADALAJARA';
+        dmCOBAEM.EmisorRegimenFiscal := '603';
+        dmCOBAEM.RegistroPatronal := '';
+        dmCOBAEM.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmCOBAEM.Free;
+      end;
+    end;
+    21: begin
+      dmInterva := TdmInterva.Create(Self);
+      try
+        dmInterva.FCertificado.Ruta := '.\Certificados\00001000000504513712.cer';
+        dmInterva.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MGU420214FG4_20200717_100911.key';
+        dmInterva.FCertificado.LlavePrivada.Clave := 'Despacho2015.';
+        dmInterva.FCertificado.RFCAlQuePertenece := 'MGU420214FG4';
+        dmInterva.LugarExpedicion := '44100';
+        dmInterva.EmisorRFC := 'MGU420214FG4';
+        dmInterva.EmisorNombre := 'MUNICIPIO DE GUADALAJARA';
+        dmInterva.EmisorRegimenFiscal := '603';
+        dmInterva.RegistroPatronal := '';
+        dmInterva.CrearINI(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar, cDirINI, cDirXML);
+      finally
+        dmInterva.Free;
+      end;
+    end;
 
   end;
   DirectoriosActualizar;
@@ -329,6 +363,17 @@ begin
   FDObtenerPDF(frmDirectorios.Anio, frmDirectorios.Mes, frmDirectorios.Filtrar);
 end;
 
+// Cancelar CFDI
+//SELECT        CFDILog.IdCFDILog, CFDI.RECEPTOR_RFC AS RFCReceptor, CFDI.TOTAL_LIQUIDO AS Total, CFDILog.TFD2UUID AS UUID
+//FROM            CFDILog INNER JOIN
+//                         CFDI ON CFDILog.ID_CFDI = CFDI.ID_CFDI
+//WHERE        (CFDILog.Cancelar = 1) AND (CFDILog.TFD2Estado = 'Vigente')
+// Cancelar CFDCFDI
+//SELECT        CFDI.ID, CFDILog.IdCFDILog, CFDI.frfcreceptor AS RFCReceptor, CFDI.fTotal AS Total, CFDILog.TFD2UUID AS UUID
+//FROM            CFDILog INNER JOIN
+//                        CFDCFDI AS CFDI ON CFDILog.ID_CFDI = CFDI.ID
+//WHERE        (CFDILog.Cancelar = 1) AND (CFDILog.TFD2Estado = 'Vigente')
+//ORDER BY CFDILog.IdCFDILog
 procedure TdmDirectorios.CancelarMarcados;
 var
   vCount: Integer;
@@ -460,13 +505,16 @@ begin
       dmCFDI.FCertificado.Ruta := '.\Certificados\SSS960912HW9_20180307_124415s.cer';
       dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\SSS960912HW9_20180307_124415.key';
       dmCFDI.FCertificado.LlavePrivada.Clave := '96091200CSDNOM18';
+      dmCFDI.FCertificado.RFCAlQuePertenece := 'SSS960912HW9';
       dmCFDI.PAC := pacFoliosDigitales;
       dmCFDI.FDUser:= 'SSS960912HW9';
       dmCFDI.FDPass:= 'v@AVJzGsS=';
+      dmCFDI.FDPFXFile:= '.\Certificados\SSS960912HW9.pem';
+      dmCFDI.FDPFXPass:= '96091200CSDNOM18';
     end;
     5: begin
-      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.cer';
-      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_JMA880101MB2_20171106_114721.key';
+      dmCFDI.FCertificado.Ruta := '.\Certificados\CSD_JMA880101MB2_20190222_090915s.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_JMA880101MB2_20190222_090915.key';
       dmCFDI.FCertificado.LlavePrivada.Clave := 'jumapam88';
       dmCFDI.FCertificado.RFCAlQuePertenece := 'JMA880101MB2';
       dmCFDI.PAC := pacFoliosDigitales;
@@ -532,7 +580,28 @@ begin
       dmCFDI.FDUser:= 'bps.finkok@gmail.com';
       dmCFDI.FDPass:= 'BPS@sociados1';
     end;
-
+    20: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000504513712.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MGU420214FG4_20200717_100911.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'Despacho2015.';
+      dmCFDI.FCertificado.RFCAlQuePertenece := 'MGU420214FG4';
+      dmCFDI.PAC := pacFoliosDigitales;
+      dmCFDI.FDUser:= 'MGU420214FG4';
+      dmCFDI.FDPass:= 'Sf4RhWCOn+';
+//      dmCFDI.FDPFXFile:= '.\Certificados\MGU420214FG4.pem';
+//      dmCFDI.FDPFXPass:= 'Despacho2015.';
+    end;
+    21: begin
+      dmCFDI.FCertificado.Ruta := '.\Certificados\00001000000504513712.cer';
+      dmCFDI.FCertificado.LlavePrivada.Ruta := '.\Certificados\CSD_MGU420214FG4_20200717_100911.key';
+      dmCFDI.FCertificado.LlavePrivada.Clave := 'Despacho2015.';
+      dmCFDI.FCertificado.RFCAlQuePertenece := 'MGU420214FG4';
+      dmCFDI.PAC := pacFoliosDigitales;
+      dmCFDI.FDUser:= 'MGU420214FG4';
+      dmCFDI.FDPass:= 'Sf4RhWCOn+';
+      dmCFDI.FDPFXFile:= '.\Certificados\MGU420214FG4.pem';
+      dmCFDI.FDPFXPass:= 'Despacho2015.';
+    end;
   end;
 end;
 

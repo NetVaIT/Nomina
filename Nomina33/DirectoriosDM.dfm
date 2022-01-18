@@ -183,13 +183,16 @@ object dmDirectorios: TdmDirectorios
     Parameters = <>
     SQL.Strings = (
       
-        'SELECT        CFDILog.IdCFDILog, CFDI.RECEPTOR_RFC AS RFCRecepto' +
-        'r, CFDI.TOTAL_LIQUIDO AS Total, CFDILog.TFD2UUID AS UUID'
+        'SELECT        CFDI.ID, CFDILog.IdCFDILog, CFDI.frfcreceptor AS R' +
+        'FCReceptor, CFDI.fTotal AS Total, CFDILog.TFD2UUID AS UUID'
       'FROM            CFDILog INNER JOIN'
-      '                         CFDI ON CFDILog.ID_CFDI = CFDI.ID_CFDI'
+      
+        '                        CFDCFDI AS CFDI ON CFDILog.ID_CFDI = CFD' +
+        'I.ID'
       
         'WHERE        (CFDILog.Cancelar = 1) AND (CFDILog.TFD2Estado = '#39'V' +
-        'igente'#39')')
+        'igente'#39')'
+      'ORDER BY CFDILog.IdCFDILog')
     Left = 40
     Top = 224
     object adoqCancelarIdCFDILog: TAutoIncField
@@ -215,7 +218,9 @@ object dmDirectorios: TdmDirectorios
     SQL.Strings = (
       'SELECT COUNT(*) AS CUENTA '
       'FROM            CFDILog INNER JOIN'
-      '                         CFDI ON CFDILog.ID_CFDI = CFDI.ID_CFDI'
+      
+        '                        CFDCFDI AS CFDI ON CFDILog.ID_CFDI = CFD' +
+        'I.ID'
       
         'WHERE        (CFDILog.Cancelar = 1) AND (CFDILog.TFD2Estado = '#39'V' +
         'igente'#39')')

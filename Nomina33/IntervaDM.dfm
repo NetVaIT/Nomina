@@ -5,38 +5,53 @@ object dmInterva: TdmInterva
   object adoqryCFDI: TADOQuery
     Connection = frmMain.ADOConnection
     CursorType = ctStatic
-    Parameters = <>
+    Parameters = <
+      item
+        Name = 'Estatus'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end>
     SQL.Strings = (
       
-        'SELECT N.IDCFDI, N.IDCFDINomina, CFDI.fSerie AS Serie, CFDI.fFol' +
-        'io AS Folio, N.TotalPercepciones + N.TotalOtrosPagos AS Subtotal' +
-        ', N.TotalDeducciones AS Descuento, CFDI.fTotal AS Total, '#39'04'#39' AS' +
-        ' TipoRelacion, CFDI.fuuid AS CfdiRelacionado1, CFDI.frfcreceptor' +
-        ' AS ReceptorRFC, '
+        'SELECT        N.IDCFDI, N.IDCFDINomina, CFDI.fSerie AS Serie, CF' +
+        'DI.fFolio AS Folio, N.TotalPercepciones + N.TotalOtrosPagos AS S' +
+        'ubtotal, N.TotalDeducciones AS Descuento, CFDI.fTotal AS Total, ' +
+        #39'04'#39' AS TipoRelacion, '
       
-        'CFDI.frazonsocialreceptor AS ReceptorNombre, N.TotalPercepciones' +
-        ' + N.TotalOtrosPagos AS ConceptoValorUnitario, N.TotalPercepcion' +
-        'es + N.TotalOtrosPagos AS ConceptoImporte, N.TotalDeducciones AS' +
-        ' ConceptoDescuento, '
+        '                         CFDI.fuuid AS CfdiRelacionado1, CFDI.fr' +
+        'fcreceptor AS ReceptorRFC, CFDI.frazonsocialreceptor AS Receptor' +
+        'Nombre, N.TotalPercepciones + N.TotalOtrosPagos AS ConceptoValor' +
+        'Unitario, '
       
-        'N.TipoNomina, N.FechaPago, N.FechaInicialPago, N.FechaFinalPago,' +
-        ' N.NumDiasPagados, N.TotalPercepciones, N.TotalDeducciones, N.To' +
-        'talOtrosPagos, N.OrigenRecurso, N.MontoRecursoPropio, N.Registro' +
-        'Patronal, '
+        '                         N.TotalPercepciones + N.TotalOtrosPagos' +
+        ' AS ConceptoImporte, N.TotalDeducciones AS ConceptoDescuento, N.' +
+        'TipoNomina, N.FechaPago, N.FechaInicialPago, N.FechaFinalPago, N' +
+        '.NumDiasPagados, N.TotalPercepciones, '
       
-        'N.CURP AS ReceptorCURP, N.NumSeguridadSocial, N.FechaInicioRelLa' +
-        'boral, N.Antiguedad, N.TipoContrato, N.Sindicalizado, N.TipoJorn' +
-        'ada, N.TipoRegimen, N.NumEmpleado, N.Departamento, N.Puesto, N.R' +
-        'iesgoPuesto, '
+        '                         N.TotalDeducciones, N.TotalOtrosPagos, ' +
+        'N.OrigenRecurso, N.MontoRecursoPropio, N.RegistroPatronal, N.CUR' +
+        'P AS ReceptorCURP, N.NumSeguridadSocial, N.FechaInicioRelLaboral' +
+        ', N.Antiguedad, N.TipoContrato, '
       
-        'N.PeriodicidadPago, N.Banco, N.CLABE, N.SalarioBaseCotApor, N.Sa' +
-        'larioDiarioIntegrado, N.ClaveEntFed, N.TotalSueldos, N.TotalGrav' +
-        'adoPercepcion, N.TotalExentoPercepcion, N.TotalOtrasDeducciones,' +
-        ' '
-      'N.TotalImpuestosRetenidos'
-      'FROM CFDCFDI AS CFDI '
-      'INNER JOIN CFDINOMINAS AS N ON CFDI.ID = N.IDCFDI'
-      'WHERE CFDI.statusproceso = 0'
+        '                         N.Sindicalizado, N.TipoJornada, N.TipoR' +
+        'egimen, N.NumEmpleado, N.Departamento, N.Puesto, N.RiesgoPuesto,' +
+        ' N.PeriodicidadPago, N.Banco, N.CLABE, N.SalarioBaseCotApor, N.S' +
+        'alarioDiarioIntegrado, N.ClaveEntFed, '
+      
+        '                         N.TotalSueldos, N.TotalGravadoPercepcio' +
+        'n, N.TotalExentoPercepcion, N.TotalOtrasDeducciones, N.TotalImpu' +
+        'estosRetenidos, N.SubsidioCausado, N.TotalSeparacionIndemnizacio' +
+        'n, N.TotalJubilacionPensionRetiro, '
+      
+        '                         N.SI_TotalPagado, N.SI_NumAniosServicio' +
+        ', N.SI_UltimoSueldoMensOrd, N.SI_IngresoAcumulable, N.SI_Ingreso' +
+        'NoAcumulable'
+      'FROM            CFDCFDI AS CFDI INNER JOIN'
+      '                         CFDINOMINAS AS N ON CFDI.ID = N.IDCFDI'
+      'WHERE CFDI.statusproceso = :Estatus'
       'ORDER BY ReceptorRFC, IDCFDI')
     Left = 56
     Top = 24
@@ -246,14 +261,53 @@ object dmInterva: TdmInterva
       Precision = 18
       Size = 6
     end
+    object adoqryCFDISubsidioCausado: TBCDField
+      FieldName = 'SubsidioCausado'
+      Precision = 19
+    end
+    object adoqryCFDITotalSeparacionIndemnizacion: TBCDField
+      FieldName = 'TotalSeparacionIndemnizacion'
+      Precision = 19
+    end
+    object adoqryCFDITotalJubilacionPensionRetiro: TBCDField
+      FieldName = 'TotalJubilacionPensionRetiro'
+      Precision = 19
+    end
+    object adoqryCFDISI_TotalPagado: TBCDField
+      FieldName = 'SI_TotalPagado'
+      Precision = 19
+    end
+    object adoqryCFDISI_NumAniosServicio: TIntegerField
+      FieldName = 'SI_NumAniosServicio'
+    end
+    object adoqryCFDISI_UltimoSueldoMensOrd: TBCDField
+      FieldName = 'SI_UltimoSueldoMensOrd'
+      Precision = 19
+    end
+    object adoqryCFDISI_IngresoAcumulable: TBCDField
+      FieldName = 'SI_IngresoAcumulable'
+      Precision = 19
+    end
+    object adoqryCFDISI_IngresoNoAcumulable: TBCDField
+      FieldName = 'SI_IngresoNoAcumulable'
+      Precision = 19
+    end
   end
   object adoqryNominaCount: TADOQuery
     Connection = frmMain.ADOConnection
     CursorType = ctStatic
-    Parameters = <>
+    Parameters = <
+      item
+        Name = 'Estatus'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end>
     SQL.Strings = (
       'SELECT COUNT(*) AS CUENTA FROM CFDCFDI'
-      'WHERE statusproceso = 0')
+      'WHERE statusproceso = :Estatus')
     Left = 176
     Top = 24
     object adoqryNominaCountCUENTA: TIntegerField
@@ -425,6 +479,49 @@ object dmInterva: TdmInterva
     end
     object adoqryHorasExtraImportePagado: TFMTBCDField
       FieldName = 'ImportePagado'
+      Precision = 18
+      Size = 6
+    end
+  end
+  object adoqOtrosPagos: TADOQuery
+    Connection = frmMain.ADOConnection
+    CursorType = ctStatic
+    Parameters = <
+      item
+        Name = 'IdCFDINomina'
+        Attributes = [paSigned]
+        DataType = ftLargeint
+        Precision = 19
+        Size = 8
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'SELECT        IdCFDIConceptoNomina, TipoPer_TipoDed AS Tipo, Cla' +
+        've, Concepto, ImporteGravado AS Importe'
+      'FROM            CFDICONCEPTOSNOMINA'
+      'WHERE Clase = '#39'OtroPago'#39
+      'AND IdCFDINomina = :IdCFDINomina')
+    Left = 56
+    Top = 248
+    object adoqOtrosPagosIdCFDIConceptoNomina: TLargeintField
+      FieldName = 'IdCFDIConceptoNomina'
+      ReadOnly = True
+    end
+    object adoqOtrosPagosTipo: TStringField
+      FieldName = 'Tipo'
+      Size = 3
+    end
+    object adoqOtrosPagosClave: TStringField
+      FieldName = 'Clave'
+      Size = 15
+    end
+    object adoqOtrosPagosConcepto: TStringField
+      FieldName = 'Concepto'
+      Size = 100
+    end
+    object adoqOtrosPagosImporte: TFMTBCDField
+      FieldName = 'Importe'
       Precision = 18
       Size = 6
     end

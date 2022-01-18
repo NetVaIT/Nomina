@@ -1,6 +1,6 @@
 object dmCOBAEM: TdmCOBAEM
   OldCreateOrder = False
-  Height = 265
+  Height = 321
   Width = 285
   object adoqryCFDI: TADOQuery
     Connection = frmMain.ADOConnection
@@ -16,13 +16,13 @@ object dmCOBAEM: TdmCOBAEM
       end>
     SQL.Strings = (
       
-        'SELECT CFDI.ID_CFDI, CASE WHEN ID_CFDI_ANTERIOR IS NOT NULL THEN' +
-        ' '#39'04'#39' ELSE NULL END AS TipoRelacion, CFDI_ANT.TFD2UUID AS CfdiRe' +
-        'lacionado1,'
+        '--SELECT CFDI.ID_CFDI, CASE WHEN ID_CFDI_ANTERIOR IS NOT NULL TH' +
+        'EN '#39'04'#39' ELSE NULL END AS TipoRelacion, CFDI_ANT.TFD2UUID AS Cfdi' +
+        'Relacionado1,'
       
-        '--SELECT CFDI.ID_CFDI, CASE WHEN CFDI.UUID_ANTERIOR IS NOT NULL ' +
-        'THEN '#39'04'#39' ELSE NULL END AS TipoRelacion, CFDI.UUID_ANTERIOR AS C' +
-        'fdiRelacionado1,'
+        'SELECT CFDI.ID_CFDI, CASE WHEN CFDI.UUID_ANTERIOR IS NOT NULL TH' +
+        'EN '#39'04'#39' ELSE NULL END AS TipoRelacion, CFDI.UUID_ANTERIOR AS Cfd' +
+        'iRelacionado1,'
       
         'TOTAL_PERCEPCIONES + TOTAL_OTROS_PAGOS AS Subtotal, TOTAL_DEDUCC' +
         'IONES AS Descuento, TOTAL_LIQUIDO AS Total, RECEPTOR_NOMBRE, REC' +
@@ -45,11 +45,13 @@ object dmCOBAEM: TdmCOBAEM
         'S, TOTAL_GRAVADO, TOTAL_EXENTO, '
       
         'TOTAL_OTRAS_DEDUCCIONES, TOTAL_IMPUESTOS_RETENIDOS, CT, FILIACIO' +
-        'N, SUBSIDIO_CAUSADO, TOTAL_LIQUIDO, REGISTRO_PATRONAL'
+        'N, SUBSIDIO_CAUSADO, TOTAL_LIQUIDO, REGISTRO_PATRONAL,TOTAL_SEPA' +
+        'RACION, SI_TotalPagado, SI_NumAniosServicio, SI_UltimoSueldoMens' +
+        'Ord, SI_IngresoAcumulable, SI_IngresoNoAcumulable'
       'FROM CFDI'
       
-        'LEFT OUTER JOIN CFDILog AS CFDI_ANT ON CFDI.ID_CFDI_ANTERIOR = C' +
-        'FDI_ANT.ID_CFDI'
+        '--LEFT OUTER JOIN CFDILog AS CFDI_ANT ON CFDI.ID_CFDI_ANTERIOR =' +
+        ' CFDI_ANT.ID_CFDI'
       'WHERE Estatus = :Estatus'
       'ORDER BY RECEPTOR_RFC, CFDI.ID_CFDI')
     Left = 56
@@ -218,9 +220,27 @@ object dmCOBAEM: TdmCOBAEM
       FieldName = 'CfdiRelacionado1'
       Size = 36
     end
-    object adoqryCFDIID_CFDI: TAutoIncField
+    object adoqryCFDIID_CFDI: TLargeintField
       FieldName = 'ID_CFDI'
       ReadOnly = True
+    end
+    object adoqryCFDITOTAL_SEPARACION: TFloatField
+      FieldName = 'TOTAL_SEPARACION'
+    end
+    object adoqryCFDISI_TotalPagado: TFloatField
+      FieldName = 'SI_TotalPagado'
+    end
+    object adoqryCFDISI_NumAniosServicio: TIntegerField
+      FieldName = 'SI_NumAniosServicio'
+    end
+    object adoqryCFDISI_UltimoSueldoMensOrd: TFloatField
+      FieldName = 'SI_UltimoSueldoMensOrd'
+    end
+    object adoqryCFDISI_IngresoAcumulable: TFloatField
+      FieldName = 'SI_IngresoAcumulable'
+    end
+    object adoqryCFDISI_IngresoNoAcumulable: TFloatField
+      FieldName = 'SI_IngresoNoAcumulable'
     end
   end
   object adoqryPercepciones: TADOQuery
@@ -363,7 +383,7 @@ object dmCOBAEM: TdmCOBAEM
       'AND ID_CFDI = :ID_CFDI'
       'ORDER BY CLAVE_PLAZA'
       '')
-    Left = 56
+    Left = 176
     Top = 176
     object adoqOtrosPagosID_CONCEPTO: TAutoIncField
       FieldName = 'ID_CONCEPTO'
@@ -404,8 +424,8 @@ object dmCOBAEM: TdmCOBAEM
     SQL.Strings = (
       'SELECT * FROM v_HORAS_EXTRAS '
       'WHERE ID_CONCEPTO = :ID_CONCEPTO')
-    Left = 184
-    Top = 192
+    Left = 56
+    Top = 176
     object adoqHorasExtraID_CONCEPTO: TIntegerField
       FieldName = 'ID_CONCEPTO'
     end
@@ -414,14 +434,53 @@ object dmCOBAEM: TdmCOBAEM
       ReadOnly = True
       Size = 2
     end
-    object adoqHorasExtraDias: TFloatField
+    object adoqHorasExtraDias: TIntegerField
       FieldName = 'Dias'
+      ReadOnly = True
     end
-    object adoqHorasExtraHorasExtra: TFloatField
+    object adoqHorasExtraHorasExtra: TIntegerField
       FieldName = 'HorasExtra'
       ReadOnly = True
     end
     object adoqHorasExtraImporte: TFloatField
+      FieldName = 'Importe'
+      ReadOnly = True
+    end
+  end
+  object adoqryIncapacidades: TADOQuery
+    Connection = frmMain.ADOConnection
+    CursorType = ctStatic
+    Parameters = <
+      item
+        Name = 'ID_CFDI'
+        Attributes = [paSigned, paNullable]
+        DataType = ftLargeint
+        Precision = 19
+        Size = 8
+        Value = Null
+      end>
+    SQL.Strings = (
+      'SELECT * FROM v_INCAPACIDADES'
+      'WHERE ID_CFDI = :ID_CFDI'
+      '')
+    Left = 56
+    Top = 248
+    object adoqryIncapacidadesID_CONCEPTO: TIntegerField
+      FieldName = 'ID_CONCEPTO'
+    end
+    object adoqryIncapacidadesID_CFDI: TLargeintField
+      FieldName = 'ID_CFDI'
+    end
+    object adoqryIncapacidadesTipo: TWideStringField
+      FieldName = 'Tipo'
+      FixedChar = True
+      Size = 10
+    end
+    object adoqryIncapacidadesDias: TIntegerField
+      FieldName = 'Dias'
+      ReadOnly = True
+    end
+    object adoqryIncapacidadesImporte: TFloatField
       FieldName = 'Importe'
       ReadOnly = True
     end
